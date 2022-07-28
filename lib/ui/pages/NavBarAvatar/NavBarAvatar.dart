@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
-import '../../../data/datasource/reference/local_storage.dart';
+import 'package:tesis/data/datasource/reference/local_storage.dart';
 
 class NavBarAvatar extends StatefulWidget {
   const NavBarAvatar({Key? key}) : super(key: key);

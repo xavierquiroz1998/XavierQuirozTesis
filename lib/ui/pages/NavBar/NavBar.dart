@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../domain/providers/Home/sideMenuProvider.dart';
-import '../NavBarAvatar/NavBarAvatar.dart';
+import 'package:tesis/domain/providers/Home/sideMenuProvider.dart';
+import 'package:tesis/ui/pages/NavBarAvatar/NavBarAvatar.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({Key? key}) : super(key: key);

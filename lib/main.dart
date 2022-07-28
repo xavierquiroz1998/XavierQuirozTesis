@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tesis/data/datasource/reference/local_storage.dart';
+import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'home.dart';
 import 'injection.dart' as di;
-import 'data/datasource/reference/local_storage.dart';
-import 'ui/Router/FluroRouter.dart';
 
 void main() {
   ErrorWidget.builder = (details) => ErrorFailWidget(

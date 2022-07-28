@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../../../domain/Navigation/NavigationService.dart';
-import '../../../domain/providers/Home/sideMenuProvider.dart';
-import '../Logo/logo.dart';
+import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/providers/Home/sideMenuProvider.dart';
+import 'package:tesis/ui/pages/Logo/logo.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
