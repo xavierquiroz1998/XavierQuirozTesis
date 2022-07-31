@@ -11,11 +11,11 @@ class NavBarAvatar extends StatefulWidget {
 }
 
 class _NavBarAvatarState extends State<NavBarAvatar> {
-  String nomUser = "";
+  String nomUser = "prueba";
   @override
   void initState() {
     var usuario = LocalStorage.prefs.getString('usuario');
-    var mapUsuario = json.decode(usuario!);
+    //var mapUsuario = json.decode(usuario!);
     //var susurio = RegistUser.fromMap(mapUsuario);
     //if (susurio != null) {
     //nomUser = susurio.nombre;

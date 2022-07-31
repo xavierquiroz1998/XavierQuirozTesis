@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/data/datasource/reference/local_storage.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
 import 'package:tesis/domain/providers/Home/sideMenuProvider.dart';
+import 'package:tesis/domain/providers/Login/LoginProvider.dart';
+import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/Logo/logo.dart';
+import 'package:tesis/ui/pages/SiderBar/sidebarWidgets/menu_item.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({Key? key}) : super(key: key);
@@ -24,10 +29,10 @@ class _SideBarState extends State<SideBar> {
 
   @override
   Widget build(BuildContext context) {
-    //final logeo = Provider.of<LoginProvider>(context);
+    final logeo = Provider.of<LoginProvider>(context);
     //final permiso = Provider.of<PermisoProvider>(context);
-    //final sideMenuProvider = Provider.of<SideMenuProvider>(context);
-    /*   final LocalStorage _prefService = LocalStorage(); */
+    final sideMenuProvider = Provider.of<SideMenuProvider>(context);
+    final LocalStorage _prefService = LocalStorage();
     return Container(
       width: 200,
       height: double.infinity,
@@ -53,12 +58,15 @@ class _SideBarState extends State<SideBar> {
           //   ),
           // ],
 
-          /*  MenuItem(
+          MenuItemP(
             text: 'Home',
             icon: Icons.home,
             onPressed: () => NavigationService.navigateTo(Flurorouter.inicio),
-            isActive: NavigationService.currentPage == Flurorouter.inicio,
+            isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
           ),
+
+          /*  
+        
           if (Estaticas.permisos.ingreso) ...{
             MenuItem(
               text: 'Productos',
@@ -153,16 +161,16 @@ class _SideBarState extends State<SideBar> {
               isActive: NavigationService.currentPage == Flurorouter.kardex,
             )
           }, */
-          // MenuItemP(
-          //   text: 'Salir',
-          //   icon: Icons.exit_to_app,
-          //   onPressed: () {
-          //     logeo.lagout();
-          //     NavigationService.navigateTo("/login");
-          //     //NavigationService.navigatorKey = new GlobalKey<NavigatorState>();
-          //   },
-          //   //isActive: NavigationService.currentPage == Flurorouter.salir,
-          // ),
+          MenuItemP(
+            text: 'Salir',
+            icon: Icons.exit_to_app,
+            onPressed: () {
+              logeo.lagout();
+              NavigationService.navigateTo("/login");
+              //NavigationService.navigatorKey = new GlobalKey<NavigatorState>();
+            },
+            //isActive: NavigationService.currentPage == Flurorouter.salir,
+          ),
         ],
       ),
     );

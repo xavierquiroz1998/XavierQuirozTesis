@@ -41,8 +41,10 @@ class NavBar extends StatelessWidget {
     );
   }
 
-  BoxDecoration buildBoxDecoration() =>
-      BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(color: Colors.black26, blurRadius: 5),
-      ]);
+  BoxDecoration buildBoxDecoration() => BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.black26, blurRadius: 5),
+        ],
+      );
 }

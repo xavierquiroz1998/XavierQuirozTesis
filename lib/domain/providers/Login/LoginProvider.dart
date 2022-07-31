@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tesis/data/datasource/reference/local_storage.dart';
+import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/ui/Router/FluroRouter.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
 
@@ -41,7 +43,12 @@ class LoginProvider extends ChangeNotifier {
   /// https://flutter-web-admin-odontograma.herokuapp.com/api
 
   Future<void> logeo() async {
-    try {} catch (e) {}
+    try {
+      authStatus = AuthStatus.authenticated;
+      authenticated = true;
+      notifyListeners();
+      NavigationService.replaceTo(Flurorouter.inicio);
+    } catch (e) {}
   }
 
   Future<void> lagout() async {
