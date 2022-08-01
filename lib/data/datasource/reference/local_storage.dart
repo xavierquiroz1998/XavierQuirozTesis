@@ -15,7 +15,6 @@ class LocalStorage {
   Future readCache(String permiso) async {
     SharedPreferences _preferences = await SharedPreferences.getInstance();
     var cache = _preferences.getString(permiso);
-    // print("2");
     return cache;
   }
 

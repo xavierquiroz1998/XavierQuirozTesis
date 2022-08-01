@@ -7,12 +7,56 @@ class Flurorouter {
   static String login = "/login";
   static String inicio = "/inicio";
 
+  static String productoMantenimiento = "/producto";
+  static String productoConsulta = "/productos";
+
+  static String empresaConsulta = "/empresas";
+  static String empresaMantenimiento = "/empresa";
+
+  static String departamentoConsulta = "/departamentos";
+  static String departamentoMantenimiento = "/departamento";
+
+  static String motivoConsulta = "/motivos";
+  static String motivoMantenimiento = "/motivo";
+
   static void configureRoutes() {
     router.define(login,
         handler: Handlers.login, transitionType: TransitionType.fadeIn);
 
     router.define(inicio,
-        handler: Handlers.incio, transitionType: TransitionType.fadeIn);
+        handler: Handlers.inicio, transitionType: TransitionType.fadeIn);
+
+    router.define(productoMantenimiento,
+        handler: Handlers.productoMantenimiento,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(productoConsulta,
+        handler: Handlers.productoConsulta,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(empresaConsulta,
+        handler: Handlers.empresaConsulta,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(empresaMantenimiento,
+        handler: Handlers.empresaMantenimiento,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(departamentoConsulta,
+        handler: Handlers.departamentoConsulta,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(departamentoMantenimiento,
+        handler: Handlers.departamentoMantenimiento,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(motivoConsulta,
+        handler: Handlers.motivoConsulta,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(motivoMantenimiento,
+        handler: Handlers.motivoMantenimiento,
+        transitionType: TransitionType.fadeIn);
 
     router.notFoundHandler = Handlers.noFound;
   }

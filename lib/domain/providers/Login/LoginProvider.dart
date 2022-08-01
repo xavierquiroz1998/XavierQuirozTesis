@@ -46,8 +46,9 @@ class LoginProvider extends ChangeNotifier {
     try {
       authStatus = AuthStatus.authenticated;
       authenticated = true;
-      notifyListeners();
+
       NavigationService.replaceTo(Flurorouter.inicio);
+      notifyListeners();
     } catch (e) {}
   }
 

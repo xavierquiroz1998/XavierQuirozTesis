@@ -38,10 +38,10 @@ class _SideBarState extends State<SideBar> {
       height: double.infinity,
       decoration: builBoxDecoration(),
       child: ListView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         children: [
-          Logo(),
-          SizedBox(
+          const Logo(),
+          const SizedBox(
             height: 30,
           ),
           // for (var value in permiso.listGrupo) ...[
@@ -63,6 +63,79 @@ class _SideBarState extends State<SideBar> {
             icon: Icons.home,
             onPressed: () => NavigationService.navigateTo(Flurorouter.inicio),
             isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
+            text: 'Productos',
+            icon: Icons.home,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.productoConsulta),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.productoConsulta ||
+                    sideMenuProvider.currentPage ==
+                        Flurorouter.productoMantenimiento,
+          ),
+          MenuItemP(
+            text: 'Facturacion',
+            icon: Icons.home,
+            onPressed: () => null,
+            //isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
+            text: 'Personas',
+            icon: Icons.home,
+            onPressed: () => null,
+            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
+              text: 'Empresas',
+              icon: Icons.home,
+              onPressed: () =>
+                  NavigationService.navigateTo(Flurorouter.empresaConsulta),
+              isActive:
+                  sideMenuProvider.currentPage == Flurorouter.empresaConsulta ||
+                      sideMenuProvider.currentPage ==
+                          Flurorouter.empresaMantenimiento),
+          MenuItemP(
+              text: 'Departamentos',
+              icon: Icons.home,
+              onPressed: () => NavigationService.navigateTo(
+                  Flurorouter.departamentoConsulta),
+              isActive: sideMenuProvider.currentPage ==
+                      Flurorouter.departamentoConsulta ||
+                  sideMenuProvider.currentPage ==
+                      Flurorouter.departamentoConsulta),
+          MenuItemP(
+              text: 'Motivos',
+              icon: Icons.home,
+              onPressed: () =>
+                  NavigationService.navigateTo(Flurorouter.motivoConsulta),
+              isActive:
+                  sideMenuProvider.currentPage == Flurorouter.motivoConsulta ||
+                      sideMenuProvider.currentPage ==
+                          Flurorouter.motivoMantenimiento),
+          MenuItemP(
+            text: 'Devolucion de Productos',
+            icon: Icons.home,
+            onPressed: () => null,
+            //isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
+            text: 'Cambio de productos',
+            icon: Icons.home,
+            onPressed: () => null,
+            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
+            text: 'Reporteria',
+            icon: Icons.home,
+            onPressed: () => null,
+            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
+            text: 'Dashboard',
+            icon: Icons.home,
+            onPressed: () => null,
+            //isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
           ),
 
           /*  
