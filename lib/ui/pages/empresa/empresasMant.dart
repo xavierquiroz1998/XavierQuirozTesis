@@ -17,7 +17,33 @@ class _EmpresasMantenimientoState extends State<EmpresasMantenimiento> {
           WhiteCard(
             title: 'Empresa',
             child: Column(
-              children: [],
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text("Nombre :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Descripcion :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Departamento :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Estado :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

@@ -17,7 +17,56 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
           WhiteCard(
             title: 'Persona',
             child: Column(
-              children: [],
+              children: [
+                Row(
+                  children: [
+                    Text("Identificación :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Nombres :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Apellidos :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Direccion :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Tipo persona :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Correo :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Celular :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Estado :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+              ],
             ),
           ),
         ],

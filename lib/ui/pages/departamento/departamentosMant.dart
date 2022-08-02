@@ -18,7 +18,26 @@ class _DepartamentoMantenimientoState extends State<DepartamentoMantenimiento> {
           WhiteCard(
             title: 'Departamento',
             child: Column(
-              children: [],
+              children: [
+                Row(
+                  children: [
+                    Text("Nombre :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Descripcion :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Estado :"),
+                    Expanded(child: TextFormField()),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
