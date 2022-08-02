@@ -25,7 +25,8 @@ class _MotivosConsultaState extends State<MotivosConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
-                      NavigationService.navigateTo(Flurorouter.motivoConsulta);
+                      NavigationService.navigateTo(
+                          Flurorouter.motivoMantenimiento);
                     },
                     child: Text("Nuevo"),
                   ),

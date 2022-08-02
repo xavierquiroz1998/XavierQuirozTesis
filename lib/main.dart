@@ -24,7 +24,11 @@ class ErrorFailWidget extends StatelessWidget {
       color: Colors.green,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Text(detail!.exception.toString())],
+        children: [
+          Text(
+            detail!.exception.toString(),
+          ),
+        ],
       ),
     );
   }

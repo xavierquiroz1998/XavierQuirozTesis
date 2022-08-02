@@ -83,36 +83,42 @@ class _SideBarState extends State<SideBar> {
           MenuItemP(
             text: 'Personas',
             icon: Icons.home,
-            onPressed: () => null,
-            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.personaConsulta),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.personaConsulta ||
+                    sideMenuProvider.currentPage ==
+                        Flurorouter.personaMantenimiento,
           ),
           MenuItemP(
-              text: 'Empresas',
-              icon: Icons.home,
-              onPressed: () =>
-                  NavigationService.navigateTo(Flurorouter.empresaConsulta),
-              isActive:
-                  sideMenuProvider.currentPage == Flurorouter.empresaConsulta ||
-                      sideMenuProvider.currentPage ==
-                          Flurorouter.empresaMantenimiento),
+            text: 'Empresas',
+            icon: Icons.home,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.empresaConsulta),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.empresaConsulta ||
+                    sideMenuProvider.currentPage ==
+                        Flurorouter.empresaMantenimiento,
+          ),
           MenuItemP(
-              text: 'Departamentos',
-              icon: Icons.home,
-              onPressed: () => NavigationService.navigateTo(
-                  Flurorouter.departamentoConsulta),
-              isActive: sideMenuProvider.currentPage ==
-                      Flurorouter.departamentoConsulta ||
-                  sideMenuProvider.currentPage ==
-                      Flurorouter.departamentoConsulta),
+            text: 'Departamentos',
+            icon: Icons.home,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.departamentoConsulta),
+            isActive: sideMenuProvider.currentPage ==
+                    Flurorouter.departamentoConsulta ||
+                sideMenuProvider.currentPage ==
+                    Flurorouter.departamentoConsulta,
+          ),
           MenuItemP(
-              text: 'Motivos',
-              icon: Icons.home,
-              onPressed: () =>
-                  NavigationService.navigateTo(Flurorouter.motivoConsulta),
-              isActive:
-                  sideMenuProvider.currentPage == Flurorouter.motivoConsulta ||
-                      sideMenuProvider.currentPage ==
-                          Flurorouter.motivoMantenimiento),
+            text: 'Motivos',
+            icon: Icons.home,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.motivoConsulta),
+            isActive: sideMenuProvider.currentPage ==
+                    Flurorouter.motivoConsulta ||
+                sideMenuProvider.currentPage == Flurorouter.motivoMantenimiento,
+          ),
           MenuItemP(
             text: 'Devolucion de Productos',
             icon: Icons.home,

@@ -25,7 +25,8 @@ class _PersonaConsultaState extends State<PersonaConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
-                      NavigationService.navigateTo(Flurorouter.motivoConsulta);
+                      NavigationService.navigateTo(
+                          Flurorouter.personaMantenimiento);
                     },
                     child: Text("Nuevo"),
                   ),
