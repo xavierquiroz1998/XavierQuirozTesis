@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/providers/departamento/departamentoProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -13,6 +15,7 @@ class DepartamentoConsulta extends StatefulWidget {
 class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
   @override
   Widget build(BuildContext context) {
+    final dep = Provider.of<DepartamentoProvider>(context);
     return ListView(
       children: [
         WhiteCard(
@@ -25,6 +28,7 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
+                      dep.cargar();
                       NavigationService.navigateTo(
                           Flurorouter.departamentoMantenimiento);
                     },

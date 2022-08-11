@@ -28,6 +28,8 @@ class SideMenuProvider extends ChangeNotifier {
     menuController.forward();
   }
 
+
+
   static void closeMenu() {
     menuOpen = false;
     menuController.reverse();
