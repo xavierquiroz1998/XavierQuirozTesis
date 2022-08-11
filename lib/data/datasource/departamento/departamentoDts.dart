@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:tesis/data/datasource/url.dart';
 import 'package:tesis/data/models/departamento/departamentoModel.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +13,7 @@ class DepartamentoDTSImp extends DepartamentoDTS {
   final http.Client cliente;
   DepartamentoDTSImp(this.cliente);
 
-  String urlBase = "http://localhost:3000/departamentos";
+  String urlBase = "${UrlBase.url}departamentos";
 
   @override
   Future<List<ModelDepartamento>> getAllDepartamentos() async {

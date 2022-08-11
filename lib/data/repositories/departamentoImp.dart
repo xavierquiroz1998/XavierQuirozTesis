@@ -1,7 +1,7 @@
 import 'package:tesis/core/Errors/exceptions.dart';
 import 'package:tesis/core/Errors/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:tesis/data/datasource/reference/departamento/departamentoDts.dart';
+import 'package:tesis/data/datasource/departamento/departamentoDts.dart';
 import 'package:tesis/data/models/departamento/departamentoModel.dart';
 import 'package:tesis/domain/repositories/abstractDepartamento.dart';
 
