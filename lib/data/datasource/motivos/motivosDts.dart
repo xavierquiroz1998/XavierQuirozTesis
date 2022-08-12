@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:tesis/data/datasource/url.dart';
 import 'package:http/http.dart' as http;
 import 'package:tesis/data/models/motivos/motivosModel.dart';
+import 'package:tesis/domain/entities/motivos/motivosEntity.dart';
 
 abstract class MotivosDTS {
-  Future<List<MotivosModel>> getAllMotivos();
-  Future<MotivosModel> insertMotivos(MotivosModel mtv);
+  Future<List<MotivosEntity>> getAllMotivos();
+  Future<MotivosEntity> insertMotivos(MotivosModel mtv);
 }
 
 class MotivosDTSImp extends MotivosDTS {

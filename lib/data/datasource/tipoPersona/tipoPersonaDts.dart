@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:tesis/data/datasource/url.dart';
 import 'package:http/http.dart' as http;
 import 'package:tesis/data/models/tipoPersona/tipoPersonaModel.dart';
+import 'package:tesis/domain/entities/tipoPersona/tipoPersonaEntity.dart';
 
 abstract class TipoPersonaDTS {
-  Future<List<TipoPersonaModel>> getAllTipoPersona();
-  Future<TipoPersonaModel> insertTipoPersona(TipoPersonaModel tp);
+  Future<List<TipoPersonaEntity>> getAllTipoPersona();
+  Future<TipoPersonaEntity> insertTipoPersona(TipoPersonaModel tp);
 }
 
 class TipoPersonaDTSImp extends TipoPersonaDTS {

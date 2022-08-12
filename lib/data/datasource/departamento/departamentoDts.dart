@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:tesis/data/datasource/url.dart';
 import 'package:tesis/data/models/departamento/departamentoModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:tesis/domain/entities/departamentosEntity.dart';
 
 abstract class DepartamentoDTS {
-  Future<List<ModelDepartamento>> getAllDepartamentos();
-  Future<ModelDepartamento> insertDepartamento(ModelDepartamento dep);
+  Future<List<DepartamentosEntity>> getAllDepartamentos();
+  Future<DepartamentosEntity> insertDepartamento(ModelDepartamento dep);
 }
 
 class DepartamentoDTSImp extends DepartamentoDTS {

@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'package:tesis/data/datasource/url.dart';
 import 'package:http/http.dart' as http;
 import 'package:tesis/data/models/empresas/empresasModel.dart';
+import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
 
 abstract class EmpresasDTS {
-  Future<List<EmpresasModel>> getAllEmpresa();
-  Future<EmpresasModel> insertEmpresas(EmpresasModel emp);
+  Future<List<EmpresasEntity>> getAllEmpresa();
+  Future<EmpresasEntity> insertEmpresas(EmpresasModel emp);
 }
 
 class EmpresasDTSImp extends EmpresasDTS {
