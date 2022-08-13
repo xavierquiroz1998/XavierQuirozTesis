@@ -75,6 +75,16 @@ class _SideBarState extends State<SideBar> {
                         Flurorouter.productoMantenimiento,
           ),
           MenuItemP(
+            text: 'Pedido',
+            icon: Icons.home,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.ordenPedidoConsulta),
+            isActive: sideMenuProvider.currentPage ==
+                    Flurorouter.ordenPedidoConsulta ||
+                sideMenuProvider.currentPage ==
+                    Flurorouter.ordenPedidoMantenimiento,
+          ),
+          MenuItemP(
             text: 'Facturacion',
             icon: Icons.home,
             onPressed: () => null,
@@ -134,7 +144,8 @@ class _SideBarState extends State<SideBar> {
           MenuItemP(
             text: 'Usuarios',
             icon: Icons.home,
-            onPressed: () => NavigationService.navigateTo(Flurorouter.usuariosConsulta),
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.usuariosConsulta),
             isActive:
                 sideMenuProvider.currentPage == Flurorouter.usuariosConsulta ||
                     sideMenuProvider.currentPage ==

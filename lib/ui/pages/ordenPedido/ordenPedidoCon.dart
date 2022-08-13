@@ -3,20 +3,20 @@ import 'package:tesis/domain/Navigation/NavigationService.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
-class FacturaConsulta extends StatefulWidget {
-  const FacturaConsulta({Key? key}) : super(key: key);
+class OrdenPedidoConsulta extends StatefulWidget {
+  const OrdenPedidoConsulta({Key? key}) : super(key: key);
 
   @override
-  State<FacturaConsulta> createState() => _FacturaConsultaState();
+  State<OrdenPedidoConsulta> createState() => _OrdenPedidoConsultaState();
 }
 
-class _FacturaConsultaState extends State<FacturaConsulta> {
+class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         WhiteCard(
-          title: 'Facturas',
+          title: 'Ordenes de',
           child: Column(
             children: [
               Row(
@@ -26,7 +26,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                     //style: ButtonStyle(),
                     onPressed: () {
                       NavigationService.navigateTo(
-                          Flurorouter.productoMantenimiento);
+                          Flurorouter.ordenPedidoMantenimiento);
                     },
                     child: Text("Nuevo"),
                   ),
@@ -75,6 +75,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                   ],
                 ),
               )
+            
             ],
           ),
         )

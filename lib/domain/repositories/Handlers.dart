@@ -12,6 +12,8 @@ import 'package:tesis/ui/pages/home/inicio.dart';
 import 'package:tesis/ui/pages/login/Login.dart';
 import 'package:tesis/ui/pages/motivo/motivosCon.dart';
 import 'package:tesis/ui/pages/motivo/motivosMant.dart';
+import 'package:tesis/ui/pages/ordenPedido/ordenPedidoCon.dart';
+import 'package:tesis/ui/pages/ordenPedido/ordenPedidoMant.dart';
 import 'package:tesis/ui/pages/person/personaCon.dart';
 import 'package:tesis/ui/pages/person/personaMant.dart';
 import 'package:tesis/ui/pages/product/productosCon.dart';
@@ -166,6 +168,28 @@ class Handlers {
         .setCurrentPageUrl(Flurorouter.usuariosMantenimiento);
     if (logeo.authStatus == AuthStatus.authenticated) {
       return const UsuarioMantenimiento();
+    } else {
+      return const LoginView();
+    }
+  });
+  
+  static Handler ordenConsulta = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.ordenPedidoConsulta);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const OrdenPedidoConsulta();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler ordenMantenimiento = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.ordenPedidoMantenimiento);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const OrdenPedidoMantenimiento();
     } else {
       return const LoginView();
     }

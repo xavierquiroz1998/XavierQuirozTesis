@@ -1,34 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:tesis/domain/Navigation/NavigationService.dart';
-import 'package:tesis/ui/Router/FluroRouter.dart';
+import 'package:intl/intl.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
-class FacturaConsulta extends StatefulWidget {
-  const FacturaConsulta({Key? key}) : super(key: key);
+class OrdenPedidoMantenimiento extends StatefulWidget {
+  const OrdenPedidoMantenimiento({Key? key}) : super(key: key);
 
   @override
-  State<FacturaConsulta> createState() => _FacturaConsultaState();
+  State<OrdenPedidoMantenimiento> createState() =>
+      _OrdenPedidoMantenimientoState();
 }
 
-class _FacturaConsultaState extends State<FacturaConsulta> {
+class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
+  DateTime fechaActual = DateTime.now();
+  final DateFormat formatter = DateFormat('dd/MM/yyyy');
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
         WhiteCard(
-          title: 'Facturas',
+          title: 'Pedido',
           child: Column(
             children: [
+              Row(
+                children: [
+                  const Text("Fecha : "),
+                  Text(formatter.format(fechaActual))
+                ],
+              ),
+              Row(
+                children: [
+                  const Text("Cliente"),
+                  Expanded(child: TextFormField()),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text("Observacion"),
+                  Expanded(child: TextFormField()),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
                     //style: ButtonStyle(),
-                    onPressed: () {
-                      NavigationService.navigateTo(
-                          Flurorouter.productoMantenimiento);
-                    },
-                    child: Text("Nuevo"),
+                    onPressed: () {},
+                    child: const Text("Agregar"),
                   ),
                 ],
               ),
@@ -37,20 +54,17 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                 child: DataTable(
                   columns: const [
                     DataColumn(
-                      label: Center(child: Text("Código")),
+                      label: Center(child: Text("Producto")),
                     ),
                     DataColumn(
-                      label: Center(child: Text("Cliente")),
+                      label: Center(child: Text("Cantidad")),
                     ),
                     DataColumn(
-                      label: Center(child: Text("Fecha")),
+                      label: Center(child: Text("Precio")),
                     ),
                     DataColumn(
                       label: Center(child: Text("Total")),
-                    ),
-                    DataColumn(
-                      label: Center(child: Text("Estado")),
-                    ),
+                    )
                   ],
                   rows: const [
                     DataRow(
@@ -66,10 +80,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                         ),
                         DataCell(
                           Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
+                        )
                       ],
                     ),
                   ],
