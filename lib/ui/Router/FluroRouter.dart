@@ -22,6 +22,9 @@ class Flurorouter {
   static String personaConsulta = "/personas";
   static String personaMantenimiento = "/persona";
 
+  static String usuariosConsulta = "/usuarios";
+  static String usuariosMantenimiento = "/usuario";
+
   static void configureRoutes() {
     router.define(login,
         handler: Handlers.login, transitionType: TransitionType.fadeIn);
@@ -67,6 +70,14 @@ class Flurorouter {
 
     router.define(personaMantenimiento,
         handler: Handlers.personaMantenimiento,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(usuariosConsulta,
+        handler: Handlers.usuariosConsulta,
+        transitionType: TransitionType.fadeIn);
+
+    router.define(usuariosMantenimiento,
+        handler: Handlers.usuariosMantenimiento,
         transitionType: TransitionType.fadeIn);
 
     router.notFoundHandler = Handlers.noFound;

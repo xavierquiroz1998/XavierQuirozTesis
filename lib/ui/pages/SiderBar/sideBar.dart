@@ -132,6 +132,21 @@ class _SideBarState extends State<SideBar> {
             // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
           ),
           MenuItemP(
+            text: 'Usuarios',
+            icon: Icons.home,
+            onPressed: () => NavigationService.navigateTo(Flurorouter.usuariosConsulta),
+            isActive:
+                sideMenuProvider.currentPage == Flurorouter.usuariosConsulta ||
+                    sideMenuProvider.currentPage ==
+                        Flurorouter.usuariosMantenimiento,
+          ),
+          MenuItemP(
+            text: 'Permisos por Usuario',
+            icon: Icons.home,
+            onPressed: () => null,
+            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          ),
+          MenuItemP(
             text: 'Reporteria',
             icon: Icons.home,
             onPressed: () => null,

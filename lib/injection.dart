@@ -5,21 +5,40 @@ import 'package:tesis/data/datasource/empresas/empresasDts.dart';
 import 'package:tesis/data/datasource/motivos/motivosDts.dart';
 import 'package:tesis/data/datasource/tipoPersona/tipoPersonaDts.dart';
 import 'package:tesis/data/repositories/departamentoImp.dart';
+import 'package:tesis/data/repositories/empresas/empresasImp.dart';
+import 'package:tesis/data/repositories/motivos/motivosImp.dart';
+import 'package:tesis/data/repositories/tipoPersonas/tipoPErsonaImp.dart';
 import 'package:tesis/domain/providers/Login/LoginProvider.dart';
 import 'package:tesis/domain/providers/departamento/departamentoProvider.dart';
 import 'package:tesis/domain/repositories/abstractDepartamento.dart';
+import 'package:tesis/domain/repositories/empresas/abtractEmpresas.dart';
+import 'package:tesis/domain/repositories/motivos/abstractMotivos.dart';
+import 'package:tesis/domain/repositories/tipoPersona/abstractTipoPersonas.dart';
 import 'package:tesis/domain/uses%20cases/Departamento/DepartamentoGeneral.dart';
+import 'package:tesis/domain/uses%20cases/empresas/empresasGeneral.dart';
+import 'package:tesis/domain/uses%20cases/motivos/motivosGeneral.dart';
+import 'package:tesis/domain/uses%20cases/tipoPersonas/tipoPersonaGeneral.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  // provide
   sl.registerFactory(() => LoginProvider());
   sl.registerFactory(() => DepartamentoProvider(sl()));
 
+// casos de uso
   sl.registerLazySingleton(() => DepartamentosGeneral(sl()));
+  sl.registerLazySingleton(() => EmpresasGeneral(sl()));
+  sl.registerLazySingleton(() => MotivosGeneral(sl()));
+  sl.registerLazySingleton(() => TipoPersonaGeneral(sl()));
 
+// repository
   sl.registerLazySingleton<AbstractDepartamento>(() => DepartamentoImp(sl()));
+  sl.registerLazySingleton<AbstractEmpresas>(() => EmpresasImp(sl()));
+  sl.registerLazySingleton<AbstractMotivos>(() => MotivosImp(sl()));
+  sl.registerLazySingleton<AbstractTipoPersonas>(() => TipoPersonaImp(sl()));
 
+// datasource
   sl.registerLazySingleton<DepartamentoDTS>(() => DepartamentoDTSImp(sl()));
   sl.registerLazySingleton<EmpresasDTS>(() => EmpresasDTSImp(sl()));
   sl.registerLazySingleton<MotivosDTS>(() => MotivosDTSImp(sl()));

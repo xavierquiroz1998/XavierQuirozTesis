@@ -16,6 +16,8 @@ import 'package:tesis/ui/pages/person/personaCon.dart';
 import 'package:tesis/ui/pages/person/personaMant.dart';
 import 'package:tesis/ui/pages/product/productosCon.dart';
 import 'package:tesis/ui/pages/product/productosMant.dart';
+import 'package:tesis/ui/pages/usuarios/userCon.dart';
+import 'package:tesis/ui/pages/usuarios/userMant.dart';
 
 class Handlers {
   static Handler login = Handler(handlerFunc: (context, param) {
@@ -142,6 +144,28 @@ class Handlers {
         .setCurrentPageUrl(Flurorouter.personaMantenimiento);
     if (logeo.authStatus == AuthStatus.authenticated) {
       return const PersonaMantenimiento();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler usuariosConsulta = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.usuariosConsulta);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const UsuarioConsulta();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler usuariosMantenimiento = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.usuariosMantenimiento);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const UsuarioMantenimiento();
     } else {
       return const LoginView();
     }

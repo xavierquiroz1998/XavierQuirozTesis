@@ -9,7 +9,7 @@ class Logo extends StatelessWidget {
       //padding: EdgeInsets.only(top: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           // Image.asset(
           //   "Ferreteria.png",
           //   //width: double.infinity,
@@ -19,7 +19,7 @@ class Logo extends StatelessWidget {
             width: 10,
           ),
           Text(
-            "Kiarita",
+            "Logo",
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w200, color: Colors.white),
           ),

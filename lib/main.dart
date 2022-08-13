@@ -14,9 +14,10 @@ void main() {
   runApp(MyApp());
 }
 
+// ignore: must_be_immutable
 class ErrorFailWidget extends StatelessWidget {
   FlutterErrorDetails? detail;
-  ErrorFailWidget({this.detail});
+  ErrorFailWidget({Key? key, this.detail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
