@@ -14,6 +14,13 @@ class DepartamentoConsulta extends StatefulWidget {
 
 class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
   @override
+  void initState() {
+    super.initState();
+    var depTemp = Provider.of<DepartamentoProvider>(context, listen: false);
+    depTemp.cargarDepartamentos();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final dep = Provider.of<DepartamentoProvider>(context);
     return ListView(
@@ -28,7 +35,6 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
-                      dep.cargar();
                       NavigationService.navigateTo(
                           Flurorouter.departamentoMantenimiento);
                     },
@@ -49,22 +55,45 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                     DataColumn(
                       label: Center(child: Text("Estado")),
                     ),
-                  ],
-                  rows: const [
-                    DataRow(
-                      cells: [
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                      ],
+                    DataColumn(
+                      label: Center(child: Text("Acciones")),
                     ),
                   ],
+                  rows: dep.listDepartamentos
+                      .map(
+                        (e) => DataRow(
+                          cells: [
+                            DataCell(
+                              Text("${e.nombre}"),
+                            ),
+                            DataCell(
+                              Text("${e.descripcion}"),
+                            ),
+                            DataCell(
+                              Text("${e.estado}"),
+                            ),
+                            DataCell(Row(
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            )),
+                          ],
+                        ),
+                      )
+                      .toList(),
                 ),
               )
             ],

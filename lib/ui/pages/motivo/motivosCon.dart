@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -12,7 +14,15 @@ class MotivosConsulta extends StatefulWidget {
 
 class _MotivosConsultaState extends State<MotivosConsulta> {
   @override
+  void initState() {
+    super.initState();
+    var temp = Provider.of<MotivosProvider>(context, listen: false);
+    temp.cargarMotivos();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final motivoProv = Provider.of<MotivosProvider>(context);
     return ListView(
       children: [
         WhiteCard(
@@ -45,22 +55,41 @@ class _MotivosConsultaState extends State<MotivosConsulta> {
                     DataColumn(
                       label: Center(child: Text("Estado")),
                     ),
-                  ],
-                  rows: const [
-                    DataRow(
-                      cells: [
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                      ],
+                    DataColumn(
+                      label: Center(child: Text("Accion")),
                     ),
                   ],
+                  rows: motivoProv.listMotivos.map((e) {
+                    return DataRow(cells: [
+                      DataCell(
+                        Text("${e.nombre}"),
+                      ),
+                      DataCell(
+                        Text("${e.descipcion}"),
+                      ),
+                      DataCell(
+                        Text("${e.estado}"),
+                      ),
+                      DataCell(Row(
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      )),
+                    ]);
+                  }).toList(),
                 ),
               )
             ],

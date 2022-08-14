@@ -10,6 +10,8 @@ import 'package:tesis/data/repositories/motivos/motivosImp.dart';
 import 'package:tesis/data/repositories/tipoPersonas/tipoPErsonaImp.dart';
 import 'package:tesis/domain/providers/Login/LoginProvider.dart';
 import 'package:tesis/domain/providers/departamento/departamentoProvider.dart';
+import 'package:tesis/domain/providers/empresas/empresasProvider.dart';
+import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
 import 'package:tesis/domain/repositories/abstractDepartamento.dart';
 import 'package:tesis/domain/repositories/empresas/abtractEmpresas.dart';
 import 'package:tesis/domain/repositories/motivos/abstractMotivos.dart';
@@ -25,6 +27,8 @@ Future<void> init() async {
   // provide
   sl.registerFactory(() => LoginProvider());
   sl.registerFactory(() => DepartamentoProvider(sl()));
+  sl.registerFactory(() => EmpresasProvider(sl()));
+  sl.registerFactory(() => MotivosProvider(sl()));
 
 // casos de uso
   sl.registerLazySingleton(() => DepartamentosGeneral(sl()));

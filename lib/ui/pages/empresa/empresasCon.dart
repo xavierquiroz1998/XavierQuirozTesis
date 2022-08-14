@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/providers/empresas/empresasProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -12,7 +14,15 @@ class EmpresasConsulta extends StatefulWidget {
 
 class _EmpresasConsultaState extends State<EmpresasConsulta> {
   @override
+  void initState() {
+    super.initState();
+    var empProviderTemp = Provider.of<EmpresasProvider>(context, listen: false);
+    empProviderTemp.cargarEmpresas();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final empProvider = Provider.of<EmpresasProvider>(context);
     return ListView(
       children: [
         WhiteCard(
@@ -45,22 +55,45 @@ class _EmpresasConsultaState extends State<EmpresasConsulta> {
                     DataColumn(
                       label: Center(child: Text("Estado")),
                     ),
-                  ],
-                  rows: const [
-                    DataRow(
-                      cells: [
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                      ],
+                    DataColumn(
+                      label: Center(child: Text("Acciones")),
                     ),
                   ],
+                  rows: empProvider.listEmpresas.map(
+                    (e) {
+                      return DataRow(
+                        cells: [
+                          DataCell(
+                            Text("${e.nombre}"),
+                          ),
+                          DataCell(
+                            Text("${e.descripcion}"),
+                          ),
+                          DataCell(
+                            Text("${e.estado}"),
+                          ),
+                          DataCell(Row(
+                            children: const [
+                              Padding(
+                                padding: EdgeInsets.only(left: 5, right: 5),
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 5, right: 5),
+                                child: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          )),
+                        ],
+                      );
+                    },
+                  ).toList(),
                 ),
               )
             ],

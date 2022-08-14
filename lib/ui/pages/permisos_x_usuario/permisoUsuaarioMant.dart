@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
-class FacturaMantenimiento extends StatefulWidget {
-  const FacturaMantenimiento({Key? key}) : super(key: key);
+class PermisosMantenimiento extends StatefulWidget {
+  const PermisosMantenimiento({Key? key}) : super(key: key);
 
   @override
-  State<FacturaMantenimiento> createState() => _FacturaMantenimientoState();
+  State<PermisosMantenimiento> createState() => _PermisosMantenimientoState();
 }
 
-class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
+class _PermisosMantenimientoState extends State<PermisosMantenimiento> {
   DateTime fechaActual = DateTime.now();
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
 
@@ -18,35 +18,13 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
     return ListView(
       children: [
         WhiteCard(
-          title: 'Factura',
+          title: 'Permisos',
           child: Column(
             children: [
               Row(
                 children: [
-                  const Text("Fecha : "),
-                  Text(formatter.format(fechaActual))
-                ],
-              ),
-              Row(
-                children: [
-                  const Text("Cliente"),
+                  const Text("Usuario"),
                   Expanded(child: TextFormField()),
-                ],
-              ),
-              Row(
-                children: [
-                  const Text("Observacion"),
-                  Expanded(child: TextFormField()),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    //style: ButtonStyle(),
-                    onPressed: () {},
-                    child: const Text("Agregar"),
-                  ),
                 ],
               ),
               Container(
@@ -54,21 +32,27 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                 child: DataTable(
                   columns: const [
                     DataColumn(
-                      label: Center(child: Text("Producto")),
+                      label: Center(child: Text("Descripcion")),
                     ),
                     DataColumn(
-                      label: Center(child: Text("Cantidad")),
+                      label: Center(child: Text("Nuevo")),
                     ),
                     DataColumn(
-                      label: Center(child: Text("Precio")),
+                      label: Center(child: Text("Modificar")),
                     ),
                     DataColumn(
-                      label: Center(child: Text("Total")),
+                      label: Center(child: Text("Consultar")),
+                    ),
+                    DataColumn(
+                      label: Center(child: Text("Anular")),
                     )
                   ],
                   rows: const [
                     DataRow(
                       cells: [
+                        DataCell(
+                          Text(""),
+                        ),
                         DataCell(
                           Text(""),
                         ),

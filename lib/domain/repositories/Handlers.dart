@@ -4,6 +4,8 @@ import 'package:tesis/domain/providers/Home/sideMenuProvider.dart';
 import 'package:tesis/domain/providers/Login/LoginProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/404/noFound.dart';
+import 'package:tesis/ui/pages/Facturacion/facturaCon.dart';
+import 'package:tesis/ui/pages/Facturacion/facturaMant.dart';
 import 'package:tesis/ui/pages/departamento/departamentosCon.dart';
 import 'package:tesis/ui/pages/departamento/departamentosMant.dart';
 import 'package:tesis/ui/pages/empresa/empresasCon.dart';
@@ -172,7 +174,7 @@ class Handlers {
       return const LoginView();
     }
   });
-  
+
   static Handler ordenConsulta = Handler(handlerFunc: (context, param) {
     final logeo = Provider.of<LoginProvider>(context!);
     Provider.of<SideMenuProvider>(context, listen: false)
@@ -190,6 +192,28 @@ class Handlers {
         .setCurrentPageUrl(Flurorouter.ordenPedidoMantenimiento);
     if (logeo.authStatus == AuthStatus.authenticated) {
       return const OrdenPedidoMantenimiento();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler facturaConsulta = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.facturaConsulta);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const FacturaConsulta();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler facturaMantenimiento = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.facturaMantenimiento);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const FacturaMantenimiento();
     } else {
       return const LoginView();
     }
