@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/empresas/empresasProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class EmpresasMantenimiento extends StatefulWidget {
@@ -11,6 +13,7 @@ class EmpresasMantenimiento extends StatefulWidget {
 class _EmpresasMantenimientoState extends State<EmpresasMantenimiento> {
   @override
   Widget build(BuildContext context) {
+    final empProvider = Provider.of<EmpresasProvider>(context);
     return Container(
       child: ListView(
         children: [
@@ -22,25 +25,36 @@ class _EmpresasMantenimientoState extends State<EmpresasMantenimiento> {
                 Row(
                   children: [
                     Text("Nombre :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                        child: TextFormField(
+                      controller: empProvider.ctrNombre,
+                    )),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Descripcion :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                        child: TextFormField(
+                      controller: empProvider.ctrDescripcion,
+                    )),
                   ],
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Departamento :"),
-                    Expanded(child: TextFormField()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Estado :"),
-                    Expanded(child: TextFormField()),
+                    TextButton(
+                      onPressed: () async {
+                        await empProvider.guardar();
+                      },
+                      child: Text("Guardar"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Cancelar"),
+                    ),
                   ],
                 ),
               ],

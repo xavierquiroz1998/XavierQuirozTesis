@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class MotivoMantenimiento extends StatefulWidget {
@@ -11,36 +13,52 @@ class MotivoMantenimiento extends StatefulWidget {
 class _MotivoMantenimientoState extends State<MotivoMantenimiento> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        children: [
-          WhiteCard(
-            title: 'Motivo',
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text("Nombre :"),
-                    Expanded(child: TextFormField()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Descripcion :"),
-                    Expanded(child: TextFormField()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Estado :"),
-                    Expanded(child: TextFormField()),
-                  ],
-                ),
-              ],
-            ),
+    final motivoProv = Provider.of<MotivosProvider>(context);
+    return ListView(
+      children: [
+        WhiteCard(
+          title: 'Motivo',
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text("Nombre :"),
+                  Expanded(
+                      child: TextFormField(
+                    controller: motivoProv.ctrNombre,
+                  )),
+                ],
+              ),
+              Row(
+                children: [
+                  Text("Descripcion :"),
+                  Expanded(
+                      child: TextFormField(
+                    controller: motivoProv.ctrDescripcion,
+                  )),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      await motivoProv.guardar();
+                    },
+                    child: Text("Guardar"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Cancelar"),
+                  ),
+                ],
+              )
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
