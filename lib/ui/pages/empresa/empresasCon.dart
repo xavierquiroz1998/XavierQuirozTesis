@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
 import 'package:tesis/domain/providers/empresas/empresasProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
@@ -35,6 +36,7 @@ class _EmpresasConsultaState extends State<EmpresasConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
+                      empProvider.limpiar();
                       NavigationService.navigateTo(
                           Flurorouter.empresaMantenimiento);
                     },
@@ -73,19 +75,31 @@ class _EmpresasConsultaState extends State<EmpresasConsulta> {
                             Text("${e.estado}"),
                           ),
                           DataCell(Row(
-                            children: const [
+                            children: [
                               Padding(
                                 padding: EdgeInsets.only(left: 5, right: 5),
-                                child: Icon(
-                                  Icons.edit,
-                                  color: Colors.blue,
+                                child: TextButton.icon(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  ),
+                                  onPressed: () {
+                                    empProvider.entidad = e;
+                                    NavigationService.navigateTo(
+                                        Flurorouter.empresaMantenimiento);
+                                  },
+                                  label: Text(''),
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 5, right: 5),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
+                                child: TextButton.icon(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {},
+                                  label: Text(''),
                                 ),
                               ),
                             ],

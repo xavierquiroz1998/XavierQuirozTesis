@@ -13,6 +13,27 @@ class MotivosProvider extends ChangeNotifier {
   TextEditingController ctrNombre = TextEditingController();
   TextEditingController ctrDescripcion = TextEditingController();
 
+  MotivosEntity entidad = MotivosEntity();
+setMotivos(){
+  try {
+    ctrNombre = TextEditingController(text: entidad.nombre);
+    ctrDescripcion = TextEditingController(text: entidad.descipcion);
+  } catch (e) {
+    
+  }
+}
+
+limpiar(){
+  try {
+    entidad = MotivosEntity();
+    ctrNombre = TextEditingController();
+    ctrDescripcion = TextEditingController();
+  } catch (e) {
+    
+  }
+}
+
+
   void cargarMotivos() async {
     try {
       var temp = await _usesCasesMotivos.getAllMotivos();

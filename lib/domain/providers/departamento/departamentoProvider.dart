@@ -13,11 +13,30 @@ class DepartamentoProvider extends ChangeNotifier {
   TextEditingController ctrDescripcion = TextEditingController();
   TextEditingController ctrEmpresa = TextEditingController();
 
+  DepartamentosEntity entity = DepartamentosEntity();
+
+  setDEpartamento() {
+    try {
+      ctrNombre = TextEditingController(text: entity.nombre);
+      ctrDescripcion = TextEditingController(text: entity.descripcion);
+      ctrEmpresa = TextEditingController(text: entity.idEmpresa.toString());
+    } catch (e) {}
+  }
+
+  limpiar(){
+    try {
+      entity = DepartamentosEntity();
+      ctrNombre = TextEditingController();
+      ctrDescripcion = TextEditingController();
+      ctrEmpresa = TextEditingController();
+    } catch (e) {}
+  }
+
   void cargarDepartamentos() async {
     try {
       var temp = await _depGeneral.getDepartamentos();
       listDepartamentos = temp.getOrElse(() => []);
-      print(temp);
+      notifyListeners();
     } catch (e) {
       print("Erro en carga Departamentos $e");
     }

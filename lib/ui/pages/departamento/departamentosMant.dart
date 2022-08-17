@@ -13,6 +13,16 @@ class DepartamentoMantenimiento extends StatefulWidget {
 
 class _DepartamentoMantenimientoState extends State<DepartamentoMantenimiento> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    var depTemp = Provider.of<DepartamentoProvider>(context, listen: false);
+    if (depTemp.entity.id != 0) {
+      depTemp.setDEpartamento();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final depProvider = Provider.of<DepartamentoProvider>(context);
     return ListView(

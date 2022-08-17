@@ -35,6 +35,7 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
+                      dep.limpiar();
                       NavigationService.navigateTo(
                           Flurorouter.departamentoMantenimiento);
                     },
@@ -73,19 +74,31 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                               Text("${e.estado}"),
                             ),
                             DataCell(Row(
-                              children: const [
+                              children: [
                                 Padding(
                                   padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Icon(
-                                    Icons.edit,
-                                    color: Colors.blue,
+                                  child: TextButton.icon(
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () {
+                                      dep.entity = e;
+                                      NavigationService.navigateTo(Flurorouter
+                                          .departamentoMantenimiento);
+                                    },
+                                    label: Text(''),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+                                  child: TextButton.icon(
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () {},
+                                    label: Text(''),
                                   ),
                                 ),
                               ],

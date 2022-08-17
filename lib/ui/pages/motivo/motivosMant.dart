@@ -12,6 +12,15 @@ class MotivoMantenimiento extends StatefulWidget {
 
 class _MotivoMantenimientoState extends State<MotivoMantenimiento> {
   @override
+  void initState() {
+    super.initState();
+    var temp = Provider.of<MotivosProvider>(context, listen: false);
+    if (temp.entidad.id != 0) {
+      temp.setMotivos();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final motivoProv = Provider.of<MotivosProvider>(context);
     return ListView(

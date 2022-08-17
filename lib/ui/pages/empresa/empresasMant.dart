@@ -12,6 +12,15 @@ class EmpresasMantenimiento extends StatefulWidget {
 
 class _EmpresasMantenimientoState extends State<EmpresasMantenimiento> {
   @override
+  void initState() {
+    super.initState();
+    var empProviderTemp = Provider.of<EmpresasProvider>(context, listen: false);
+    if (empProviderTemp.entidad.id != 0) {
+      empProviderTemp.setEmpresa();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final empProvider = Provider.of<EmpresasProvider>(context);
     return Container(

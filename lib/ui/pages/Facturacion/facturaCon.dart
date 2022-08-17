@@ -26,7 +26,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                     //style: ButtonStyle(),
                     onPressed: () {
                       NavigationService.navigateTo(
-                          Flurorouter.productoMantenimiento);
+                          Flurorouter.facturaMantenimiento);
                     },
                     child: Text("Nuevo"),
                   ),

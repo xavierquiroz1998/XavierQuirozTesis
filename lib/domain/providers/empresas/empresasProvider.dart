@@ -11,6 +11,23 @@ class EmpresasProvider extends ChangeNotifier {
   TextEditingController ctrNombre = TextEditingController();
   TextEditingController ctrDescripcion = TextEditingController();
 
+  EmpresasEntity entidad = EmpresasEntity();
+
+  void setEmpresa() {
+    try {
+      ctrNombre = TextEditingController(text: entidad.nombre);
+      ctrDescripcion = TextEditingController(text: entidad.descripcion);
+    } catch (e) {}
+  }
+
+  void limpiar() {
+    try {
+      entidad = EmpresasEntity();
+      ctrNombre = TextEditingController();
+      ctrDescripcion = TextEditingController();
+    } catch (e) {}
+  }
+
   void cargarEmpresas() async {
     try {
       var temp = await _usesCasesEmpresa.getAllEmpresas();

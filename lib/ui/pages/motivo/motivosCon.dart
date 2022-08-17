@@ -35,6 +35,8 @@ class _MotivosConsultaState extends State<MotivosConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
+                      motivoProv.limpiar();
+
                       NavigationService.navigateTo(
                           Flurorouter.motivoMantenimiento);
                     },
@@ -71,19 +73,31 @@ class _MotivosConsultaState extends State<MotivosConsulta> {
                         Text("${e.estado}"),
                       ),
                       DataCell(Row(
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(left: 5, right: 5),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.blue,
+                            child: TextButton.icon(
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.blue,
+                              ),
+                              onPressed: () {
+                                motivoProv.entidad = e;
+                                NavigationService.navigateTo(
+                                    Flurorouter.motivoMantenimiento);
+                              },
+                              label: Text(''),
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5, right: 5),
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.red,
+                            child: TextButton.icon(
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {},
+                              label: Text(''),
                             ),
                           ),
                         ],
