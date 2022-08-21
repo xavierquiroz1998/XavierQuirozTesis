@@ -5,6 +5,7 @@ import 'package:tesis/domain/providers/Home/sideMenuProvider.dart';
 import 'package:tesis/domain/providers/Login/LoginProvider.dart';
 import 'package:tesis/domain/providers/departamento/departamentoProvider.dart';
 import 'package:tesis/domain/providers/empresas/empresasProvider.dart';
+import 'package:tesis/domain/providers/menu/menuProvider.dart';
 import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/injection.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => sl<EmpresasProvider>()),
         ChangeNotifierProvider(create: (_) => sl<MotivosProvider>()),
         ChangeNotifierProvider(create: (_) => sl<ProductosProvider>()),
+        ChangeNotifierProvider(create: (_) => sl<MenuProvider>()),
       ],
       child: MaterialApp(
         title: 'IT-MAS',

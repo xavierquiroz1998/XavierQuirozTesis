@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/menu/menuProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class UsuarioMantenimiento extends StatefulWidget {
@@ -10,7 +12,15 @@ class UsuarioMantenimiento extends StatefulWidget {
 
 class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
   @override
+  void initState() {
+    super.initState();
+    var temp = Provider.of<MenuProvider>(context, listen: false);
+    temp.getMenu();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final menuP = Provider.of<MenuProvider>(context);
     return Container(
       child: ListView(
         children: [
@@ -60,6 +70,56 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Text("Estado :"),
                     Expanded(child: TextFormField()),
                   ],
+                ),
+                Container(
+                  width: double.infinity,
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Center(child: Text("Descripcion")),
+                      ),
+                      DataColumn(
+                        label: Center(child: Text("Nuevo")),
+                      ),
+                      DataColumn(
+                        label: Center(child: Text("Modificar")),
+                      ),
+                      DataColumn(
+                        label: Center(child: Text("Anular")),
+                      )
+                    ],
+                    rows: menuP.lisMenu.map((e) {
+                      return DataRow(cells: [
+                        DataCell(
+                          Text("${e.descripcion}"),
+                        ),
+                        DataCell(
+                          Checkbox(
+                              value: e.nuevo,
+                              onChanged: (value) {
+                                e.nuevo = value ?? false;
+                                menuP.notificar();
+                              }),
+                        ),
+                        DataCell(
+                          Checkbox(
+                              value: e.modificar,
+                              onChanged: (value) {
+                                e.modificar = value ?? false;
+                                menuP.notificar();
+                              }),
+                        ),
+                        DataCell(
+                          Checkbox(
+                              value: e.anular,
+                              onChanged: (value) {
+                                e.anular = value ?? false;
+                                menuP.notificar();
+                              }),
+                        ),
+                      ]);
+                    }).toList(),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
