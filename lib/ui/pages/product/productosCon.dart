@@ -37,6 +37,7 @@ class _ProductosConsultaState extends State<ProductosConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
+                      productProvider.setProvider();
                       NavigationService.navigateTo(
                           Flurorouter.productoMantenimiento);
                     },

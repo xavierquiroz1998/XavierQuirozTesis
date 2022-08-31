@@ -38,7 +38,7 @@ class ProductosModel extends ProductosEntity {
   String descripcion;
   int stock;
   double costo;
-  int precio;
+  double precio;
   int unidad;
   String estado;
   DateTime? fecha;

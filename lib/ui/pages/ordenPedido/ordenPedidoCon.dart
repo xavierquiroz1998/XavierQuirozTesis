@@ -16,7 +16,7 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
     return ListView(
       children: [
         WhiteCard(
-          title: 'Ordenes de',
+          title: 'Ordenes de Pedido',
           child: Column(
             children: [
               Row(
@@ -75,7 +75,6 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                   ],
                 ),
               )
-            
             ],
           ),
         )

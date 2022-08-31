@@ -48,10 +48,10 @@ class TipoPersonaDTSImp extends TipoPersonaDTS {
     }
   }
 
-  List<TipoPersonaModel> decodeTp(String respuesta) {
-    var parseo = jsonDecode(respuesta);
-    return parseo
-        .map<TipoPersonaModel>((json) => TipoPersonaModel.fromMap(json))
-        .toList();
-  }
+    List<TipoPersonaModel> decodeTp(String respuesta) {
+      var parseo = jsonDecode(respuesta);
+      return parseo
+          .map<TipoPersonaModel>((json) => TipoPersonaModel.fromMap(json))
+          .toList();
+    }
 }

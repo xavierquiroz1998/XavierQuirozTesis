@@ -133,12 +133,12 @@ class _SideBarState extends State<SideBar> {
                     Flurorouter.motivoConsulta ||
                 sideMenuProvider.currentPage == Flurorouter.motivoMantenimiento,
           ),
-          MenuItemP(
-            text: 'Devolucion de Productos',
-            icon: Icons.home,
-            onPressed: () => null,
-            //isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
-          ),
+          // MenuItemP(
+          //   text: 'Devolucion de Productos',
+          //   icon: Icons.home,
+          //   onPressed: () => null,
+          //   //isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+          // ),
           MenuItemP(
             text: 'Cambio de productos',
             icon: Icons.home,

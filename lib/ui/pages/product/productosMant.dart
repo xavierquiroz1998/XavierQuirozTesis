@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class ProductosMantenimiento extends StatefulWidget {
@@ -9,8 +12,10 @@ class ProductosMantenimiento extends StatefulWidget {
 }
 
 class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
+  String numeros = r'^(?:\+|-)?\d+$';
   @override
   Widget build(BuildContext context) {
+    final pvProducto = Provider.of<ProductosProvider>(context);
     return Container(
       child: ListView(
         children: [
@@ -22,49 +27,84 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                 Row(
                   children: [
                     Text("Codigo :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrCodigo,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Nombre :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrNombre,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Descripcion :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrdescripcion,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Stock :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(numeros))
+                        ],
+                        controller: pvProducto.ctrStock,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Costo :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrCosto,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Precio :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrPrecio,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Estado :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrEstado,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Unidad :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: pvProducto.ctrUnidad,
+                      ),
+                    ),
                   ],
                 ),
                 Padding(
@@ -74,6 +114,8 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                     children: [
                       TextButton(
                         onPressed: () async {
+                          await pvProducto.guardar();
+
                           bool? valor = await showDialog(
                             context: context,
                             builder: (context) {

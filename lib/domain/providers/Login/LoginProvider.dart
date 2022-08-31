@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:tesis/data/datasource/reference/local_storage.dart';
+import 'package:tesis/data/models/usuarios/usuariosModel.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/entities/usuarios/usuariosEntity.dart';
+import 'package:tesis/domain/uses%20cases/usuarios/usuariosGeneral.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
@@ -8,8 +13,9 @@ enum AuthStatus { checking, authenticated, notAuthenticated }
 class LoginProvider extends ChangeNotifier {
   String _cedula = "";
   AuthStatus authStatus = AuthStatus.checking;
+  final UsuariosGeneral _casosUsosUsuario;
 
-  LoginProvider() {
+  LoginProvider(this._casosUsosUsuario) {
     isAuthenticated();
   }
   String get cedula => _cedula;
@@ -40,15 +46,23 @@ class LoginProvider extends ChangeNotifier {
   /// y quien va  asaber que estas consumiendo los usuarios de mongo db
   /// si pero debo abrir el mongo db y no se usar bien eso
   /// explicame
-  /// https://flutter-web-admin-odontograma.herokuapp.com/api
+  /// https://flutter-web-admin-odontograma.herokuapp.com/api1
 
   Future<void> logeo() async {
     try {
-      authStatus = AuthStatus.authenticated;
-      authenticated = true;
+      if (_cedula != "" && _contrasenia != "") {
+        var temp = await _casosUsosUsuario.getUsuario(_cedula);
 
-      NavigationService.replaceTo(Flurorouter.inicio);
-      notifyListeners();
+        var usuario = temp.getOrElse(() => new UsuariEntity());
+        if (_contrasenia == usuario.contrasenia) {
+          authStatus = AuthStatus.authenticated;
+          authenticated = true;
+          LocalStorage.prefs.setString('token', "asdddsswwee");
+          LocalStorage.prefs.setString('usuario', json.encode(usuario.toMap()));
+          NavigationService.replaceTo(Flurorouter.inicio);
+          notifyListeners();
+        }
+      }
     } catch (e) {}
   }
 
