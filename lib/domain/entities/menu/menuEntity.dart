@@ -10,6 +10,7 @@ class MenuEntity extends Equatable {
     this.nuevo = false,
     this.modificar = false,
     this.anular = false,
+    this.idUsuario = 0,
   });
 
   int id;
@@ -20,6 +21,7 @@ class MenuEntity extends Equatable {
   bool nuevo;
   bool modificar;
   bool anular;
+  int idUsuario;
 
   @override
   // TODO: implement props

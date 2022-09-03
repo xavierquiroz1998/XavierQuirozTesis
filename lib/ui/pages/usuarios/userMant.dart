@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/providers/menu/menuProvider.dart';
+import 'package:tesis/domain/providers/usuarios/usuarioProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class UsuarioMantenimiento extends StatefulWidget {
@@ -21,6 +22,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
   @override
   Widget build(BuildContext context) {
     final menuP = Provider.of<MenuProvider>(context);
+    final usuarioP = Provider.of<UsuarioProvider>(context);
     return Container(
       child: ListView(
         children: [
@@ -32,43 +34,72 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                 Row(
                   children: [
                     Text("Usuario :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: usuarioP.ctrUsuario,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Nombres :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: usuarioP.ctrNombres,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text(" # Identidificacion :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: usuarioP.ctrIdentifiacion,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Domicilio :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: usuarioP.ctrDomicilio,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Correo :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: usuarioP.ctrCorreo,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
                     Text("Celular :"),
-                    Expanded(child: TextFormField()),
+                    Expanded(
+                      child: TextFormField(
+                        controller: usuarioP.ctrCelular,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
                   children: [
-                    Text("Estado :"),
-                    Expanded(child: TextFormField()),
+                    Text("Contraseña :"),
+                    Expanded(
+                      child: TextFormField(
+                        obscureText: true,
+                        controller: usuarioP.ctrContrasenia,
+                      ),
+                    ),
                   ],
                 ),
                 Container(
@@ -128,6 +159,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     children: [
                       TextButton(
                         onPressed: () async {
+                          await usuarioP.guardar(menuP.lisMenu);
                           bool? valor = await showDialog(
                             context: context,
                             builder: (context) {
