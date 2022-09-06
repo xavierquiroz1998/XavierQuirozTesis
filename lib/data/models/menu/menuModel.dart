@@ -13,22 +13,34 @@ class MenuModel extends MenuEntity {
     this.ruta = "",
     this.icono = "",
     this.estado = "",
+    this.nuevo = false,
+    this.modificar = false,
+    this.anular = false,
+    this.idUsuario = 0,
   }) : super(
             id: id,
             descripcion: descripcion,
             ruta: ruta,
             icono: icono,
-            estado: estado);
+            estado: estado,
+            nuevo: nuevo,
+            modificar: modificar,
+            anular: anular,
+            idUsuario: idUsuario);
 
   int id;
   String descripcion;
   String ruta;
   String icono;
   String estado;
+  bool nuevo;
+  bool modificar;
+  bool anular;
+  int idUsuario;
 
   factory MenuModel.fromJson(String str) => MenuModel.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
+  //String toJson() => json.encode(toMap());
 
   factory MenuModel.fromMap(Map<String, dynamic> json) => MenuModel(
         id: json["id"],

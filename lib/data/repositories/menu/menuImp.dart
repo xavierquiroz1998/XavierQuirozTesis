@@ -28,4 +28,14 @@ class MenuImp extends AbstractMenu {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<MenuEntity>>> getMenu_x_usuario(
+      int idUsuario) async {
+    try {
+      return right(await datasource.getMenu_x_usuario(idUsuario));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

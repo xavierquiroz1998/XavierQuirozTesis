@@ -6,4 +6,5 @@ import 'package:tesis/domain/entities/menu/menuEntity.dart';
 abstract class AbstractMenu {
   Future<Either<Failure, List<MenuEntity>>> getAllMenu();
   Future<Either<Failure, MenuEntity>> insertMenu(MenuModel dep);
+  Future<Either<Failure, List<MenuEntity>>> getMenu_x_usuario(int idUsuario);
 }

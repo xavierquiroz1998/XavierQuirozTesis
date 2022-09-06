@@ -7,6 +7,7 @@ import 'package:tesis/domain/entities/menu/menuEntity.dart';
 abstract class MenuDTS {
   Future<List<MenuEntity>> getAllMenu();
   Future<MenuEntity> insertMenu(MenuModel emp);
+  Future<List<MenuEntity>> getMenu_x_usuario(int idUsuario);
 }
 
 class MenuDTSImp extends MenuDTS {
@@ -51,5 +52,21 @@ class MenuDTSImp extends MenuDTS {
   List<MenuModel> decodeMenu(String respuesta) {
     var parseo = jsonDecode(respuesta);
     return parseo.map<MenuModel>((json) => MenuModel.fromMap(json)).toList();
+  }
+
+  @override
+  Future<List<MenuEntity>> getMenu_x_usuario(int idUsuario) async {
+    try {
+      List<MenuModel> tem = [];
+      final result =
+          await cliente.get(Uri.parse("$urlBase/permiso/$idUsuario"));
+      if (result.statusCode == 200) {
+        tem = decodeMenu(utf8.decode(result.bodyBytes));
+      }
+
+      return tem;
+    } catch (e) {
+      return [];
+    }
   }
 }

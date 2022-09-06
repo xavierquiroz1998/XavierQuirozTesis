@@ -16,4 +16,9 @@ class MenuGeneral {
   Future<Either<Failure, MenuEntity>> insertMenu(MenuModel model) async {
     return await repository.insertMenu(model);
   }
+
+  Future<Either<Failure, List<MenuEntity>>> getMenuUsuario(
+      int idUsuario) async {
+    return await repository.getMenu_x_usuario(idUsuario);
+  }
 }

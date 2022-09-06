@@ -25,5 +25,15 @@ class MenuEntity extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id, descripcion, ruta, icono, estado];
+  List<Object?> get props => [
+        id,
+        descripcion,
+        ruta,
+        icono,
+        estado,
+        nuevo,
+        modificar,
+        anular,
+        idUsuario
+      ];
 }

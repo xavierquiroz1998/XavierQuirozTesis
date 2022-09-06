@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tesis/data/models/menu/menuModel.dart';
 import 'package:tesis/data/models/usuarios/usuariosModel.dart';
 import 'package:tesis/domain/entities/menu/menuEntity.dart';
 import 'package:tesis/domain/entities/usuarios/usuariosEntity.dart';
+import 'package:tesis/domain/uses%20cases/menu/menuGeneral.dart';
 import 'package:tesis/domain/uses%20cases/usuarios/usuariosGeneral.dart';
 
 class UsuarioProvider extends ChangeNotifier {
   final UsuariosGeneral _casosUsosUsuario;
+  final MenuGeneral _casosUsosMenu;
 
-  UsuarioProvider(this._casosUsosUsuario);
+  UsuarioProvider(this._casosUsosUsuario, this._casosUsosMenu);
 
   List<UsuariEntity> lisUsuarios = [];
 
@@ -76,7 +79,7 @@ class UsuarioProvider extends ChangeNotifier {
           // guarda permisos del usuario
           lisMenu.forEach((element) {
             element.idUsuario = entity.id;
-            
+            _casosUsosMenu.insertMenu(element as MenuModel);
           });
         }
       } catch (e) {}

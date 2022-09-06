@@ -46,7 +46,7 @@ Future<void> init() async {
   sl.registerFactory(() => MotivosProvider(sl()));
   sl.registerFactory(() => ProductosProvider(sl()));
   sl.registerFactory(() => MenuProvider(sl()));
-  sl.registerFactory(() => UsuarioProvider(sl()));
+  sl.registerFactory(() => UsuarioProvider(sl(), sl()));
 
 // casos de uso
   sl.registerLazySingleton(() => DepartamentosGeneral(sl()));
