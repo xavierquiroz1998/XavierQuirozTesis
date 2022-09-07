@@ -6,18 +6,18 @@ import 'package:tesis/data/models/facturas/facturaModel.dart';
 import 'package:tesis/domain/entities/facturas/facturaEntity.dart';
 
 abstract class FacturaDts {
-  Future<List<FacturaEntity>> getAllPedidos();
-  Future<FacturaEntity> insertPedidos(FacturaModel model);
+  Future<List<FacturaEntity>> getAllFacturas();
+  Future<FacturaEntity> insertFacturas(FacturaModel model);
 }
 
 class FacturaDtsImp extends FacturaDts {
   final http.Client cliente;
   FacturaDtsImp(this.cliente);
 
-  String urlBase = "${UrlBase.url}pedido";
+  String urlBase = "${UrlBase.url}facturas";
 
   @override
-  Future<List<FacturaEntity>> getAllPedidos() async {
+  Future<List<FacturaEntity>> getAllFacturas() async {
     try {
       List<FacturaModel> tem = [];
       final result = await cliente.get(Uri.parse(urlBase));
@@ -32,7 +32,7 @@ class FacturaDtsImp extends FacturaDts {
   }
 
   @override
-  Future<FacturaEntity> insertPedidos(FacturaModel model) async {
+  Future<FacturaEntity> insertFacturas(FacturaModel model) async {
     FacturaModel facturaModel = FacturaModel();
     try {
       var grp = json.encode(model.toMap());

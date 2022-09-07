@@ -11,29 +11,37 @@ import 'package:tesis/data/datasource/tipoPersona/tipoPersonaDts.dart';
 import 'package:tesis/data/datasource/usuarios/usuariosDts.dart';
 import 'package:tesis/data/repositories/departamentoImp.dart';
 import 'package:tesis/data/repositories/empresas/empresasImp.dart';
+import 'package:tesis/data/repositories/facturas/facturaImp.dart';
 import 'package:tesis/data/repositories/menu/menuImp.dart';
 import 'package:tesis/data/repositories/motivos/motivosImp.dart';
+import 'package:tesis/data/repositories/pedidos/pedidoImp.dart';
 import 'package:tesis/data/repositories/productos/productosImo.dart';
 import 'package:tesis/data/repositories/tipoPersonas/tipoPErsonaImp.dart';
 import 'package:tesis/data/repositories/usuarios/usuariosImp.dart';
 import 'package:tesis/domain/providers/Login/LoginProvider.dart';
 import 'package:tesis/domain/providers/departamento/departamentoProvider.dart';
 import 'package:tesis/domain/providers/empresas/empresasProvider.dart';
+import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/domain/providers/menu/menuProvider.dart';
 import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
+import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/domain/providers/usuarios/usuarioProvider.dart';
 import 'package:tesis/domain/repositories/abstractDepartamento.dart';
 import 'package:tesis/domain/repositories/empresas/abtractEmpresas.dart';
+import 'package:tesis/domain/repositories/facturas/abstractFactura.dart';
 import 'package:tesis/domain/repositories/menu/abtractMenu.dart';
 import 'package:tesis/domain/repositories/motivos/abstractMotivos.dart';
+import 'package:tesis/domain/repositories/pedidos/abstractPedido.dart';
 import 'package:tesis/domain/repositories/productos/abstractProductos.dart';
 import 'package:tesis/domain/repositories/tipoPersona/abstractTipoPersonas.dart';
 import 'package:tesis/domain/repositories/usuarios/abstractUsuarios.dart';
 import 'package:tesis/domain/uses%20cases/Departamento/DepartamentoGeneral.dart';
 import 'package:tesis/domain/uses%20cases/empresas/empresasGeneral.dart';
+import 'package:tesis/domain/uses%20cases/factura/facturaGeneral.dart';
 import 'package:tesis/domain/uses%20cases/menu/menuGeneral.dart';
 import 'package:tesis/domain/uses%20cases/motivos/motivosGeneral.dart';
+import 'package:tesis/domain/uses%20cases/pedidos/pedidosGeneral.dart';
 import 'package:tesis/domain/uses%20cases/productos/productosGeneral.dart';
 import 'package:tesis/domain/uses%20cases/tipoPersonas/tipoPersonaGeneral.dart';
 import 'package:tesis/domain/uses%20cases/usuarios/usuariosGeneral.dart';
@@ -48,6 +56,8 @@ Future<void> init() async {
   sl.registerFactory(() => MotivosProvider(sl()));
   sl.registerFactory(() => ProductosProvider(sl()));
   sl.registerFactory(() => MenuProvider(sl()));
+  sl.registerFactory(() => PedidoProvider(sl()));
+  sl.registerFactory(() => FacturaProvider(sl()));
   sl.registerFactory(() => UsuarioProvider(sl(), sl()));
 
 // casos de uso
@@ -58,6 +68,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ProductosGeneral(sl()));
   sl.registerLazySingleton(() => MenuGeneral(sl()));
   sl.registerLazySingleton(() => UsuariosGeneral(sl()));
+  sl.registerLazySingleton(() => PedidosGeneral(sl()));
+  sl.registerLazySingleton(() => FacturaGeneral(sl()));
 
 // repository
   sl.registerLazySingleton<AbstractDepartamento>(() => DepartamentoImp(sl()));
@@ -67,6 +79,8 @@ Future<void> init() async {
   sl.registerLazySingleton<AbstractProductos>(() => ProductosImp(sl()));
   sl.registerLazySingleton<AbstractMenu>(() => MenuImp(sl()));
   sl.registerLazySingleton<AbstractUsuarios>(() => UsuariosImp(sl()));
+  sl.registerLazySingleton<AbstractPedidos>(() => PedidoImp(sl()));
+  sl.registerLazySingleton<AbstractFactura>(() => FacturaImp(sl()));
 
 // datasource
   sl.registerLazySingleton<DepartamentoDTS>(() => DepartamentoDTSImp(sl()));

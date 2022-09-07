@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class OrdenPedidoMantenimiento extends StatefulWidget {
@@ -15,6 +17,7 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
   @override
   Widget build(BuildContext context) {
+    final pedidoP = Provider.of<PedidoProvider>(context);
     return ListView(
       children: [
         WhiteCard(
@@ -36,7 +39,10 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
               Row(
                 children: [
                   const Text("Observacion"),
-                  Expanded(child: TextFormField()),
+                  Expanded(
+                      child: TextFormField(
+                    controller: pedidoP.ctObs,
+                  )),
                 ],
               ),
               Row(

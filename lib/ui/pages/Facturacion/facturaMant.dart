@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class FacturaMantenimiento extends StatefulWidget {
@@ -15,6 +17,7 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
 
   @override
   Widget build(BuildContext context) {
+    final pedidoP = Provider.of<FacturaProvider>(context);
     return ListView(
       children: [
         WhiteCard(
@@ -36,7 +39,11 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
               Row(
                 children: [
                   const Text("Observacion"),
-                  Expanded(child: TextFormField()),
+                  Expanded(
+                    child: TextFormField(
+                      controller: pedidoP.ctObs,
+                    ),
+                  ),
                 ],
               ),
               Row(

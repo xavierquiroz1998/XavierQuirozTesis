@@ -7,14 +7,14 @@ import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 
 abstract class PedidosDts {
   Future<List<PedidoEntity>> getAllPedidos();
-  Future<PedidoEntity> insertPedidos(PedidoModel model);
+  Future<PedidoEntity> insertPedidos(PedidoEntity entity);
 }
 
 class PedidosDtsImp extends PedidosDts {
   final http.Client cliente;
   PedidosDtsImp(this.cliente);
 
-  String urlBase = "${UrlBase.url}pedido";
+  String urlBase = "${UrlBase.url}pedidos";
 
   @override
   Future<List<PedidoEntity>> getAllPedidos() async {
@@ -32,9 +32,10 @@ class PedidosDtsImp extends PedidosDts {
   }
 
   @override
-  Future<PedidoEntity> insertPedidos(PedidoModel model) async {
+  Future<PedidoEntity> insertPedidos(PedidoEntity entity) async {
     PedidoModel pedido = PedidoModel();
     try {
+      PedidoModel model = entity as PedidoModel;
       var grp = json.encode(model.toMap());
 
       final result = await cliente.post(Uri.parse(urlBase),

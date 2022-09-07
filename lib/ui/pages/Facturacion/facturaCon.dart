@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
+import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -12,7 +14,17 @@ class FacturaConsulta extends StatefulWidget {
 
 class _FacturaConsultaState extends State<FacturaConsulta> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    final pedidoP = Provider.of<FacturaProvider>(context, listen: false);
+    pedidoP.getFactura();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final pedidoP = Provider.of<FacturaProvider>(context);
     return ListView(
       children: [
         WhiteCard(
@@ -52,27 +64,29 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                       label: Center(child: Text("Estado")),
                     ),
                   ],
-                  rows: const [
-                    DataRow(
-                      cells: [
-                        DataCell(
-                          Text(""),
+                  rows: pedidoP.list
+                      .map(
+                        (e) => DataRow(
+                          cells: [
+                            DataCell(
+                              Text(e.id.toString()),
+                            ),
+                             DataCell(
+                              Text(e.idCliente.toString()),
+                            ),
+                             DataCell(
+                              Text(e.fecha.toString()),
+                            ),
+                            DataCell(
+                              Text("falta"),
+                            ),
+                            DataCell(
+                              Text(e.estado),
+                            ),
+                          ],
                         ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                      ],
-                    ),
-                  ],
+                      )
+                      .toList(),
                 ),
               )
             ],
