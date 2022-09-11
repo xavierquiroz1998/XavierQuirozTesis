@@ -9,6 +9,7 @@ import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/domain/providers/menu/menuProvider.dart';
 import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
+import 'package:tesis/domain/providers/personas/personasProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/domain/providers/usuarios/usuarioProvider.dart';
 import 'package:tesis/injection.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => sl<FacturaProvider>()),
         ChangeNotifierProvider(create: (_) => sl<PedidoProvider>()),
         ChangeNotifierProvider(create: (_) => sl<UsuarioProvider>()),
+        ChangeNotifierProvider(create: (_) => sl<PersonasProvider>()),
       ],
       child: MaterialApp(
         title: 'IT-MAS',

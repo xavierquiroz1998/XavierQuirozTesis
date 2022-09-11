@@ -1,5 +1,6 @@
 import 'package:tesis/core/Errors/exceptions.dart';
 import 'package:tesis/data/datasource/pedidos/pedidosDts.dart';
+import 'package:tesis/domain/entities/pedidos/pedidosDetEntity.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 import 'package:tesis/data/models/pedidos/pedidoModel.dart';
 import 'package:tesis/core/Errors/failure.dart';
@@ -20,9 +21,28 @@ class PedidoImp extends AbstractPedidos {
   }
 
   @override
-  Future<Either<Failure, PedidoEntity>> insertPedidos(PedidoEntity model) async {
+  Future<Either<Failure, PedidoEntity>> insertPedidos(PedidoModel model) async {
     try {
       return right(await datasource.insertPedidos(model));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PedidoEntity>> anularPedidos(PedidoModel model) async {
+    try {
+      return right(await datasource.anularPedidos(model));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PedidoDetEntity>>> getPedidosById(
+      int idPedido) async {
+    try {
+      return right(await datasource.getPedidosById(idPedido));
     } on ServerException {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
