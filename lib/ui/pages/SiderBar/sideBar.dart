@@ -156,22 +156,10 @@ class _SideBarState extends State<SideBar> {
                         Flurorouter.usuariosMantenimiento,
           ),
           MenuItemP(
-            text: 'Permisos por Usuario',
-            icon: Icons.home,
-            onPressed: () => null,
-            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
-          ),
-          MenuItemP(
             text: 'Reporteria',
             icon: Icons.home,
             onPressed: () => null,
             // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
-          ),
-          MenuItemP(
-            text: 'Dashboard',
-            icon: Icons.home,
-            onPressed: () => null,
-            //isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
           ),
 
           MenuItemP(

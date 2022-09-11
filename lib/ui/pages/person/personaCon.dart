@@ -49,10 +49,10 @@ class _PersonaConsultaState extends State<PersonaConsulta> {
                 child: DataTable(
                   columns: const [
                     DataColumn(
-                      label: Center(child: Text("Nombre")),
+                      label: Center(child: Text("Nombres")),
                     ),
                     DataColumn(
-                      label: Center(child: Text("Direccion")),
+                      label: Center(child: Text("Dirección")),
                     ),
                     DataColumn(
                       label: Center(child: Text("Celular")),
@@ -95,7 +95,9 @@ class _PersonaConsultaState extends State<PersonaConsulta> {
                                   ),
                                   TextButton.icon(
                                     onPressed: () {
-                                      prov.anular(e);
+                                      if (e.estado == "A") {
+                                        prov.anular(e);
+                                      }
                                     },
                                     icon: Icon(
                                       Icons.delete,

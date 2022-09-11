@@ -61,10 +61,10 @@ Future<void> init() async {
   sl.registerFactory(() => MotivosProvider(sl()));
   sl.registerFactory(() => ProductosProvider(sl()));
   sl.registerFactory(() => MenuProvider(sl()));
-  sl.registerFactory(() => PedidoProvider(sl(), sl()));
-  sl.registerFactory(() => FacturaProvider(sl()));
+  sl.registerFactory(() => PedidoProvider(sl(), sl(), sl()));
+  sl.registerFactory(() => FacturaProvider(sl(), sl(), sl(), sl()));
   sl.registerFactory(() => UsuarioProvider(sl(), sl()));
-  sl.registerFactory(() => PersonasProvider(sl(), sl()));
+  sl.registerFactory(() => PersonasProvider(sl(), sl(), sl(), sl()));
 
 // casos de uso
   sl.registerLazySingleton(() => DepartamentosGeneral(sl()));

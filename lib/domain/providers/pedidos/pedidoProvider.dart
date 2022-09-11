@@ -2,20 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:tesis/data/models/pedidos/pedidoModel.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosDetEntity.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
+import 'package:tesis/domain/entities/personas/personasEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/uses%20cases/pedidos/pedidosGeneral.dart';
+import 'package:tesis/domain/uses%20cases/personas/personasGeneral.dart';
 import 'package:tesis/domain/uses%20cases/productos/productosGeneral.dart';
 import 'package:universal_html/html.dart';
 
 class PedidoProvider extends ChangeNotifier {
   final PedidosGeneral _cososUsos;
   final ProductosGeneral _casosUsesProductos;
-  PedidoProvider(this._cososUsos, this._casosUsesProductos);
+  final PersonasGeneral _casosdeUsoPersona;
+
+  PedidoProvider(
+      this._cososUsos, this._casosUsesProductos, this._casosdeUsoPersona);
+
   TextEditingController ctObs = TextEditingController();
   List<PedidoEntity> list = [];
   List<ProductosEntity> listProducto = [];
-
+  List<PersonaEntity> listPersonas = [];
   List<PedidoDetEntity> listdetalle = [];
+
+  int idPersona = 0;
+  PersonaEntity personaSelect = PersonaEntity();
 
   Future getPedidos() async {
     try {
@@ -32,6 +41,19 @@ class PedidoProvider extends ChangeNotifier {
       var temp = await _casosUsesProductos.getAll();
       listProducto = temp.getOrElse(() => []);
 
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getPersonas() async {
+    try {
+      var temp = await _casosdeUsoPersona.getAllPersonas();
+      listPersonas = temp.getOrElse(() => []);
+      // tipo 3 proveedor
+      listPersonas =
+          listPersonas.where((element) => element.tipo == 3).toList();
       notifyListeners();
     } catch (e) {
       print(e.toString());
@@ -84,7 +106,7 @@ class PedidoProvider extends ChangeNotifier {
   Future<bool> insertPedidos() async {
     try {
       PedidoModel model = PedidoModel();
-      model.idCliente = 0;
+      model.idCliente = idPersona;
       model.estado = "A";
       model.observacion = ctObs.text;
       model.fecha = DateTime.now();

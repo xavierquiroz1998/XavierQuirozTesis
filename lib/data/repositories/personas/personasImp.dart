@@ -28,4 +28,14 @@ class PersonasImp extends AbstractPersonas {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, PersonaEntity>> anularPersonas(
+      PersonaModel model) async {
+    try {
+      return right(await datasource.anularPersonas(model));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

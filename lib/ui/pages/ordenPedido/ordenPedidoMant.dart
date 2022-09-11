@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis/domain/entities/personas/personasEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
@@ -48,10 +49,33 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                 children: [
                   const Text("Cliente"),
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(),
-                  )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<PersonaEntity>(
+                        onChanged: (value) async {
+                          pedidoP.idPersona = value!.id;
+                          pedidoP.personaSelect = value;
+                          setState(() {});
+                        },
+                        items: pedidoP.listPersonas.map((item) {
+                          return DropdownMenuItem<PersonaEntity>(
+                            value: item,
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  item.nombres,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                )),
+                          );
+                        }).toList(),
+                        hint: Text(pedidoP.idPersona != 0
+                            ? pedidoP.personaSelect.nombres
+                            : "Seleccione Proveedor"),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Row(
