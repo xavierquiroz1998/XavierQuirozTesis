@@ -6,4 +6,5 @@ import 'package:tesis/domain/entities/facturas/facturaEntity.dart';
 abstract class AbstractFactura {
   Future<Either<Failure, List<FacturaEntity>>> getAllFactura();
   Future<Either<Failure, FacturaEntity>> insertFactura(FacturaModel model);
+  Future<Either<Failure, FacturaEntity>> anularFactura(FacturaModel model);
 }

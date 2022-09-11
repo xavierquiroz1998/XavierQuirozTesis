@@ -42,6 +42,7 @@ class UsuarioProvider extends ChangeNotifier {
     ctrCorreo = TextEditingController();
     ctrCelular = TextEditingController();
     ctrContrasenia = TextEditingController();
+    entity = UsuariEntity();
   }
 
   void setUsuario() {
@@ -54,6 +55,25 @@ class UsuarioProvider extends ChangeNotifier {
       ctrCelular = TextEditingController(text: entity.celular);
       ctrContrasenia = TextEditingController(text: entity.contrasenia);
     } catch (e) {}
+  }
+
+  Future anular(UsuariEntity uss) async {
+    try {
+      UsuarioModel usua = UsuarioModel();
+      usua.id = uss.id;
+
+      var result = await _casosUsosUsuario.anularUsuarios(usua);
+      try {
+        var entity = result.getOrElse(() => UsuariEntity());
+        if (entity.id != 0) {
+          await getUsuarios();
+        }
+      } catch (e) {
+        print("${e.toString()} flujo secundario");
+      }
+    } catch (e) {
+      print("${e.toString()} flujo principal");
+    }
   }
 
   Future guardar(List<MenuEntity> lisMenu) async {

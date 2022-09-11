@@ -9,9 +9,14 @@ class FacturaGeneral {
   FacturaGeneral(this.repository);
 
   Future<Either<Failure, List<FacturaEntity>>> getAllFactura() {
-        return repository.getAllFactura();
+    return repository.getAllFactura();
   }
+
   Future<Either<Failure, FacturaEntity>> insertFactura(FacturaModel model) {
     return repository.insertFactura(model);
+  }
+
+  Future<Either<Failure, FacturaEntity>> anularFactura(FacturaModel model) {
+    return repository.anularFactura(model);
   }
 }

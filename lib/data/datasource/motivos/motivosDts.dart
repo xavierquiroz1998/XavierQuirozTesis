@@ -7,6 +7,7 @@ import 'package:tesis/domain/entities/motivos/motivosEntity.dart';
 abstract class MotivosDTS {
   Future<List<MotivosEntity>> getAllMotivos();
   Future<MotivosEntity> insertMotivos(MotivosModel mtv);
+  Future<MotivosEntity> anularMotivos(MotivosModel mtv);
 }
 
 class MotivosDTSImp extends MotivosDTS {
@@ -53,5 +54,23 @@ class MotivosDTSImp extends MotivosDTS {
     return parseo
         .map<MotivosModel>((json) => MotivosModel.fromMap(json))
         .toList();
+  }
+
+  @override
+  Future<MotivosEntity> anularMotivos(MotivosModel mtv) async {
+    MotivosModel departamento = MotivosModel();
+    try {
+      var grp = json.encode(mtv.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/anular"),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return MotivosModel.fromMap(json.decode(result.body));
+      }
+
+      return departamento;
+    } catch (e) {
+      return departamento;
+    }
   }
 }

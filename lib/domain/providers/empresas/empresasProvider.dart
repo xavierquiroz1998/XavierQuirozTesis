@@ -20,6 +20,21 @@ class EmpresasProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
+  Future anular(EmpresasEntity e) async {
+    try {
+      EmpresasModel model = EmpresasModel();
+      model.id = e.id;
+
+      var result = await _usesCasesEmpresa.anularEmpresas(model);
+      try {
+        var entity = result.getOrElse(() => EmpresasEntity());
+        if (entidad.id != 0) {
+          await cargarEmpresas();
+        }
+      } catch (e) {}
+    } catch (e) {}
+  }
+
   void limpiar() {
     try {
       entidad = EmpresasEntity();
@@ -28,7 +43,7 @@ class EmpresasProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
-  void cargarEmpresas() async {
+  Future cargarEmpresas() async {
     try {
       var temp = await _usesCasesEmpresa.getAllEmpresas();
       listEmpresas = temp.getOrElse(() => []);

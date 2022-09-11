@@ -102,7 +102,11 @@ class _UsuarioConsultaState extends State<UsuarioConsulta> {
                                       ),
                                       label: Text("")),
                                   TextButton.icon(
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        if (e.estado == "A") {
+                                          tempUS.anular(e);
+                                        }
+                                      },
                                       icon: Icon(
                                         Icons.delete_rounded,
                                         color: Colors.red,

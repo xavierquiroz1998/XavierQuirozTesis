@@ -28,4 +28,14 @@ class FacturaImp extends AbstractFactura {
       return left(ServerFailure(mensaje: "Error al insertar Factura"));
     }
   }
+
+  @override
+  Future<Either<Failure, FacturaEntity>> anularFactura(
+      FacturaModel model) async {
+    try {
+      return right(await datasource.anularFacturas(model));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al insertar Factura"));
+    }
+  }
 }

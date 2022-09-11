@@ -37,4 +37,13 @@ class UsuariosImp extends AbstractUsuarios {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, UsuariEntity>> anularUsuarios(UsuarioModel uss) async {
+    try {
+      return right(await datasource.anularUsuarios(uss));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

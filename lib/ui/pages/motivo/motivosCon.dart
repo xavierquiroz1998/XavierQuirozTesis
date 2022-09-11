@@ -72,36 +72,42 @@ class _MotivosConsultaState extends State<MotivosConsulta> {
                       DataCell(
                         Text("${e.estado}"),
                       ),
-                      DataCell(Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: TextButton.icon(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.blue,
+                      DataCell(
+                        Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: TextButton.icon(
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  motivoProv.entidad = e;
+                                  NavigationService.navigateTo(
+                                      Flurorouter.motivoMantenimiento);
+                                },
+                                label: Text(''),
                               ),
-                              onPressed: () {
-                                motivoProv.entidad = e;
-                                NavigationService.navigateTo(
-                                    Flurorouter.motivoMantenimiento);
-                              },
-                              label: Text(''),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            child: TextButton.icon(
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
+                            Padding(
+                              padding: EdgeInsets.only(left: 5, right: 5),
+                              child: TextButton.icon(
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                onPressed: () async {
+                                  if (e.estado == "A") {
+                                    await motivoProv.anular(e);
+                                  }
+                                },
+                                label: Text(''),
                               ),
-                              onPressed: () {},
-                              label: Text(''),
                             ),
-                          ),
-                        ],
-                      )),
+                          ],
+                        ),
+                      ),
                     ]);
                   }).toList(),
                 ),

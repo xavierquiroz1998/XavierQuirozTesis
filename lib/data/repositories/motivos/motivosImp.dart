@@ -27,4 +27,13 @@ class MotivosImp extends AbstractMotivos {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, MotivosEntity>> anularMotivos(MotivosModel mtv) async {
+    try {
+      return right(await datasource.anularMotivos(mtv));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

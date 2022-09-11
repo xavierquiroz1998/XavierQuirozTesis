@@ -13,7 +13,7 @@ class EmpresasImp extends AbstractEmpresas {
 
   @override
   Future<Either<Failure, List<EmpresasEntity>>> getAllEmpresas() async {
-     try {
+    try {
       return right(await datasource.getAllEmpresa());
     } on ServerException {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
@@ -22,11 +22,21 @@ class EmpresasImp extends AbstractEmpresas {
 
   @override
   Future<Either<Failure, EmpresasEntity>> insertEmpresas(
-      EmpresasModel emp) async{
-         try {
+      EmpresasModel emp) async {
+    try {
       return right(await datasource.insertEmpresas(emp));
     } on ServerException {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
-      }
+  }
+
+  @override
+  Future<Either<Failure, EmpresasEntity>> anularEmpresas(
+      EmpresasModel emp) async {
+    try {
+      return right(await datasource.anularEmpresas(emp));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

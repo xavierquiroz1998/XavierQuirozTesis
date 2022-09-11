@@ -8,6 +8,7 @@ import 'package:tesis/domain/entities/productos/productosEntity.dart';
 abstract class ProductosDTS {
   Future<List<ProductosEntity>> getAllProductos();
   Future<ProductosEntity> insertProductos(ProductosModel prd);
+  Future<ProductosEntity> anularProductos(ProductosModel prd);
 }
 
 class ProductoDTSImp extends ProductosDTS {
@@ -45,6 +46,24 @@ class ProductoDTSImp extends ProductosDTS {
       var grp = json.encode(prd.toMap());
 
       final result = await cliente.post(Uri.parse(urlBase),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return ProductosModel.fromMap(json.decode(result.body));
+      }
+
+      return producto;
+    } catch (e) {
+      return producto;
+    }
+  }
+
+  @override
+  Future<ProductosEntity> anularProductos(ProductosModel prd) async {
+    ProductosModel producto = ProductosModel();
+    try {
+      var grp = json.encode(prd.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/anular"),
           body: grp, headers: {"Content-type": "application/json"});
       if (result.statusCode == 200) {
         return ProductosModel.fromMap(json.decode(result.body));

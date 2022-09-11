@@ -89,16 +89,6 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                 ),
                 Row(
                   children: [
-                    Text("Estado :"),
-                    Expanded(
-                      child: TextFormField(
-                        controller: pvProducto.ctrEstado,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
                     Text("Unidad :"),
                     Expanded(
                       child: TextFormField(

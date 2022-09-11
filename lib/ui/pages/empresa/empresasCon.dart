@@ -98,7 +98,11 @@ class _EmpresasConsultaState extends State<EmpresasConsulta> {
                                     Icons.delete,
                                     color: Colors.red,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    if (e.estado == "A") {
+                                      await empProvider.anular(e);
+                                    }
+                                  },
                                   label: Text(''),
                                 ),
                               ),

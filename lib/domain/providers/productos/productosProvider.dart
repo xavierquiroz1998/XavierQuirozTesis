@@ -19,20 +19,45 @@ class ProductosProvider extends ChangeNotifier {
   TextEditingController ctrEstado = TextEditingController();
   TextEditingController ctrUnidad = TextEditingController();
 
-setProvider(){
-  ctrCodigo = TextEditingController();
-  ctrNombre = TextEditingController();
-  ctrdescripcion = TextEditingController();
-  ctrStock = TextEditingController();
-  ctrCosto = TextEditingController();
-  ctrPrecio = TextEditingController();
-  ctrEstado = TextEditingController();
-  ctrUnidad = TextEditingController();
+  setProvider() {
+    ctrCodigo = TextEditingController();
+    ctrNombre = TextEditingController();
+    ctrdescripcion = TextEditingController();
+    ctrStock = TextEditingController();
+    ctrCosto = TextEditingController();
+    ctrPrecio = TextEditingController();
+    ctrEstado = TextEditingController();
+    ctrUnidad = TextEditingController();
+  }
 
-}
+  setProductos(ProductosEntity entity) {
+    ctrCodigo = TextEditingController(text: entity.codigo);
+    ctrNombre = TextEditingController(text: entity.nombre);
+    ctrdescripcion = TextEditingController(text: entity.descripcion);
+    ctrStock = TextEditingController(text: entity.stock.toString());
+    ctrCosto =
+        TextEditingController(text: entity.costo.toStringAsExponential());
+    ctrPrecio = TextEditingController(text: entity.precio.toString());
+    //ctrEstado = TextEditingController(text: entity.estado);
+    ctrUnidad = TextEditingController(text: entity.usuario);
+  }
 
+  Future anular(ProductosEntity entity) async {
+    try {
+      ProductosModel model = ProductosModel();
+      model.id = entity.id;
 
-
+      var result = await _casosUsesProductos.anularProducto(model);
+      try {
+        var enti = result.getOrElse(() => ProductosEntity());
+        if (enti.id != 0) {
+          await getProductos();
+        }
+      } catch (e) {}
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   Future getProductos() async {
     try {
@@ -52,7 +77,7 @@ setProvider(){
       prd.stock = int.parse(ctrStock.text);
       prd.costo = double.parse(ctrCosto.text);
       prd.precio = double.parse(ctrPrecio.text);
-      prd.estado = ctrEstado.text;
+      prd.estado = "A";
       prd.unidad = int.parse(ctrUnidad.text);
       prd.fecha = DateTime.now();
       var temp = await _casosUsesProductos.insertProducto(prd);

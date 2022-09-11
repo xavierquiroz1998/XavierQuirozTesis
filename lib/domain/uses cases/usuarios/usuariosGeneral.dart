@@ -16,6 +16,10 @@ class UsuariosGeneral {
     return repository.insertUsuarios(uss);
   }
 
+  Future<Either<Failure, UsuariEntity>> anularUsuarios(UsuarioModel uss) {
+    return repository.anularUsuarios(uss);
+  }
+
   Future<Either<Failure, UsuariEntity>> getUsuario(String usuario) {
     return repository.getUsuario(usuario);
   }

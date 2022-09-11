@@ -16,4 +16,9 @@ class DepartamentosGeneral {
       ModelDepartamento dep) async {
     return repository.insertDep(dep);
   }
+
+  Future<Either<Failure, DepartamentosEntity>> anularDepartamento(
+      ModelDepartamento dep) async {
+    return repository.anularDep(dep);
+  }
 }

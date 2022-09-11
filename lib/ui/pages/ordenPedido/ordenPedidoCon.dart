@@ -16,7 +16,6 @@ class OrdenPedidoConsulta extends StatefulWidget {
 class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     final pedidoP = Provider.of<PedidoProvider>(context, listen: false);

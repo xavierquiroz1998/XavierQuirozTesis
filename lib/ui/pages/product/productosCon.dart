@@ -85,7 +85,11 @@ class _ProductosConsultaState extends State<ProductosConsulta> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5, right: 5),
                               child: TextButton.icon(
-                                onPressed: () {},
+                                onPressed: () {
+                                  productProvider.setProductos(e);
+                                  NavigationService.navigateTo(
+                                      Flurorouter.productoMantenimiento);
+                                },
                                 icon: Icon(
                                   Icons.edit,
                                   color: Colors.blue,
@@ -96,7 +100,11 @@ class _ProductosConsultaState extends State<ProductosConsulta> {
                             Padding(
                               padding: const EdgeInsets.only(top: 5, right: 5),
                               child: TextButton.icon(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  if (e.estado == "A") {
+                                    await productProvider.anular(e);
+                                  }
+                                },
                                 icon: Icon(
                                   Icons.delete,
                                   color: Colors.red,

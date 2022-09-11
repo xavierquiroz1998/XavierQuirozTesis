@@ -8,6 +8,7 @@ import 'package:tesis/domain/entities/usuarios/usuariosEntity.dart';
 abstract class UsuarioDTS {
   Future<List<UsuariEntity>> getAllUsuarios();
   Future<UsuariEntity> insertUsuarios(UsuarioModel us);
+  Future<UsuariEntity> anularUsuarios(UsuarioModel us);
   Future<UsuariEntity> getUsuario(String usuario);
 }
 
@@ -70,5 +71,22 @@ class UsuarioDTSImp extends UsuarioDTS {
     return parseo
         .map<UsuarioModel>((json) => UsuarioModel.fromMap(json))
         .toList();
+  }
+
+  @override
+  Future<UsuariEntity> anularUsuarios(UsuarioModel us) async {
+    UsuarioModel usuario = UsuarioModel();
+    try {
+      var grp = json.encode(us.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/anular"),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return UsuarioModel.fromMap(json.decode(result.body));
+      }
+      return usuario;
+    } catch (e) {
+      return usuario;
+    }
   }
 }

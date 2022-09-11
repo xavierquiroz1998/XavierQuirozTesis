@@ -16,4 +16,9 @@ class EmpresasGeneral {
       EmpresasModel emp) async {
     return repository.insertEmpresas(emp);
   }
+
+  Future<Either<Failure, EmpresasEntity>> anularEmpresas(
+      EmpresasModel emp) async {
+    return repository.anularEmpresas(emp);
+  }
 }

@@ -15,4 +15,8 @@ class MotivosGeneral {
   Future<Either<Failure, MotivosEntity>> insertMotivos(MotivosModel mtv) async {
     return repository.insertMotivos(mtv);
   }
+
+  Future<Either<Failure, MotivosEntity>> anularMotivos(MotivosModel mtv) async {
+    return repository.anularMotivos(mtv);
+  }
 }
