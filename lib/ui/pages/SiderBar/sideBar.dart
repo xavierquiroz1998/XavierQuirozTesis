@@ -158,8 +158,9 @@ class _SideBarState extends State<SideBar> {
           MenuItemP(
             text: 'Reporteria',
             icon: Icons.home,
-            onPressed: () => null,
-            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.reporteria),
+            isActive: sideMenuProvider.currentPage == Flurorouter.reporteria,
           ),
 
           MenuItemP(

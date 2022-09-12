@@ -6,6 +6,7 @@ import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/404/noFound.dart';
 import 'package:tesis/ui/pages/Facturacion/facturaCon.dart';
 import 'package:tesis/ui/pages/Facturacion/facturaMant.dart';
+import 'package:tesis/ui/pages/Report/tiposReport.dart';
 import 'package:tesis/ui/pages/departamento/departamentosCon.dart';
 import 'package:tesis/ui/pages/departamento/departamentosMant.dart';
 import 'package:tesis/ui/pages/empresa/empresasCon.dart';
@@ -214,6 +215,17 @@ class Handlers {
         .setCurrentPageUrl(Flurorouter.facturaMantenimiento);
     if (logeo.authStatus == AuthStatus.authenticated) {
       return const FacturaMantenimiento();
+    } else {
+      return const LoginView();
+    }
+  });
+
+  static Handler reporteria = Handler(handlerFunc: (context, param) {
+    final logeo = Provider.of<LoginProvider>(context!);
+    Provider.of<SideMenuProvider>(context, listen: false)
+        .setCurrentPageUrl(Flurorouter.reporteria);
+    if (logeo.authStatus == AuthStatus.authenticated) {
+      return const TiposReport();
     } else {
       return const LoginView();
     }

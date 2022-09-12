@@ -188,20 +188,29 @@ class PedidoProvider extends ChangeNotifier {
 
   Future getPedidosDashboard() async {
     try {
-      listDash = [];
+      var fechaActual = DateTime.now();
+      var inicioMes = DateTime.utc(fechaActual.year, fechaActual.month, 1);
+      var finMes = DateTime.utc(fechaActual.year, fechaActual.month + 1, 1);
+      listDash = await getReport1(inicioMes, finMes);
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<List<PedidoEntity>> getReport1(DateTime inicio, DateTime fin) async {
+    try {
+      List<PedidoEntity> listResult = [];
       var temp = await _cososUsos.getAllPedidos();
       var listado = temp.getOrElse(() => []);
       if (listado.length != 0) {
         await getPersonas();
       }
-      var fechaActual = DateTime.now();
-      var inicioMes = DateTime.utc(fechaActual.year, fechaActual.month, 1);
-      var finMes = DateTime.utc(fechaActual.year, fechaActual.month + 1, 1);
-      int diffDays = inicioMes.difference(finMes).inDays;
+
       listado = listado
           .where((e) =>
-              e.fecha!.difference(inicioMes).inDays > 0 &&
-              e.fecha!.difference(finMes).inDays > -30 &&
+              e.fecha!.difference(inicio).inDays > 0 &&
+              e.fecha!.difference(fin).inDays > -30 &&
               e.estado == "A")
           .toList();
       for (var element in listado) {
@@ -213,7 +222,7 @@ class PedidoProvider extends ChangeNotifier {
         element.listdetalle = result.getOrElse(() => []);
       }
 
-      if (listado.length != 0) {
+      if (listado.isNotEmpty) {
         var asd = listado.groupListsBy(
           (e) => e.idCliente,
         );
@@ -222,23 +231,24 @@ class PedidoProvider extends ChangeNotifier {
           PedidoEntity t = PedidoEntity();
           t.idCliente = item.key;
           for (var cabe in item.value) {
+            t.fecha = cabe.fecha;
             for (var det in cabe.listdetalle) {
+              t.cantidad += det.cantidad;
               t.total += det.cantidad * det.precio;
             }
           }
           t.total = double.parse(t.total.toStringAsFixed(2));
-          listDash.add(t);
+          listResult.add(t);
         }
 
-        for (var element in listDash) {
+        for (var element in listResult) {
           element.nomUsuario =
               listPersonas.firstWhere((e) => e.id == element.idCliente).nombres;
         }
-
-        notifyListeners();
       }
+      return listResult;
     } catch (e) {
-      print(e.toString());
+      return [];
     }
   }
 }

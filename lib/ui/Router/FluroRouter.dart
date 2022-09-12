@@ -31,6 +31,8 @@ class Flurorouter {
   static String facturaConsulta = "/facturas";
   static String facturaMantenimiento = "/factura";
 
+  static String reporteria = "/reportes";
+
   static void configureRoutes() {
     router.define(login,
         handler: Handlers.login, transitionType: TransitionType.fadeIn);
@@ -96,6 +98,9 @@ class Flurorouter {
     router.define(facturaConsulta,
         handler: Handlers.facturaConsulta,
         transitionType: TransitionType.fadeIn);
+
+    router.define(reporteria,
+        handler: Handlers.reporteria, transitionType: TransitionType.fadeIn);
 
     router.define(facturaMantenimiento,
         handler: Handlers.facturaMantenimiento,

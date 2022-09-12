@@ -21,6 +21,7 @@ class PedidoEntity extends Equatable {
   int idUsuario;
   String nomUsuario;
   double total;
+  double cantidad = 0;
   List<PedidoDetEntity> listdetalle = [];
 
   @override
