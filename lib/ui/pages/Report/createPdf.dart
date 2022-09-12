@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:darq/darq.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
@@ -8,6 +9,7 @@ import 'package:tesis/ui/pages/Report/pdfApi.dart';
 
 class PdfInvoiceApi {
   static formatPrice(double price) => '\$ ${price.toStringAsFixed(2)}';
+  static DateFormat formatter = DateFormat('dd/MM/yyyy');
 
   static Future generate(PedidoEntity invoice, String codRef) async {
     final pdf = Document();
@@ -47,8 +49,7 @@ class PdfInvoiceApi {
     return pdf.save();
   }
 
-  static Future generateReport1(
-      List<PedidoEntity> invoice) async {
+  static Future generateReport1(List<PedidoEntity> invoice) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -151,10 +152,10 @@ class PdfInvoiceApi {
       //final total = item.unitPrice * item.quantity * (1 + item.vat);
 
       return [
-        item.fecha,
+        formatter.format(item.fecha!),
         //'${item.lote}',
         ' ${item.nomUsuario}',
-        '\$ ${item.cantidad.toStringAsFixed(2)} ',
+        ' ${item.cantidad} ',
         '\$ ${item.total.toStringAsFixed(2)}',
       ];
     }).toList();

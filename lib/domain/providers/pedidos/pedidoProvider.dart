@@ -191,14 +191,15 @@ class PedidoProvider extends ChangeNotifier {
       var fechaActual = DateTime.now();
       var inicioMes = DateTime.utc(fechaActual.year, fechaActual.month, 1);
       var finMes = DateTime.utc(fechaActual.year, fechaActual.month + 1, 1);
-      listDash = await getReport1(inicioMes, finMes);
+      listDash = await getReport1(inicioMes, finMes, false);
       notifyListeners();
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future<List<PedidoEntity>> getReport1(DateTime inicio, DateTime fin) async {
+  Future<List<PedidoEntity>> getReport1(DateTime inicio, DateTime fin,
+      [bool anulados = true]) async {
     try {
       List<PedidoEntity> listResult = [];
       var temp = await _cososUsos.getAllPedidos();
@@ -207,12 +208,21 @@ class PedidoProvider extends ChangeNotifier {
         await getPersonas();
       }
 
-      listado = listado
-          .where((e) =>
-              e.fecha!.difference(inicio).inDays > 0 &&
-              e.fecha!.difference(fin).inDays > -30 &&
-              e.estado == "A")
-          .toList();
+      if (!anulados) {
+        listado = listado
+            .where((e) =>
+                e.fecha!.difference(inicio).inDays > 0 &&
+                e.fecha!.difference(fin).inDays > -30 &&
+                e.estado == "A")
+            .toList();
+      } else {
+        listado = listado
+            .where((e) =>
+                e.fecha!.difference(inicio).inDays <= -1 &&
+                e.fecha!.difference(fin).inDays <= -1)
+            .toList();
+      }
+
       for (var element in listado) {
         // for (var element in listado) {
         //   var diasInicio = element.fecha!.difference(inicioMes).inDays;

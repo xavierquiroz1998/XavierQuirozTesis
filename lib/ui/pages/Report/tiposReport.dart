@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
@@ -18,7 +15,9 @@ class TiposReport extends StatefulWidget {
 class _TiposReportState extends State<TiposReport> {
   DateTime fechaInicio = new DateTime.now();
   DateTime fechafin = new DateTime.now();
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('dd/MM/yyyy');
+
+  bool incluirAnulas = false;
 
   Future<Null> _selectDateInicio(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -26,7 +25,7 @@ class _TiposReportState extends State<TiposReport> {
         initialDate: fechaInicio,
         initialDatePickerMode: DatePickerMode.day,
         firstDate: DateTime(2015),
-        lastDate: DateTime(2101));
+        lastDate: fechaInicio);
     if (picked != null) {
       setState(() {
         fechaInicio = picked;
@@ -39,8 +38,8 @@ class _TiposReportState extends State<TiposReport> {
         context: context,
         initialDate: fechafin,
         initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime(2015),
-        lastDate: DateTime(2101));
+        firstDate: fechaInicio,
+        lastDate: fechafin);
     if (picked != null) {
       setState(() {
         fechafin = picked;
@@ -50,36 +49,77 @@ class _TiposReportState extends State<TiposReport> {
 
   @override
   Widget build(BuildContext context) {
-       final pedidoP = Provider.of<PedidoProvider>(context);
+    final pedidoP = Provider.of<PedidoProvider>(context);
     return WhiteCard(
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Reporte 1"),
-              GestureDetector(
-                onTap: () {
-                  _selectDateInicio(context);
-                },
-                child: Container(
-                  child: Text("${formatter.format(fechaInicio)}"),
-                ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black,
+                width: 1.0,
               ),
-              GestureDetector(
-                onTap: () {
-                  _selectDateFin(context);
-                },
-                child: Container(
-                  child: Text("${formatter.format(fechaInicio)}"),
-                ),
+              borderRadius: BorderRadius.circular(10),
+              //color: Colors.green,
+            ),
+            height: 50,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Reporte 1"),
+                  Row(
+                    children: [
+                      Text("Fecha Inicio : "),
+                      GestureDetector(
+                        onTap: () {
+                          _selectDateInicio(context);
+                        },
+                        child: Container(
+                          child: Text("${formatter.format(fechaInicio)}"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("Fecha Inicio : "),
+                      GestureDetector(
+                        onTap: () {
+                          _selectDateFin(context);
+                        },
+                        child: Container(
+                          child: Text("${formatter.format(fechafin)}"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("Incluir Anulados : "),
+                      Checkbox(
+                        value: incluirAnulas,
+                        onChanged: (value) {
+                          incluirAnulas = value!;
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      PdfInvoiceApi.generateReport1(await pedidoP.getReport1(
+                          fechaInicio, fechafin, incluirAnulas));
+                    },
+                    child: Text(
+                      "Generar PDF",
+                      style: TextStyle(color: Colors.black, fontSize: 14),
+                    ),
+                  )
+                ],
               ),
-              TextButton(
-                  onPressed: () async {
-                    PdfInvoiceApi.generateReport1(await pedidoP.getReport1(fechaInicio, fechafin));
-                  },
-                  child: Text("Generar"))
-            ],
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
