@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
 import 'package:tesis/domain/providers/departamento/departamentoProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -17,6 +18,7 @@ class _DepartamentoMantenimientoState extends State<DepartamentoMantenimiento> {
     // TODO: implement initState
     super.initState();
     var depTemp = Provider.of<DepartamentoProvider>(context, listen: false);
+    depTemp.getEmpresas();
     if (depTemp.entity.id != 0) {
       depTemp.setDEpartamento();
     }
@@ -53,9 +55,34 @@ class _DepartamentoMantenimientoState extends State<DepartamentoMantenimiento> {
                 children: [
                   Text("Empresa :"),
                   Expanded(
-                      child: TextFormField(
-                    controller: depProvider.ctrEmpresa,
-                  )),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<EmpresasEntity>(
+                        onChanged: (value) async {
+                          depProvider.idempresa = value!.id;
+                          depProvider.empEntity = value;
+
+                          setState(() {});
+                        },
+                        items: depProvider.listEmpresas.map((item) {
+                          return DropdownMenuItem<EmpresasEntity>(
+                            value: item,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                item.descripcion,
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        hint: Text(depProvider.idempresa != 0
+                            ? depProvider.empEntity.descripcion
+                            : "Seleccione Empresa"),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Row(

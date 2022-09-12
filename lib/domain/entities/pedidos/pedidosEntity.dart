@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tesis/domain/entities/pedidos/pedidosDetEntity.dart';
 
 class PedidoEntity extends Equatable {
   PedidoEntity({
@@ -8,6 +9,8 @@ class PedidoEntity extends Equatable {
     this.fecha,
     this.estado = "",
     this.idUsuario = 0,
+    this.nomUsuario = "",
+    this.total = 0,
   });
 
   int id;
@@ -16,6 +19,9 @@ class PedidoEntity extends Equatable {
   DateTime? fecha;
   String estado;
   int idUsuario;
+  String nomUsuario;
+  double total;
+  List<PedidoDetEntity> listdetalle = [];
 
   @override
   // TODO: implement props

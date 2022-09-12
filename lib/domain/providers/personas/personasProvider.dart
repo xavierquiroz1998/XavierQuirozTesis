@@ -96,7 +96,8 @@ class PersonasProvider extends ChangeNotifier {
       try {
         var personaEntity = result.getOrElse(() => PersonaEntity());
         if (personaEntity.id != 0) {
-          await getPersonas();
+          e.estado = "I";
+          notifyListeners();
         }
       } catch (e) {}
     } catch (e) {
@@ -144,7 +145,7 @@ class PersonasProvider extends ChangeNotifier {
     }
   }
 
-  Future guardar() async {
+  Future<bool> guardar() async {
     try {
       PersonaModel model = new PersonaModel();
       model.identificacion = ctrIdentificacion.text;
@@ -165,9 +166,13 @@ class PersonasProvider extends ChangeNotifier {
           listPersonas.add(result);
           notifyListeners();
         }
-      } catch (e) {}
+        return true;
+      } catch (e) {
+         return false;
+      }
     } catch (e) {
       print(e.toString());
+        return false;
     }
   }
 }

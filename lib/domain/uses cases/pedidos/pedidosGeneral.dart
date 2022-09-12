@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:tesis/core/Errors/failure.dart';
+import 'package:tesis/data/models/pedidos/pedidoDetModel.dart';
 import 'package:tesis/data/models/pedidos/pedidoModel.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosDetEntity.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
@@ -18,12 +19,17 @@ class PedidosGeneral {
     return repository.insertPedidos(model);
   }
 
+  Future<Either<Failure, PedidoDetEntity>> insertDetPedidos(
+      PedidoDetModel model) {
+    return repository.insertDetPedidos(model);
+  }
+
   Future<Either<Failure, PedidoEntity>> anularPedidos(PedidoModel model) {
     return repository.anularPedidos(model);
   }
 
-
-   Future<Either<Failure, List<PedidoDetEntity>>> getPedidoDetById(int idPedido) {
+  Future<Either<Failure, List<PedidoDetEntity>>> getPedidoDetById(
+      int idPedido) {
     return repository.getPedidosById(idPedido);
   }
 }

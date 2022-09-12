@@ -97,7 +97,11 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                                       Icons.delete,
                                       color: Colors.red,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      if (e.estado == "A") {
+                                        await dep.anular(e);
+                                      }
+                                    },
                                     label: Text(''),
                                   ),
                                 ),

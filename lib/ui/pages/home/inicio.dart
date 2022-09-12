@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tesis/ui/pages/Dashboard/dashboardPrd.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class Inicio extends StatelessWidget {
@@ -9,7 +10,16 @@ class Inicio extends StatelessWidget {
     return WhiteCard(
       title: "Inicio",
       child: Row(
-        children: [],
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DashboardProducto(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DashboardMensual(),
+          )
+        ],
       ),
     );
   }

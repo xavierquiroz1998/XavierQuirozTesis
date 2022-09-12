@@ -61,12 +61,13 @@ class UsuarioProvider extends ChangeNotifier {
     try {
       UsuarioModel usua = UsuarioModel();
       usua.id = uss.id;
-
+      usua.fechaTrans = uss.fechaTrans;
       var result = await _casosUsosUsuario.anularUsuarios(usua);
       try {
         var entity = result.getOrElse(() => UsuariEntity());
         if (entity.id != 0) {
-          await getUsuarios();
+          uss.estado = "I";
+          notifyListeners();
         }
       } catch (e) {
         print("${e.toString()} flujo secundario");

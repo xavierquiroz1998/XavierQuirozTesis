@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class ProductosMantenimiento extends StatefulWidget {
@@ -72,6 +73,10 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                     Text("Costo :"),
                     Expanded(
                       child: TextFormField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(Ayuda.decimales))
+                        ],
                         controller: pvProducto.ctrCosto,
                       ),
                     ),
@@ -82,21 +87,25 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                     Text("Precio :"),
                     Expanded(
                       child: TextFormField(
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(Ayuda.decimales))
+                        ],
                         controller: pvProducto.ctrPrecio,
                       ),
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Text("Unidad :"),
-                    Expanded(
-                      child: TextFormField(
-                        controller: pvProducto.ctrUnidad,
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Text("Unidad :"),
+                //     Expanded(
+                //       child: TextFormField(
+                //         controller: pvProducto.ctrUnidad,
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Row(

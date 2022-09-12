@@ -76,7 +76,7 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                               Text(e.id.toString()),
                             ),
                             DataCell(
-                              Text(e.idCliente.toString()),
+                              Text(e.nomUsuario),
                             ),
                             DataCell(
                               Text(Ayuda.parseFecha(e.fecha)),
@@ -115,6 +115,7 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                                     label: Text("")),
                               ],
                             )),
+                          
                           ],
                         ),
                       )

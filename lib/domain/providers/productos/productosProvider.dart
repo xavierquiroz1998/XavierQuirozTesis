@@ -35,8 +35,7 @@ class ProductosProvider extends ChangeNotifier {
     ctrNombre = TextEditingController(text: entity.nombre);
     ctrdescripcion = TextEditingController(text: entity.descripcion);
     ctrStock = TextEditingController(text: entity.stock.toString());
-    ctrCosto =
-        TextEditingController(text: entity.costo.toStringAsExponential());
+    ctrCosto = TextEditingController(text: entity.costo.toString());
     ctrPrecio = TextEditingController(text: entity.precio.toString());
     //ctrEstado = TextEditingController(text: entity.estado);
     ctrUnidad = TextEditingController(text: entity.usuario);
@@ -46,14 +45,16 @@ class ProductosProvider extends ChangeNotifier {
     try {
       ProductosModel model = ProductosModel();
       model.id = entity.id;
-
+      model.fecha = entity.fecha;
       var result = await _casosUsesProductos.anularProducto(model);
       try {
         var enti = result.getOrElse(() => ProductosEntity());
         if (enti.id != 0) {
           await getProductos();
         }
-      } catch (e) {}
+      } catch (e) {
+        print(e.toString());
+      }
     } catch (e) {
       print(e.toString());
     }

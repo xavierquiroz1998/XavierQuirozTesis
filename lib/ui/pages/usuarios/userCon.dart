@@ -104,7 +104,7 @@ class _UsuarioConsultaState extends State<UsuarioConsulta> {
                                   TextButton.icon(
                                       onPressed: () async {
                                         if (e.estado == "A") {
-                                          tempUS.anular(e);
+                                         await  tempUS.anular(e);
                                         }
                                       },
                                       icon: Icon(

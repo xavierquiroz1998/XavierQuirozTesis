@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
 import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class FacturaConsulta extends StatefulWidget {
@@ -37,6 +38,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                   TextButton(
                     //style: ButtonStyle(),
                     onPressed: () {
+                      pedidoP.iniciar();
                       NavigationService.navigateTo(
                           Flurorouter.facturaMantenimiento);
                     },
@@ -63,6 +65,9 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                     DataColumn(
                       label: Center(child: Text("Estado")),
                     ),
+                    DataColumn(
+                      label: Center(child: Text("")),
+                    ),
                   ],
                   rows: pedidoP.list
                       .map(
@@ -71,11 +76,11 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                             DataCell(
                               Text(e.id.toString()),
                             ),
-                             DataCell(
+                            DataCell(
                               Text(e.idCliente.toString()),
                             ),
-                             DataCell(
-                              Text(e.fecha.toString()),
+                            DataCell(
+                              Text(Ayuda.parseFecha(e.fecha)),
                             ),
                             DataCell(
                               Text("falta"),
@@ -83,6 +88,34 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                             DataCell(
                               Text(e.estado),
                             ),
+                            DataCell(Row(
+                              children: [
+                                TextButton.icon(
+                                    onPressed: () {
+                                      pedidoP.setFactura(e);
+                                      NavigationService.navigateTo(
+                                          Flurorouter.facturaMantenimiento);
+                                    },
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    label: Text("")),
+                                TextButton.icon(
+                                    onPressed: () async {
+                                      if (e.estado != "A") {
+                                        await pedidoP.anularFactura(e);
+                                      } else {
+                                        // mensaje
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    label: Text("")),
+                              ],
+                            )),
                           ],
                         ),
                       )

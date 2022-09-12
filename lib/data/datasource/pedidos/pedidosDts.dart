@@ -10,6 +10,7 @@ import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 abstract class PedidosDts {
   Future<List<PedidoEntity>> getAllPedidos();
   Future<PedidoEntity> insertPedidos(PedidoModel entity);
+  Future<PedidoDetEntity> insertDetPedidos(PedidoDetModel entity);
   Future<PedidoEntity> anularPedidos(PedidoModel entity);
   Future<List<PedidoDetEntity>> getPedidosById(int idPedido);
 }
@@ -103,6 +104,26 @@ class PedidosDtsImp extends PedidosDts {
     } catch (e) {
       print(e.toString());
       return [];
+    }
+  }
+
+  @override
+  Future<PedidoDetEntity> insertDetPedidos(PedidoDetModel model) async {
+    PedidoDetModel pedido = PedidoDetModel();
+    try {
+      var grp = json.encode(model.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/pedidoDet"),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return PedidoDetModel.fromMap(json.decode(result.body));
+      }
+
+      return pedido;
+    } catch (e) {
+      print(e.toString());
+
+      return pedido;
     }
   }
 }

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:darq/darq.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/entities/personas/personasEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
+import 'package:tesis/ui/pages/Report/createPdf.dart';
+import 'package:tesis/ui/pages/Report/viewPdf.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class OrdenPedidoMantenimiento extends StatefulWidget {
@@ -22,6 +26,7 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
   void initState() {
     super.initState();
     var pedidoP = Provider.of<PedidoProvider>(context, listen: false);
+    pedidoP.getPersonas();
     if (pedidoP.listProducto.length == 0) {
       pedidoP.getProductos();
     }
@@ -47,7 +52,7 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
               ),
               Row(
                 children: [
-                  const Text("Cliente"),
+                  const Text("Proveedor : "),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -118,59 +123,86 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                     ),
                     DataColumn(
                       label: Center(child: Text("Total")),
+                    ),
+                    DataColumn(
+                      label: Center(child: Text("")),
                     )
                   ],
                   rows: pedidoP.listdetalle
-                      .map((e) => DataRow(cells: [
-                            DataCell(
-                              DropdownButton<ProductosEntity>(
-                                onChanged: (value) async {
-                                  e.idProducto = value!.id;
-                                  e.prd = value;
-                                  setState(() {});
-                                },
-                                items: pedidoP.listProducto.map((item) {
-                                  return DropdownMenuItem<ProductosEntity>(
-                                    value: item,
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          item.descripcion,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400),
-                                        )),
-                                  );
-                                }).toList(),
-                                hint: Text(e.idProducto != 0
-                                    ? e.prd!.descripcion
-                                    : "Seleccione "),
-                              ),
+                      .map(
+                        (e) => DataRow(cells: [
+                          DataCell(
+                            DropdownButton<ProductosEntity>(
+                              onChanged: (value) async {
+                                e.idProducto = value!.id;
+                                e.prd = value;
+                                e.precio = e.prd!.precio;
+                                setState(() {});
+                              },
+                              items: pedidoP.listProducto.map((item) {
+                                return DropdownMenuItem<ProductosEntity>(
+                                  value: item,
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        item.nombre,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400),
+                                      )),
+                                );
+                              }).toList(),
+                              hint: Text(e.idProducto != 0
+                                  ? e.prd!.nombre
+                                  : "Seleccione "),
                             ),
-                            DataCell(
-                              TextFormField(
-                                initialValue: e.cantidad.toString(),
-                                onChanged: (value) {
-                                  e.cantidad = int.parse(value);
-                                  pedidoP.calculos();
-                                },
-                              ),
+                          ),
+                          DataCell(
+                            TextFormField(
+                              initialValue: e.cantidad.toString(),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^(?:\+|-)?\d+$'))
+                              ],
+                              onChanged: (value) {
+                                e.cantidad = int.parse(value);
+                                pedidoP.calculos();
+                              },
                             ),
-                            DataCell(
-                              TextFormField(
-                                initialValue: e.precio.toString(),
-                                onChanged: (value) {
-                                  e.precio = double.parse(value);
-                                  pedidoP.calculos();
-                                },
-                              ),
-                            ),
-                            DataCell(
-                              Text(e.total.toString()),
-                            )
-                          ]))
+                          ),
+                          DataCell(
+                            Text("${e.precio}"),
+                          ),
+                          DataCell(
+                            Text(NumberFormat.currency(
+                                    locale: 'en_US', symbol: r'$')
+                                .format(e.total)),
+                          ),
+                          DataCell(TextButton.icon(
+                              onPressed: () {
+                                pedidoP.listdetalle.remove(e);
+                              },
+                              icon: Icon(Icons.delete),
+                              label: Text("")))
+                        ]),
+                      )
                       .toList(),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Total : " +
+                          NumberFormat.currency(locale: 'en_US', symbol: r'$')
+                              .format(pedidoP.listdetalle.sum((p) => p.total)),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -183,7 +215,11 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                         elevation: 15,
                       ),
                       onPressed: () async {
-                        await pedidoP.insertPedidos();
+                        if (await pedidoP.insertPedidos()) {
+                          Navigator.of(context).pop();
+                        } else {
+                          // mensaje de error
+                        }
                       },
                       child: Text(
                         "Guardar",
@@ -206,9 +242,35 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        elevation: 15,
+                      ),
+                      onPressed: () async {
+                        var result = await PdfInvoiceApi.generate(
+                            pedidoP.pedidoSelect,
+                            pedidoP.pedidoSelect.id.toString());
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ViewPdf(
+                        //             data: result,
+                        //           )),
+                        // );
+                      },
+                      child: Text(
+                        "Generar Pdf",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ],
               )
+           
             ],
           ),
         )

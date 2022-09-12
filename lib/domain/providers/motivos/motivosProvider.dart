@@ -50,7 +50,9 @@ class MotivosProvider extends ChangeNotifier {
       try {
         var entities = result.getOrElse(() => MotivosEntity());
         if (entities.id != 0) {
-          await cargarMotivos();
+          en.estado = "I";
+          notifyListeners();
+          //await cargarMotivos();
         }
       } catch (e) {}
     } catch (e) {

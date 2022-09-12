@@ -56,7 +56,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // provide
   sl.registerFactory(() => LoginProvider(sl()));
-  sl.registerFactory(() => DepartamentoProvider(sl()));
+  sl.registerFactory(() => DepartamentoProvider(sl(), sl()));
   sl.registerFactory(() => EmpresasProvider(sl()));
   sl.registerFactory(() => MotivosProvider(sl()));
   sl.registerFactory(() => ProductosProvider(sl()));

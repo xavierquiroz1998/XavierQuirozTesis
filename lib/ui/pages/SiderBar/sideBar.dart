@@ -59,7 +59,7 @@ class _SideBarState extends State<SideBar> {
           // ],
 
           MenuItemP(
-            text: 'Home',
+            text: 'Inicio',
             icon: Icons.home,
             onPressed: () => NavigationService.navigateTo(Flurorouter.inicio),
             isActive: sideMenuProvider.currentPage == Flurorouter.inicio,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:tesis/data/datasource/reference/local_storage.dart';
+import 'package:tesis/data/models/usuarios/usuariosModel.dart';
 
 class NavBarAvatar extends StatefulWidget {
   const NavBarAvatar({Key? key}) : super(key: key);
@@ -15,11 +16,11 @@ class _NavBarAvatarState extends State<NavBarAvatar> {
   @override
   void initState() {
     var usuario = LocalStorage.prefs.getString('usuario');
-    //var mapUsuario = json.decode(usuario!);
-    //var susurio = RegistUser.fromMap(mapUsuario);
-    //if (susurio != null) {
-    //nomUser = susurio.nombre;
-    //}
+    var mapUsuario = json.decode(usuario!);
+    var susurio = UsuarioModel.fromMap(mapUsuario);
+    if (susurio.id != 0) {
+      nomUser = susurio.usuario;
+    }
     super.initState();
   }
 
@@ -27,7 +28,7 @@ class _NavBarAvatarState extends State<NavBarAvatar> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text("$nomUser"),
+        Text("Usuario : $nomUser"),
         // ClipOval(
         //   child: Container(
         //     child: Image.network(

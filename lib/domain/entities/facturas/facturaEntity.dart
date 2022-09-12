@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:tesis/domain/entities/facturas/facturaDetEntity.dart';
 
 class FacturaEntity extends Equatable {
   FacturaEntity({
@@ -18,6 +19,7 @@ class FacturaEntity extends Equatable {
   String estado;
   int idUsuario;
   int idPedido;
+  List<FacturaDetEntity> listDetalles = [];
 
   @override
   // TODO: implement props

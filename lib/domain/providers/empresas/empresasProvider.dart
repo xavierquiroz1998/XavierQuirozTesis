@@ -28,7 +28,7 @@ class EmpresasProvider extends ChangeNotifier {
       var result = await _usesCasesEmpresa.anularEmpresas(model);
       try {
         var entity = result.getOrElse(() => EmpresasEntity());
-        if (entidad.id != 0) {
+        if (entity.id != 0) {
           await cargarEmpresas();
         }
       } catch (e) {}

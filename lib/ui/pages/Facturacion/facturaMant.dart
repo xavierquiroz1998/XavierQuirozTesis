@@ -1,6 +1,11 @@
+import 'package:darq/darq.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
+import 'package:tesis/domain/entities/personas/personasEntity.dart';
+import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -14,6 +19,20 @@ class FacturaMantenimiento extends StatefulWidget {
 class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
   DateTime fechaActual = DateTime.now();
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
+  @override
+  void initState() {
+    super.initState();
+    var pedidoP = Provider.of<FacturaProvider>(context, listen: false);
+    if (pedidoP.listPersonas.isEmpty) {
+      pedidoP.getPersonas();
+    }
+    if (pedidoP.listPedidos.isEmpty) {
+      pedidoP.getPedidos();
+    }
+    if (pedidoP.listProducto.isEmpty) {
+      pedidoP.getProductos();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +51,79 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
               ),
               Row(
                 children: [
-                  const Text("Cliente"),
-                  Expanded(child: TextFormField()),
+                  const Text("Clientes"),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<PersonaEntity>(
+                        onChanged: (value) async {
+                          pedidoP.idPersona = value!.id;
+                          pedidoP.personaSelect = value;
+                          setState(() {});
+                        },
+                        items: pedidoP.listPersonas.map((item) {
+                          return DropdownMenuItem<PersonaEntity>(
+                            value: item,
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  item.nombres,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400),
+                                )),
+                          );
+                        }).toList(),
+                        hint: Text(pedidoP.idPersona != 0
+                            ? pedidoP.personaSelect.nombres
+                            : "Seleccione Cliente"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text("Pedidos"),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownButton<PedidoEntity>(
+                        onChanged: (value) async {
+                          pedidoP.idPedido = value!.id;
+                          pedidoP.pedidoSelect = value;
+                          await pedidoP.getPedidoDetalle();
+                        },
+                        items: pedidoP.listPedidos.map((item) {
+                          return DropdownMenuItem<PedidoEntity>(
+                            value: item,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "${item.id} - ${item.observacion}",
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                        hint: Text(pedidoP.idPedido != 0
+                            ? "${pedidoP.pedidoSelect.id} - ${pedidoP.pedidoSelect.observacion}"
+                            : "Seleccione Pedido"),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Row(
                 children: [
                   const Text("Observacion"),
                   Expanded(
-                    child: TextFormField(
-                      controller: pedidoP.ctObs,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: pedidoP.ctObs,
+                      ),
                     ),
                   ),
                 ],
@@ -51,7 +133,11 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                 children: [
                   TextButton(
                     //style: ButtonStyle(),
-                    onPressed: () {},
+                    onPressed: pedidoP.idPedido == 0
+                        ? () {
+                            pedidoP.agregarDetalle();
+                          }
+                        : null,
                     child: const Text("Agregar"),
                   ),
                 ],
@@ -71,27 +157,161 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                     ),
                     DataColumn(
                       label: Center(child: Text("Total")),
+                    ),
+                    DataColumn(
+                      label: Center(child: Text("")),
                     )
                   ],
-                  rows: const [
-                    DataRow(
-                      cells: [
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        ),
-                        DataCell(
-                          Text(""),
-                        )
-                      ],
-                    ),
-                  ],
+                  rows: pedidoP.listDetalles
+                      .map(
+                        (e) => DataRow(cells: [
+                          DataCell(
+                            IgnorePointer(
+                              ignoring: pedidoP.idPedido == 0 ? false : true,
+                              child: DropdownButton<ProductosEntity>(
+                                onChanged: (value) async {
+                                  e.idProducto = value!.id;
+                                  e.prd = value;
+                                  e.precio = e.prd!.precio;
+                                  pedidoP.calculos();
+                                  setState(() {});
+                                },
+                                items: pedidoP.listProducto.map((item) {
+                                  return DropdownMenuItem<ProductosEntity>(
+                                    value: item,
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.nombre,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        )),
+                                  );
+                                }).toList(),
+                                hint: Text(e.idProducto != 0
+                                    ? e.prd!.nombre
+                                    : "Seleccione "),
+                              ),
+                            ),
+                          ),
+                          DataCell(
+                            pedidoP.idPedido == 0
+                                ? TextFormField(
+                                    initialValue: e.cantidad.toString(),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^(?:\+|-)?\d+$'))
+                                    ],
+                                    onChanged: (value) {
+                                      e.cantidad = int.parse(value);
+                                      pedidoP.calculos();
+                                    },
+                                  )
+                                : Text("${e.cantidad}"),
+                          ),
+                          DataCell(
+                            Text("${e.precio}"),
+                          ),
+                          DataCell(
+                            Text(NumberFormat.currency(
+                                    locale: 'en_US', symbol: r'$')
+                                .format(e.total)),
+                          ),
+                          DataCell(TextButton.icon(
+                              onPressed: pedidoP.idPedido == 0
+                                  ? () {
+                                      pedidoP.listDetalles.remove(e);
+                                      setState(() {});
+                                    }
+                                  : null,
+                              icon: Icon(Icons.delete),
+                              label: Text("")))
+                        ]),
+                      )
+                      .toList(),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      "Total : " +
+                          NumberFormat.currency(locale: 'en_US', symbol: r'$')
+                              .format(pedidoP.listDetalles.sum((p) => p.total)),
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        elevation: 15,
+                      ),
+                      onPressed: () async {
+                        if (await pedidoP.insertFactura()) {
+                          Navigator.of(context).pop();
+                        } else {
+                          // mensaje de error
+                        }
+                      },
+                      child: Text(
+                        "Guardar",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        elevation: 15,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        "Cancelar",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        elevation: 15,
+                      ),
+                      onPressed: () async {
+                        // var result = await PdfInvoiceApi.generate(
+                        //     pedidoP.pedidoSelect,
+                        //     pedidoP.pedidoSelect.id.toString());
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => ViewPdf(
+                        //             data: result,
+                        //           )),
+                        // );
+                      },
+                      child: Text(
+                        "Generar Pdf",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
               )
             ],
           ),
