@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
+import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/ui/pages/Report/pdfApi.dart';
 
 class PdfInvoiceApi {
@@ -67,6 +68,23 @@ class PdfInvoiceApi {
     PdfApi.saveDocument(name: 'Report001.pdf', pdf: pdf);
   }
 
+  static Future generateListProductos(List<ProductosEntity> products) async {
+    final pdf = Document();
+
+    pdf.addPage(MultiPage(
+      build: (context) => [
+        buildHeaderProductos("Listado de Productos"),
+        SizedBox(height: 3 * PdfPageFormat.cm),
+        //buildTitle(invoice),
+        buildInvoiceProductos(products),
+        Divider(),
+      ],
+      //footer: (context) => buildFooter(invoice),
+    ));
+
+    PdfApi.saveDocument(name: 'Report002.pdf', pdf: pdf);
+  }
+
   static Widget buildHeader(PedidoEntity invoice, String cod) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -75,6 +93,35 @@ class PdfInvoiceApi {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildSupplierAddress(cod),
+            ],
+          ),
+          SizedBox(height: 1 * PdfPageFormat.cm),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // buildCustomerAddress(invoice.customer),
+              // buildInvoiceInfo(invoice.info),
+            ],
+          ),
+        ],
+      );
+
+  static Widget buildHeaderProductos(String invoice) => Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 1 * PdfPageFormat.cm),
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(invoice, style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(height: 1 * PdfPageFormat.mm),
+                  //Text("adreess"),
+                ],
+              )
             ],
           ),
           SizedBox(height: 1 * PdfPageFormat.cm),
@@ -173,6 +220,39 @@ class PdfInvoiceApi {
         1: Alignment.centerRight,
         2: Alignment.centerRight,
         3: Alignment.centerRight,
+      },
+    );
+  }
+
+  static Widget buildInvoiceProductos(List<ProductosEntity> invoice) {
+    final headers = ['Id', 'Nombres', 'Stock', 'Precio', 'Costo', 'Estado'];
+    final data = invoice.map((item) {
+      //final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+      return [
+        item.id,
+        '${item.nombre}',
+        ' ${item.stock}',
+        '\$  ${item.precio.toStringAsFixed(2)} ',
+        '\$ ${item.costo.toStringAsFixed(2)}',
+        ' ${item.estado}',
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      // headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+        5: Alignment.centerRight,
       },
     );
   }

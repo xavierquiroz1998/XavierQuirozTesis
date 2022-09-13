@@ -77,7 +77,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                               Text(e.id.toString()),
                             ),
                             DataCell(
-                              Text(e.idCliente.toString()),
+                              Text(e.nomPersona),
                             ),
                             DataCell(
                               Text(Ayuda.parseFecha(e.fecha)),

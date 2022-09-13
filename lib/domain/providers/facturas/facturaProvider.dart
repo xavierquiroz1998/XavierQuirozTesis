@@ -57,15 +57,16 @@ class FacturaProvider extends ChangeNotifier {
       listDetalles = [];
       var result = await _cososUsos.getFacturaById(e.id);
       listDetalles = result.getOrElse(() => []);
-      if (listProducto.length == 0) {
+      if (listProducto.isEmpty) {
         await getProductos();
       }
-      if (listPersonas.length == 0) {
+      if (listPersonas.isEmpty) {
         await getPersonas();
       }
-      if (listPedidos.length == 0) {
+      if (listPedidos.isEmpty) {
         await getPedidos();
       }
+
       facturaSelect.listDetalles = listDetalles;
       for (var element in listDetalles) {
         element.prd =
@@ -87,6 +88,16 @@ class FacturaProvider extends ChangeNotifier {
     try {
       var temp = await _cososUsos.getAllFactura();
       list = temp.getOrElse(() => []);
+
+      if (listPersonas.isEmpty) {
+        await getPersonas();
+      }
+      for (var item in list) {
+        item.nomPersona = listPersonas
+            .firstWhere((element) => element.id == item.idCliente)
+            .nombres;
+      }
+
       notifyListeners();
     } catch (e) {
       print(e.toString());
