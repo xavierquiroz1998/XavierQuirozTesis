@@ -14,6 +14,7 @@ class ProductosMantenimiento extends StatefulWidget {
 
 class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
   String numeros = r'^(?:\+|-)?\d+$';
+  final key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final pvProducto = Provider.of<ProductosProvider>(context);
@@ -22,131 +23,213 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
         children: [
           WhiteCard(
             title: 'Producto',
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text("Codigo :"),
-                    Expanded(
-                      child: TextFormField(
-                        controller: pvProducto.ctrCodigo,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Nombre :"),
-                    Expanded(
-                      child: TextFormField(
-                        controller: pvProducto.ctrNombre,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Descripcion :"),
-                    Expanded(
-                      child: TextFormField(
-                        controller: pvProducto.ctrdescripcion,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Stock :"),
-                    Expanded(
-                      child: TextFormField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp(numeros))
-                        ],
-                        controller: pvProducto.ctrStock,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Costo :"),
-                    Expanded(
-                      child: TextFormField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(Ayuda.decimales))
-                        ],
-                        controller: pvProducto.ctrCosto,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Precio :"),
-                    Expanded(
-                      child: TextFormField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(Ayuda.decimales))
-                        ],
-                        controller: pvProducto.ctrPrecio,
-                      ),
-                    ),
-                  ],
-                ),
-                // Row(
-                //   children: [
-                //     Text("Unidad :"),
-                //     Expanded(
-                //       child: TextFormField(
-                //         controller: pvProducto.ctrUnidad,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            child: Form(
+              key: key,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      TextButton(
-                        onPressed: () async {
-                          await pvProducto.guardar();
-
-                          bool? valor = await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(""),
-                                content: Text("Guardado Correctamente falta"),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context, true);
-                                      },
-                                      child: Text("OK"))
-                                ],
-                              );
+                      Text("Codigo :"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: TextFormField(
+                            controller: pvProducto.ctrCodigo,
+                            validator: (value) {
+                              if (value == null) {
+                                return "Ingrese Codigo del Producto";
+                              } else if (value.isEmpty) {
+                                return "Ingrese Codigo del Producto";
+                              }
+                              return null;
                             },
-                          );
-                          if (valor ?? false) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        child: const Text('Guardar'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Cancelar'),
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                )
-              ],
+                  Row(
+                    children: [
+                      Text("Nombre :"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: TextFormField(
+                            controller: pvProducto.ctrNombre,
+                            validator: (value) {
+                              if (value == null) {
+                                return "Ingrese Nombre del Producto";
+                              } else if (value.isEmpty) {
+                                return "Ingrese Nombre del Producto";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text("Descripción :"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: TextFormField(
+                            controller: pvProducto.ctrdescripcion,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("Stock :"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp(numeros))
+                            ],
+                            controller: pvProducto.ctrStock,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("Costo :"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(Ayuda.decimales))
+                            ],
+                            controller: pvProducto.ctrCosto,
+                            validator: (value) {
+                              if (value == null) {
+                                return "Ingrese Costo del Producto";
+                              } else if (value.isEmpty) {
+                                return "Ingrese Costo del Producto";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("Precio :"),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: TextFormField(
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(Ayuda.decimales))
+                            ],
+                            controller: pvProducto.ctrPrecio,
+                            validator: (value) {
+                              if (value == null) {
+                                return "Ingrese Precio del Producto";
+                              } else if (value.isEmpty) {
+                                return "Ingrese Precio del Producto";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  // Row(
+                  //   children: [
+                  //     Text("Unidad :"),
+                  //     Expanded(
+                  //       child: TextFormField(
+                  //         controller: pvProducto.ctrUnidad,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              elevation: 15,
+                            ),
+                            onPressed: () async {
+                              if (key.currentState!.validate()) {
+                                await pvProducto.guardar();
+                                bool? valor = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(""),
+                                      content:
+                                          Text("Guardado Correctamente falta"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context, true);
+                                            },
+                                            child: Text("OK"))
+                                      ],
+                                    );
+                                  },
+                                );
+
+                                if (valor ?? false) {
+                                  Navigator.pop(context);
+                                }
+                              }
+                            },
+                            child: const Text(
+                              'Guardar',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              elevation: 15,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Cancelar',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],

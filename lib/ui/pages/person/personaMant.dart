@@ -233,7 +233,6 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                                     return "Ingrese # de Identificación";
                                   }
                                 }
-
                                 return null;
                               },
                             ),
@@ -250,6 +249,12 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: prov.ctrNombres,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Ingrese Nombres de la Persona";
+                            }
+                            return null;
+                          },
                         ),
                       )),
                     ],
@@ -262,6 +267,12 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: prov.ctrDireccion,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Ingrese Direccion de la Persona";
+                            }
+                            return null;
+                          },
                         ),
                       )),
                     ],
@@ -274,6 +285,12 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: prov.ctrCorreo,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Ingrese correo de la Persona";
+                            }
+                            return null;
+                          },
                         ),
                       )),
                     ],
@@ -298,8 +315,8 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         child: TextButton(
                           onPressed: () async {
                             if (keyProducto.currentState!.validate()) {
-                              if(await prov.guardar()){
-                                 Navigator.of(context).pop();
+                              if (await prov.guardar()) {
+                                Navigator.of(context).pop();
                               }
                             }
                           },

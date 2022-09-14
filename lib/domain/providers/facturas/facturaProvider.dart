@@ -198,6 +198,7 @@ class FacturaProvider extends ChangeNotifier {
       try {
         var result = temp.getOrElse(() => FacturaEntity());
         if (result.id != 0) {
+          result.nomPersona = personaSelect.nombres;
           list.add(result);
           for (var element in listDetalles) {
             FacturaDetModel modelDet = FacturaDetModel();

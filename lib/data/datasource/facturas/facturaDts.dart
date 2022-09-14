@@ -109,7 +109,7 @@ class FacturaDtsImp extends FacturaDts {
     try {
       var grp = json.encode(model.toMap());
 
-      final result = await cliente.post(Uri.parse("$urlBase/pedidoDet"),
+      final result = await cliente.post(Uri.parse("$urlBase/facturaDet"),
           body: grp, headers: {"Content-type": "application/json"});
       if (result.statusCode == 200) {
         return FacturaDetModel.fromMap(json.decode(result.body));
