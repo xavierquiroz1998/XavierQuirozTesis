@@ -208,17 +208,25 @@ class PedidoProvider extends ChangeNotifier {
         await getPersonas();
       }
 
+      for (var e in listado) {
+        int diasIni = e.fecha!.difference(inicio).inDays;
+        int diasFin = e.fecha!.difference(fin).inDays;
+        if (true) {
+          print("");
+        }
+      }
+
       if (!anulados) {
         listado = listado
             .where((e) =>
                 e.fecha!.difference(inicio).inDays > 0 &&
-                e.fecha!.difference(fin).inDays > -30 &&
+                e.fecha!.difference(fin).inDays < 0 &&
                 e.estado == "A")
             .toList();
       } else {
         listado = listado
             .where((e) =>
-                e.fecha!.difference(inicio).inDays <= -1 &&
+                e.fecha!.difference(inicio).inDays < 1 &&
                 e.fecha!.difference(fin).inDays <= -1)
             .toList();
       }

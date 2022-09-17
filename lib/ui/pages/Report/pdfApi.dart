@@ -9,7 +9,7 @@ class PdfApi {
   }) async {
     try {
       final bytes = await pdf.save();
-      AnchorElement(
+      final anchor =AnchorElement(
           href:
               "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
         ..setAttribute("download", name)

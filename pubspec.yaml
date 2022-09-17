@@ -47,6 +47,7 @@ dependencies:
   open_file: ^3.2.1
   path_provider: ^2.0.9
   pdf: ^3.7.4
+  printing: ^5.9.3
   provider: ^6.0.1
   searchfield: ^0.6.4
   shared_preferences: ^2.0.13
@@ -55,7 +56,6 @@ dependencies:
   syncfusion_flutter_datagrid: ^20.1.50
   syncfusion_flutter_datagrid_export: ^20.1.50-beta
   syncfusion_flutter_pdf: ^20.1.50-beta
-#  syncfusion_flutter_pdfviewer: ^20.2.48-beta
   universal_html: ^2.0.8
   url_strategy: ^0.2.0
 

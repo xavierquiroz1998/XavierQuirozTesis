@@ -50,6 +50,25 @@ class PdfInvoiceApi {
     return pdf.save();
   }
 
+  static Future<Uint8List> generateReport1byte(
+      List<PedidoEntity> invoice) async {
+    final pdf = Document();
+
+    pdf.addPage(MultiPage(
+      build: (context) => [
+        //buildHeader(invoice, codRef),
+        SizedBox(height: 3 * PdfPageFormat.cm),
+        //buildTitle(invoice),
+        buildInvoiceReport(invoice),
+        Divider(),
+        buildTotalReport(invoice),
+      ],
+      //footer: (context) => buildFooter(invoice),
+    ));
+
+    return pdf.save();
+  }
+
   static Future generateReport1(List<PedidoEntity> invoice) async {
     final pdf = Document();
 
@@ -117,7 +136,8 @@ class PdfInvoiceApi {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(invoice, style: TextStyle(fontWeight: FontWeight.bold)),
+                  //Text(invoice, style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(invoice),
                   SizedBox(height: 1 * PdfPageFormat.mm),
                   //Text("adreess"),
                 ],
@@ -139,7 +159,10 @@ class PdfInvoiceApi {
   static Widget buildSupplierAddress(String cod) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Nv-$cod", style: TextStyle(fontWeight: FontWeight.bold)),
+          //Text("Nv-$cod", style: TextStyle(fontWeight: FontWeight.bold)),
+          Text(
+            "Nv-$cod",
+          ),
           SizedBox(height: 1 * PdfPageFormat.mm),
           //Text("adreess"),
         ],

@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/ui/pages/Report/createPdf.dart';
+import 'package:tesis/ui/pages/Report/viewPdf.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class TiposReport extends StatefulWidget {
@@ -17,6 +21,7 @@ class _TiposReportState extends State<TiposReport> {
   DateTime fechaInicio = new DateTime.now();
   DateTime fechafin = new DateTime.now();
   final DateFormat formatter = DateFormat('dd/MM/yyyy');
+  final Uint8List data = Uint8List(0);
 
   bool incluirAnulas = false;
 
@@ -112,14 +117,26 @@ class _TiposReportState extends State<TiposReport> {
                   TextButton.icon(
                     icon: Icon(Icons.picture_as_pdf),
                     onPressed: () async {
-                      PdfInvoiceApi.generateReport1(await pedidoP.getReport1(
-                          fechaInicio, fechafin, incluirAnulas));
+                      //  var temp = PdfInvoiceApi.generateReport1(await pedidoP.getReport1(
+                      //       fechaInicio, fechafin, incluirAnulas));
+                      var orde = await pedidoP.getReport1(
+                          fechaInicio, fechafin, incluirAnulas);
+                      var temp = await PdfInvoiceApi.generateReport1byte(orde);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewPdf(
+                            data: temp,
+                          ),
+                        ),
+                      );
                     },
                     label: Text(
                       "Generar PDF",
                       style: TextStyle(color: Colors.black, fontSize: 14),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

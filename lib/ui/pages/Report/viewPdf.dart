@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:printing/printing.dart';
 //import 'package:native_pdf_view/native_pdf_view.dart';
 //import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
@@ -37,19 +38,10 @@ class _ViewPdfState extends State<ViewPdf> {
 
   @override
   Widget build(BuildContext context) {
-    return WhiteCard(
-      child: Column(
-        children: [
-          // PdfViewPinch(
-          //   documentLoader: const Center(child: CircularProgressIndicator()),
-          //   pageLoader: const Center(child: CircularProgressIndicator()),
-          //   controller: _pdfController,
-          // ),
-          // PdfView(
-          //   controller: _pdfController,
-          // ),
-          //SfPdfViewer.memory(widget.data,key: _pdfViewerKey,),
-        ],
+    return Scaffold(
+      //appBar: AppBar(),
+      body: PdfPreview(
+        build: ((format) => widget.data),
       ),
     );
   }
