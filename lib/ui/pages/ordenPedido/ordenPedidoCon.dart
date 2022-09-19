@@ -58,9 +58,9 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                     DataColumn(
                       label: Center(child: Text("Fecha")),
                     ),
-                    DataColumn(
-                      label: Center(child: Text("Total")),
-                    ),
+                    // DataColumn(
+                    //   label: Center(child: Text("Total")),
+                    // ),
                     DataColumn(
                       label: Center(child: Text("Estado")),
                     ),
@@ -81,13 +81,14 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                             DataCell(
                               Text(Ayuda.parseFecha(e.fecha)),
                             ),
-                            DataCell(
-                              Text("falta"),
-                            ),
+                            // DataCell(
+                            //   Text("falta"),
+                            // ),
                             DataCell(
                               Text(e.estado),
                             ),
-                            DataCell(Row(
+                            DataCell(
+                              Row(
                               children: [
                                 TextButton.icon(
                                     onPressed: () {

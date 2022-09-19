@@ -54,49 +54,95 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    const Text("Proveedor : "),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DropdownButtonFormField<PersonaEntity>(
-                            onChanged: (value) async {
-                              pedidoP.idPersona = value!.id;
-                              pedidoP.personaSelect = value;
-                              setState(() {});
-                            },
-                            items: pedidoP.listPersonas.map((item) {
-                              return DropdownMenuItem<PersonaEntity>(
-                                value: item,
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      item.nombres,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400),
-                                    )),
-                              );
-                            }).toList(),
-                            validator: (value) {
-                              if (value == null) {
-                                return "Seleccione un Proveedor";
-                              }
-                              return null;
-                            },
-                            decoration: CustomInputs.formInputDecoration(
-                                hint: pedidoP.idPersona != 0
-                                    ? pedidoP.personaSelect.nombres
-                                    : "Seleccione un Proveedor",
-                                label: pedidoP.idPersona != 0
-                                    ? pedidoP.personaSelect.nombres
-                                    : "Seleccione un Proveedor",
-                                icon: Icons.assignment)),
+                if (pedidoP.pedidoSelect.id == 0) ...{
+                  Row(
+                    children: [
+                      const Text("Proveedor : "),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButtonFormField<PersonaEntity>(
+                              onChanged: (value) async {
+                                pedidoP.idPersona = value!.id;
+                                pedidoP.personaSelect = value;
+                                setState(() {});
+                              },
+                              items: pedidoP.listPersonas.map((item) {
+                                return DropdownMenuItem<PersonaEntity>(
+                                  value: item,
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        item.nombres,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400),
+                                      )),
+                                );
+                              }).toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return "Seleccione un Proveedor";
+                                }
+                                return null;
+                              },
+                              decoration: CustomInputs.formInputDecoration(
+                                  hint: pedidoP.idPersona != 0
+                                      ? pedidoP.personaSelect.nombres
+                                      : "Seleccione un Proveedor",
+                                  label: pedidoP.idPersona != 0
+                                      ? pedidoP.personaSelect.nombres
+                                      : "Seleccione un Proveedor",
+                                  icon: Icons.assignment)),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                } else ...{
+                  Row(
+                    children: [
+                      const Text("Proveedor : "),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButtonFormField<PersonaEntity>(
+                              onChanged: (value) async {
+                                pedidoP.idPersona = value!.id;
+                                pedidoP.personaSelect = value;
+                                setState(() {});
+                              },
+                              items: pedidoP.listPersonas.map((item) {
+                                return DropdownMenuItem<PersonaEntity>(
+                                  value: item,
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        item.nombres,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400),
+                                      )),
+                                );
+                              }).toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return "Seleccione un Proveedor";
+                                }
+                                return null;
+                              },
+                              decoration: CustomInputs.formInputDecoration(
+                                  hint: pedidoP.idPersona != 0
+                                      ? pedidoP.personaSelect.nombres
+                                      : "Seleccione un Proveedor",
+                                  label: pedidoP.idPersona != 0
+                                      ? pedidoP.personaSelect.nombres
+                                      : "Seleccione un Proveedor",
+                                  icon: Icons.assignment)),
+                        ),
+                      ),
+                    ],
+                  ),
+                },
                 Row(
                   children: [
                     const Text("Observacion"),
@@ -131,100 +177,112 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                     ),
                   ],
                 ),
-                Container(
-                  width: double.infinity,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(
-                        label: Center(child: Text("Producto")),
-                      ),
-                      DataColumn(
-                        label: Center(child: Text("Cantidad")),
-                      ),
-                      DataColumn(
-                        label: Center(child: Text("Precio")),
-                      ),
-                      DataColumn(
-                        label: Center(child: Text("Total")),
-                      ),
-                      DataColumn(
-                        label: Center(child: Text("")),
-                      )
-                    ],
-                    rows: pedidoP.listdetalle
-                        .map(
-                          (e) => DataRow(cells: [
-                            DataCell(
-                              DropdownButton<ProductosEntity>(
-                                onChanged: (value) async {
-                                  e.idProducto = value!.id;
-                                  e.prd = value;
-                                  e.precio = e.prd!.precio;
-                                  setState(() {});
-                                },
-                                items: pedidoP.listProducto.map((item) {
-                                  return DropdownMenuItem<ProductosEntity>(
-                                    value: item,
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          item.nombre,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400),
-                                        )),
-                                  );
-                                }).toList(),
-                                hint: Text(e.idProducto != 0
-                                    ? e.prd!.nombre
-                                    : "Seleccione "),
-                              ),
-                            ),
-                            DataCell(
-                              TextFormField(
-                                initialValue: e.cantidad.toString(),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^(?:\+|-)?\d+$'))
-                                ],
-                                onChanged: (value) {
-                                  e.cantidad = int.parse(value);
-                                  pedidoP.calculos();
-                                },
-                              ),
-                            ),
-                            DataCell(
-                              Text("${e.precio}"),
-                            ),
-                            DataCell(
-                              Text(NumberFormat.currency(
-                                      locale: 'en_US', symbol: r'$')
-                                  .format(e.total)),
-                            ),
-                            DataCell(TextButton.icon(
-                                onPressed: () {
-                                  pedidoP.listdetalle.remove(e);
-                                },
-                                icon: Icon(Icons.delete),
-                                label: Text("")))
-                          ]),
+                if (pedidoP.listdetalle.isNotEmpty) ...{
+                  Container(
+                    width: double.infinity,
+                    child: DataTable(
+                      columns: const [
+                        DataColumn(
+                          label: Center(child: Text("Producto")),
+                        ),
+                        DataColumn(
+                          label: Center(child: Text("Cantidad")),
+                        ),
+                        DataColumn(
+                          label: Center(child: Text("Precio")),
+                        ),
+                        DataColumn(
+                          label: Center(child: Text("Total")),
+                        ),
+                        DataColumn(
+                          label: Center(child: Text("")),
                         )
-                        .toList(),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        "Total : ${NumberFormat.currency(locale: 'en_US', symbol: r'$').format(pedidoP.listdetalle.sum((p) => p.total))}",
-                        style: const TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
-                      ),
+                      ],
+                      rows: pedidoP.listdetalle
+                          .map(
+                            (e) => e.prd != null || pedidoP.pedidoSelect.id == 0
+                                ? DataRow(cells: [
+                                    DataCell(
+                                      DropdownButton<ProductosEntity>(
+                                        onChanged: (value) async {
+                                          e.idProducto = value!.id;
+                                          e.prd = value;
+                                          e.precio = e.prd!.precio;
+                                          setState(() {});
+                                        },
+                                        items: pedidoP.listProducto.map((item) {
+                                          return DropdownMenuItem<
+                                              ProductosEntity>(
+                                            value: item,
+                                            child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  item.nombre,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                )),
+                                          );
+                                        }).toList(),
+                                        hint: Text(e.idProducto != 0
+                                            ? e.prd!.nombre
+                                            : "Seleccione "),
+                                      ),
+                                    ),
+                                    DataCell(
+                                      TextFormField(
+                                        initialValue: e.cantidad.toString(),
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^(?:\+|-)?\d+$'))
+                                        ],
+                                        onChanged: (value) {
+                                          e.cantidad = int.parse(value);
+                                          pedidoP.calculos();
+                                        },
+                                      ),
+                                    ),
+                                    DataCell(
+                                      Text("${e.precio}"),
+                                    ),
+                                    DataCell(
+                                      Text(NumberFormat.currency(
+                                              locale: 'en_US', symbol: r'$')
+                                          .format(e.total)),
+                                    ),
+                                    DataCell(TextButton.icon(
+                                        onPressed: () {
+                                          pedidoP.listdetalle.remove(e);
+                                        },
+                                        icon: Icon(Icons.delete),
+                                        label: Text("")))
+                                  ])
+                                : DataRow(cells: [
+                                    DataCell(Text("")),
+                                    DataCell(Text("")),
+                                    DataCell(Text("")),
+                                    DataCell(Text("")),
+                                    DataCell(Text("")),
+                                  ]),
+                          )
+                          .toList(),
                     ),
-                  ],
-                ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Total : ${NumberFormat.currency(locale: 'en_US', symbol: r'$').format(pedidoP.listdetalle.sum((p) => p.total))}",
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
+                  ),
+                },
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

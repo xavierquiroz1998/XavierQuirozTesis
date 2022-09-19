@@ -11,6 +11,7 @@ import 'package:tesis/domain/uses%20cases/factura/facturaGeneral.dart';
 import 'package:tesis/domain/uses%20cases/pedidos/pedidosGeneral.dart';
 import 'package:tesis/domain/uses%20cases/personas/personasGeneral.dart';
 import 'package:tesis/domain/uses%20cases/productos/productosGeneral.dart';
+import 'package:collection/collection.dart';
 
 class FacturaProvider extends ChangeNotifier {
   final FacturaGeneral _cososUsos;
@@ -48,7 +49,7 @@ class FacturaProvider extends ChangeNotifier {
     listDetalles.add(new FacturaDetEntity());
   }
 
-  void setFactura(FacturaEntity e) async {
+  Future setFactura(FacturaEntity e) async {
     facturaSelect = e;
     idPersona = e.idCliente;
     idPedido = e.idPedido;
@@ -235,8 +236,84 @@ class FacturaProvider extends ChangeNotifier {
     for (var e in listDetalles) {
       if (e.cantidad != 0 && e.precio != 0) {
         e.total = e.cantidad * e.precio;
+        if (e.iva != 0) {
+          var valueIva = (e.iva / 100);
+          e.total = e.total + (e.total * valueIva);
+        }
       }
     }
     notifyListeners();
+  }
+
+  Future<List<FacturaEntity>> getFacturasReport(DateTime inicio, DateTime fin,
+      [bool anulados = true]) async {
+    try {
+      List<FacturaEntity> listResult = [];
+      var temp = await _cososUsos.getAllFactura();
+      var listado = temp.getOrElse(() => []);
+      if (listado.length != 0) {
+        await getPersonas();
+      }
+
+      // for (var e in listado) {
+      //   int diasIni = e.fecha!.difference(inicio).inDays;
+      //   int diasFin = e.fecha!.difference(fin).inDays;
+      //   if (true) {
+      //     print("");
+      //   }
+      // }
+
+      if (!anulados) {
+        listado = listado
+            .where((e) =>
+                e.fecha!.difference(inicio).inDays > 0 &&
+                e.fecha!.difference(fin).inDays < 0 &&
+                e.estado == "A")
+            .toList();
+      } else {
+        listado = listado
+            .where((e) =>
+                e.fecha!.difference(inicio).inDays < 1 &&
+                e.fecha!.difference(fin).inDays <= -1)
+            .toList();
+      }
+
+      for (var element in listado) {
+        // for (var element in listado) {
+        //   var diasInicio = element.fecha!.difference(inicioMes).inDays;
+        //   var diasFin = element.fecha!.difference(finMes).inDays;
+
+        var result = await _cososUsos.getFacturaById(element.id);
+        element.listDetalles = result.getOrElse(() => []);
+      }
+
+      if (listado.isNotEmpty) {
+        var asd = listado.groupListsBy(
+          (e) => e.idCliente,
+        );
+
+        for (var item in asd.entries) {
+          FacturaEntity t = FacturaEntity();
+          t.idCliente = item.key;
+          for (var cabe in item.value) {
+            t.fecha = cabe.fecha;
+            for (var det in cabe.listDetalles) {
+              t.cantidad += det.cantidad;
+              t.total += det.cantidad * det.precio;
+            }
+          }
+          t.total = double.parse(t.total.toStringAsFixed(2));
+          listResult.add(t);
+        }
+
+        for (var element in listResult) {
+          element.nomPersona =
+              listPersonas.firstWhere((e) => e.id == element.idCliente).nombres;
+        }
+      }
+      return listResult;
+    } catch (e) {
+      return [];
+    }
   }
 }

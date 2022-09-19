@@ -4,6 +4,7 @@ import 'package:darq/darq.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:tesis/domain/entities/facturas/facturaEntity.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/ui/pages/Report/pdfApi.dart';
@@ -50,6 +51,7 @@ class PdfInvoiceApi {
     return pdf.save();
   }
 
+// #region orden de pedido
   static Future<Uint8List> generateReport1byte(
       List<PedidoEntity> invoice) async {
     final pdf = Document();
@@ -69,7 +71,91 @@ class PdfInvoiceApi {
     return pdf.save();
   }
 
-  static Future generateReport1(List<PedidoEntity> invoice) async {
+  static Widget buildInvoiceReport(List<PedidoEntity> invoice) {
+    final headers = ['Fecha', 'Proveedor', 'Cantidad', 'Total'];
+    final data = invoice.map((item) {
+      //final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+      return [
+        formatter.format(item.fecha!),
+        //'${item.lote}',
+        ' ${item.nomUsuario}',
+        ' ${item.cantidad} ',
+        '\$ ${item.total.toStringAsFixed(2)}',
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        //1: Alignment.centerRight,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+      },
+    );
+  }
+
+  static Widget buildTotalReport(List<PedidoEntity> invoice) {
+    final netTotal = invoice.sum((p) => p.total);
+    // final vatPercent = invoice.items.first.vat;
+    // final vat = netTotal * vatPercent;
+    // final total = netTotal + vat;
+
+    return Container(
+      alignment: Alignment.centerRight,
+      child: Row(
+        children: [
+          Spacer(flex: 6),
+          Expanded(
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildText(
+                  title: 'total',
+                  //value: Utils.formatPrice(netTotal),
+                  value: formatPrice(netTotal),
+                  unite: true,
+                ),
+                // buildText(
+                //   title: 'Vat ${vatPercent * 100} %',
+                //   value: Utils.formatPrice(vat),
+                //   unite: true,
+                // ),
+                // Divider(),
+                // buildText(
+                //   title: 'Total amount due',
+                //   titleStyle: TextStyle(
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                //   value: Utils.formatPrice(total),
+                //   unite: true,
+                // ),
+                SizedBox(height: 2 * PdfPageFormat.mm),
+                Container(height: 1, color: PdfColors.grey400),
+                SizedBox(height: 0.5 * PdfPageFormat.mm),
+                Container(height: 1, color: PdfColors.grey400),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+// #endregion
+
+// #region Facturas
+  static Future<Uint8List> generateFacturasbyte(
+      List<FacturaEntity> invoice) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -77,17 +163,115 @@ class PdfInvoiceApi {
         //buildHeader(invoice, codRef),
         SizedBox(height: 3 * PdfPageFormat.cm),
         //buildTitle(invoice),
-        buildInvoiceReport(invoice),
+        buildInvoiceFacturas(invoice),
         Divider(),
-        buildTotalReport(invoice),
+        buildTotalFacturas(invoice),
       ],
       //footer: (context) => buildFooter(invoice),
     ));
 
-    PdfApi.saveDocument(name: 'Report001.pdf', pdf: pdf);
+    return pdf.save();
   }
 
-  static Future generateListProductos(List<ProductosEntity> products) async {
+  static Widget buildInvoiceFacturas(List<FacturaEntity> invoice) {
+    final headers = ['Fecha', 'Cliente', 'Cantidad', 'Total'];
+    // final data = invoice.map((item) {
+    //   //final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+    //   return [
+    //     formatter.format(item.fecha!),
+
+    //     //'${item.lote}',
+    //     ' ${item.nomPersona}',
+    //     ' ${item.cantidad} ',
+    //     '\$ ${item.total.toStringAsFixed(2)}',
+    //   ];
+    // }).toList();
+
+       final data = invoice.map((item) {
+      //final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+      return [
+        formatter.format(item.fecha!),
+
+        //'${item.lote}',
+        ' ${item.nomPersona}',
+        ' ${item.cantidad} ',
+        '\$ ${item.total.toStringAsFixed(2)}',
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        //1: Alignment.centerRight,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+      },
+    );
+  }
+
+  static Widget buildTotalFacturas(List<FacturaEntity> invoice) {
+    final netTotal = invoice.sum((p) => p.total);
+    // final vatPercent = invoice.items.first.vat;
+    // final vat = netTotal * vatPercent;
+    // final total = netTotal + vat;
+
+    return Container(
+      alignment: Alignment.centerRight,
+      child: Row(
+        children: [
+          Spacer(flex: 6),
+          Expanded(
+            flex: 4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildText(
+                  title: 'total',
+                  //value: Utils.formatPrice(netTotal),
+                  value: formatPrice(netTotal),
+                  unite: true,
+                ),
+                // buildText(
+                //   title: 'Vat ${vatPercent * 100} %',
+                //   value: Utils.formatPrice(vat),
+                //   unite: true,
+                // ),
+                // Divider(),
+                // buildText(
+                //   title: 'Total amount due',
+                //   titleStyle: TextStyle(
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                //   value: Utils.formatPrice(total),
+                //   unite: true,
+                // ),
+                SizedBox(height: 2 * PdfPageFormat.mm),
+                Container(height: 1, color: PdfColors.grey400),
+                SizedBox(height: 0.5 * PdfPageFormat.mm),
+                Container(height: 1, color: PdfColors.grey400),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+// #endregion
+
+// #region lista de productos
+  static Future<Uint8List> generateListProductobyte(
+      List<ProductosEntity> products) async {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -101,30 +285,9 @@ class PdfInvoiceApi {
       //footer: (context) => buildFooter(invoice),
     ));
 
-    PdfApi.saveDocument(name: 'Report002.pdf', pdf: pdf);
+    return pdf.save();
+    // PdfApi.saveDocument(name: 'Report002.pdf', pdf: pdf);
   }
-
-  static Widget buildHeader(PedidoEntity invoice, String cod) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 1 * PdfPageFormat.cm),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildSupplierAddress(cod),
-            ],
-          ),
-          SizedBox(height: 1 * PdfPageFormat.cm),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // buildCustomerAddress(invoice.customer),
-              // buildInvoiceInfo(invoice.info),
-            ],
-          ),
-        ],
-      );
 
   static Widget buildHeaderProductos(String invoice) => Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,6 +305,63 @@ class PdfInvoiceApi {
                   //Text("adreess"),
                 ],
               )
+            ],
+          ),
+          SizedBox(height: 1 * PdfPageFormat.cm),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // buildCustomerAddress(invoice.customer),
+              // buildInvoiceInfo(invoice.info),
+            ],
+          ),
+        ],
+      );
+
+  static Widget buildInvoiceProductos(List<ProductosEntity> invoice) {
+    final headers = ['Id', 'Nombres', 'Stock', 'Precio', 'Costo', 'Estado'];
+    final data = invoice.map((item) {
+      //final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+      return [
+        item.id,
+        '${item.nombre}',
+        ' ${item.stock}',
+        '\$  ${item.precio.toStringAsFixed(2)} ',
+        '\$ ${item.costo.toStringAsFixed(2)}',
+        ' ${item.estado}',
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      // headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerRight,
+        2: Alignment.centerRight,
+        3: Alignment.centerRight,
+        4: Alignment.centerRight,
+        5: Alignment.centerRight,
+      },
+    );
+  }
+
+// #endregion
+
+  static Widget buildHeader(PedidoEntity invoice, String cod) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 1 * PdfPageFormat.cm),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildSupplierAddress(cod),
             ],
           ),
           SizedBox(height: 1 * PdfPageFormat.cm),
@@ -216,124 +436,11 @@ class PdfInvoiceApi {
     );
   }
 
-  static Widget buildInvoiceReport(List<PedidoEntity> invoice) {
-    final headers = ['Fecha', 'cliente', 'Cantidad', 'Total'];
-    final data = invoice.map((item) {
-      //final total = item.unitPrice * item.quantity * (1 + item.vat);
-
-      return [
-        formatter.format(item.fecha!),
-        //'${item.lote}',
-        ' ${item.nomUsuario}',
-        ' ${item.cantidad} ',
-        '\$ ${item.total.toStringAsFixed(2)}',
-      ];
-    }).toList();
-
-    return Table.fromTextArray(
-      headers: headers,
-      data: data,
-      border: null,
-      // headerStyle: TextStyle(fontWeight: FontWeight.bold),
-      headerDecoration: BoxDecoration(color: PdfColors.grey300),
-      cellHeight: 30,
-      cellAlignments: {
-        0: Alignment.centerLeft,
-        //1: Alignment.centerRight,
-        1: Alignment.centerRight,
-        2: Alignment.centerRight,
-        3: Alignment.centerRight,
-      },
-    );
-  }
-
-  static Widget buildInvoiceProductos(List<ProductosEntity> invoice) {
-    final headers = ['Id', 'Nombres', 'Stock', 'Precio', 'Costo', 'Estado'];
-    final data = invoice.map((item) {
-      //final total = item.unitPrice * item.quantity * (1 + item.vat);
-
-      return [
-        item.id,
-        '${item.nombre}',
-        ' ${item.stock}',
-        '\$  ${item.precio.toStringAsFixed(2)} ',
-        '\$ ${item.costo.toStringAsFixed(2)}',
-        ' ${item.estado}',
-      ];
-    }).toList();
-
-    return Table.fromTextArray(
-      headers: headers,
-      data: data,
-      border: null,
-      // headerStyle: TextStyle(fontWeight: FontWeight.bold),
-      headerDecoration: BoxDecoration(color: PdfColors.grey300),
-      cellHeight: 30,
-      cellAlignments: {
-        0: Alignment.centerLeft,
-        1: Alignment.centerRight,
-        2: Alignment.centerRight,
-        3: Alignment.centerRight,
-        4: Alignment.centerRight,
-        5: Alignment.centerRight,
-      },
-    );
-  }
-
   static Widget buildTotal(PedidoEntity invoice) {
     final netTotal = invoice.listdetalle
         .map((item) =>
             double.parse(item.precio.toStringAsFixed(2)) * item.cantidad)
         .reduce((item1, item2) => item1 + item2);
-    // final vatPercent = invoice.items.first.vat;
-    // final vat = netTotal * vatPercent;
-    // final total = netTotal + vat;
-
-    return Container(
-      alignment: Alignment.centerRight,
-      child: Row(
-        children: [
-          Spacer(flex: 6),
-          Expanded(
-            flex: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildText(
-                  title: 'total',
-                  //value: Utils.formatPrice(netTotal),
-                  value: formatPrice(netTotal),
-                  unite: true,
-                ),
-                // buildText(
-                //   title: 'Vat ${vatPercent * 100} %',
-                //   value: Utils.formatPrice(vat),
-                //   unite: true,
-                // ),
-                // Divider(),
-                // buildText(
-                //   title: 'Total amount due',
-                //   titleStyle: TextStyle(
-                //     fontSize: 14,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                //   value: Utils.formatPrice(total),
-                //   unite: true,
-                // ),
-                SizedBox(height: 2 * PdfPageFormat.mm),
-                Container(height: 1, color: PdfColors.grey400),
-                SizedBox(height: 0.5 * PdfPageFormat.mm),
-                Container(height: 1, color: PdfColors.grey400),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  static Widget buildTotalReport(List<PedidoEntity> invoice) {
-    final netTotal = invoice.sum((p) => p.total);
     // final vatPercent = invoice.items.first.vat;
     // final vat = netTotal * vatPercent;
     // final total = netTotal + vat;

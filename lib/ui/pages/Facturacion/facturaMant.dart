@@ -183,6 +183,9 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                         label: Center(child: Text("Precio")),
                       ),
                       DataColumn(
+                        label: Center(child: Text("Iva")),
+                      ),
+                      DataColumn(
                         label: Center(child: Text("Total")),
                       ),
                       DataColumn(
@@ -241,6 +244,19 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                             ),
                             DataCell(
                               Text("${e.precio}"),
+                            ),
+                            DataCell(
+                              TextFormField(
+                                initialValue: e.iva.toString(),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^(?:\+|-)?\d+$'))
+                                ],
+                                onChanged: (value) {
+                                  e.iva = int.parse(value);
+                                  pedidoP.calculos();
+                                },
+                              ),
                             ),
                             DataCell(
                               Text(NumberFormat.currency(

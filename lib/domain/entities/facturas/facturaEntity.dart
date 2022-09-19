@@ -20,6 +20,8 @@ class FacturaEntity extends Equatable {
   int idUsuario;
   int idPedido;
   String nomPersona = "";
+  double total = 0;
+  double cantidad = 0;
   List<FacturaDetEntity> listDetalles = [];
 
   @override

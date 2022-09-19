@@ -59,9 +59,9 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                     DataColumn(
                       label: Center(child: Text("Fecha")),
                     ),
-                    DataColumn(
-                      label: Center(child: Text("Total")),
-                    ),
+                    // DataColumn(
+                    //   label: Center(child: Text("Total")),
+                    // ),
                     DataColumn(
                       label: Center(child: Text("Estado")),
                     ),
@@ -82,17 +82,17 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                             DataCell(
                               Text(Ayuda.parseFecha(e.fecha)),
                             ),
-                            DataCell(
-                              Text("falta"),
-                            ),
+                            // DataCell(
+                            //   Text("falta"),
+                            // ),
                             DataCell(
                               Text(e.estado),
                             ),
                             DataCell(Row(
                               children: [
                                 TextButton.icon(
-                                    onPressed: () {
-                                      pedidoP.setFactura(e);
+                                    onPressed: ()async {
+                                      await pedidoP.setFactura(e);
                                       NavigationService.navigateTo(
                                           Flurorouter.facturaMantenimiento);
                                     },

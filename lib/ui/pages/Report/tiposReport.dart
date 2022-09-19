@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
+import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/ui/pages/Report/createPdf.dart';
@@ -56,6 +57,7 @@ class _TiposReportState extends State<TiposReport> {
   @override
   Widget build(BuildContext context) {
     final pedidoP = Provider.of<PedidoProvider>(context);
+    final facturasP = Provider.of<FacturaProvider>(context);
     final productosP = Provider.of<ProductosProvider>(context);
     return WhiteCard(
       child: Column(
@@ -166,8 +168,17 @@ class _TiposReportState extends State<TiposReport> {
                         if (productosP.listProducto.isEmpty) {
                           await productosP.getProductos();
                         }
-                        await PdfInvoiceApi.generateListProductos(
+                        var temp = await PdfInvoiceApi.generateListProductobyte(
                             productosP.listProducto);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewPdf(
+                              data: temp,
+                            ),
+                          ),
+                        );
                       },
                       label: Text("Generar PDF",
                           style: TextStyle(color: Colors.black, fontSize: 14)))
@@ -235,11 +246,18 @@ class _TiposReportState extends State<TiposReport> {
                   TextButton.icon(
                     icon: Icon(Icons.picture_as_pdf),
                     onPressed: () async {
-                      if (productosP.listProducto.isEmpty) {
-                        await productosP.getProductos();
-                      }
-                      await PdfInvoiceApi.generateListProductos(
-                          productosP.listProducto);
+                      var temp = await PdfInvoiceApi.generateFacturasbyte(
+                        await facturasP.getFacturasReport(
+                            fechaInicio, fechafin, incluirAnulas),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewPdf(    
+                            data: temp,
+                          ),
+                        ),
+                      );
                     },
                     label: Text(
                       "Generar PDF",
@@ -275,8 +293,16 @@ class _TiposReportState extends State<TiposReport> {
                         if (productosP.listProducto.isEmpty) {
                           await productosP.getProductos();
                         }
-                        await PdfInvoiceApi.generateListProductos(
+                        var temp = await PdfInvoiceApi.generateListProductobyte(
                             productosP.listProducto);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ViewPdf(
+                              data: temp,
+                            ),
+                          ),
+                        );
                       },
                       label: Text("Generar PDF",
                           style: TextStyle(color: Colors.black, fontSize: 14)))

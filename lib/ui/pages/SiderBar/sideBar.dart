@@ -142,8 +142,11 @@ class _SideBarState extends State<SideBar> {
           MenuItemP(
             text: 'Cambio de productos',
             icon: Icons.home,
-            onPressed: () => null,
-            // isActive: sideMenuProvider.currentPage == Flurorouter.inicio,
+            onPressed: () =>
+                NavigationService.navigateTo(Flurorouter.cambioConsulta),
+            isActive: sideMenuProvider.currentPage ==
+                    Flurorouter.cambioConsulta ||
+                sideMenuProvider.currentPage == Flurorouter.cambioMantenimiento,
           ),
           MenuItemP(
             text: 'Usuarios',

@@ -86,6 +86,7 @@ class PedidoProvider extends ChangeNotifier {
   }
 
   void setPedido(PedidoEntity e) async {
+    personaSelect = PersonaEntity();
     pedidoSelect = e;
     idPersona = e.idCliente;
     ctObs = TextEditingController(text: e.observacion);
@@ -208,13 +209,13 @@ class PedidoProvider extends ChangeNotifier {
         await getPersonas();
       }
 
-      for (var e in listado) {
-        int diasIni = e.fecha!.difference(inicio).inDays;
-        int diasFin = e.fecha!.difference(fin).inDays;
-        if (true) {
-          print("");
-        }
-      }
+      // for (var e in listado) {
+      //   int diasIni = e.fecha!.difference(inicio).inDays;
+      //   int diasFin = e.fecha!.difference(fin).inDays;
+      //   if (true) {
+      //     print("");
+      //   }
+      // }
 
       if (!anulados) {
         listado = listado
