@@ -8,6 +8,7 @@ import 'package:tesis/data/datasource/motivos/motivosDts.dart';
 import 'package:tesis/data/datasource/pedidos/pedidosDts.dart';
 import 'package:tesis/data/datasource/persona/personaDts.dart';
 import 'package:tesis/data/datasource/productos/productosDts.dart';
+import 'package:tesis/data/datasource/reemplazo/reemplazoDts.dart';
 import 'package:tesis/data/datasource/tipoPersona/tipoPersonaDts.dart';
 import 'package:tesis/data/datasource/usuarios/usuariosDts.dart';
 import 'package:tesis/data/repositories/departamentoImp.dart';
@@ -101,6 +102,7 @@ Future<void> init() async {
   sl.registerLazySingleton<PedidosDts>(() => PedidosDtsImp(sl()));
   sl.registerLazySingleton<FacturaDts>(() => FacturaDtsImp(sl()));
   sl.registerLazySingleton<PersonaDts>(() => PersonaDtsImp(sl()));
+  sl.registerLazySingleton<RemplazoDTS>(() => ReemplazoDtsImp(sl()));
 
   sl.registerLazySingleton(() => http.Client());
 }
