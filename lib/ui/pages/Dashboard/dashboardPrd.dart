@@ -29,7 +29,10 @@ class _DashboardProductoState extends State<DashboardProducto> {
       child: Column(
         children: [
           SfCircularChart(
-            title: ChartTitle(text: 'Productos'),
+            title: ChartTitle(
+              text: 'Productos',  
+              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             legend: Legend(isVisible: true),
             tooltipBehavior: TooltipBehavior(enable: true),
             series: <CircularSeries>[
@@ -70,9 +73,13 @@ class _DashboardMensualState extends State<DashboardMensual> {
   Widget build(BuildContext context) {
     final pedidoProvider = Provider.of<PedidoProvider>(context);
     return WhiteCard(
-      child: Column(children: [
+      child: Column(
+        children: [
           SfCircularChart(
-            title: ChartTitle(text: 'Ventas Mes Actual'),
+            title: ChartTitle(
+              text: 'Ventas Mes Actual',
+              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
             legend: Legend(isVisible: true),
             tooltipBehavior: TooltipBehavior(enable: true),
             series: <CircularSeries>[
@@ -88,7 +95,8 @@ class _DashboardMensualState extends State<DashboardMensual> {
                   dataLabelSettings: DataLabelSettings(isVisible: true)),
             ],
           )
-      ],),
+        ],
+      ),
     );
   }
 }

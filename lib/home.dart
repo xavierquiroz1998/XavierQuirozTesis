@@ -11,6 +11,7 @@ import 'package:tesis/domain/providers/motivos/motivosProvider.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/domain/providers/personas/personasProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
+import 'package:tesis/domain/providers/remplazo/remplazoProvider.dart';
 import 'package:tesis/domain/providers/usuarios/usuarioProvider.dart';
 import 'package:tesis/injection.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => sl<PedidoProvider>()),
         ChangeNotifierProvider(create: (_) => sl<UsuarioProvider>()),
         ChangeNotifierProvider(create: (_) => sl<PersonasProvider>()),
+        ChangeNotifierProvider(create: (_) => sl<RemplazoProvider>()),
       ],
       child: MaterialApp(
         title: 'IT-MAS',

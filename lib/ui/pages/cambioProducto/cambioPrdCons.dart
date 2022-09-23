@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/Navigation/NavigationService.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
+import 'package:tesis/domain/providers/remplazo/remplazoProvider.dart';
 import 'package:tesis/ui/Router/FluroRouter.dart';
 import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
@@ -24,7 +25,7 @@ class _CambioPrdConsultaState extends State<CambioPrdConsulta> {
 
   @override
   Widget build(BuildContext context) {
-    // final pedidoP = Provider.of<PedidoProvider>(context);
+     final pedidoP = Provider.of<RemplazoProvider>(context);
     return WhiteCard(
       title: 'Cambio productos por Empleado',
       child: Column(
@@ -35,8 +36,8 @@ class _CambioPrdConsultaState extends State<CambioPrdConsulta> {
               TextButton(
                 //style: ButtonStyle(),
                 onPressed: () {
-                  //pedidoP.iniciar();
-                  //NavigationService.navigateTo(Flurorouter.ordenPedidoMantenimiento);
+                  pedidoP.inicio();
+                  NavigationService.navigateTo(Flurorouter.cambioMantenimiento);
                 },
                 child: Text("Nuevo"),
               ),

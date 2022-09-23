@@ -8,17 +8,17 @@ class ReemplazoGeneral {
   final AbstratRemplazo repository;
   ReemplazoGeneral(this.repository);
 
-  Future<Either<Failure, List<ReemplazoEntity>>> getAllReemplazos() {
+  Future<Either<Failure, List<ReemplazoEntity>>> getAllReemplazos() async {
     return repository.getAllReemplazos();
   }
 
   Future<Either<Failure, ReemplazoEntity>> insertReemplazos(
-      ReemplazoModel model) {
+      ReemplazoModel model) async {
     return insertReemplazos(model);
   }
 
   Future<Either<Failure, ReemplazoEntity>> anularReemplazos(
-      ReemplazoModel model) {
+      ReemplazoModel model) async {
     return anularReemplazos(model);
   }
 }

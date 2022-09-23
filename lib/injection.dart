@@ -70,7 +70,7 @@ Future<void> init() async {
   sl.registerFactory(() => FacturaProvider(sl(), sl(), sl(), sl()));
   sl.registerFactory(() => UsuarioProvider(sl(), sl()));
   sl.registerFactory(() => PersonasProvider(sl(), sl(), sl(), sl()));
-  sl.registerFactory(() => RemplazoProvider(sl()));
+  sl.registerFactory(() => RemplazoProvider(sl(),sl(),sl(),sl(),sl()));
 
 // casos de uso
   sl.registerLazySingleton(() => DepartamentosGeneral(sl()));

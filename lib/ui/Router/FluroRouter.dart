@@ -109,6 +109,9 @@ class Flurorouter {
         handler: Handlers.facturaMantenimiento,
         transitionType: TransitionType.fadeIn);
 
+    router.define(cambioMantenimiento,
+        handler: Handlers.cambioMant, transitionType: TransitionType.fadeIn);
+
     router.define(cambioConsulta,
         handler: Handlers.cambioConsult, transitionType: TransitionType.fadeIn);
 

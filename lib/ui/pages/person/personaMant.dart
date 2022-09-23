@@ -218,6 +218,7 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         ),
                       ],
                     ),
+                  
                   } else if (prov.tipoPersona == 3) ...{
                     Row(
                       children: [

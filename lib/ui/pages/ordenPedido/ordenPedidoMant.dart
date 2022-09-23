@@ -58,44 +58,44 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                   Row(
                     children: [
                       const Text("Proveedor : "),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DropdownButtonFormField<PersonaEntity>(
-                              onChanged: (value) async {
-                                pedidoP.idPersona = value!.id;
-                                pedidoP.personaSelect = value;
-                                setState(() {});
-                              },
-                              items: pedidoP.listPersonas.map((item) {
-                                return DropdownMenuItem<PersonaEntity>(
-                                  value: item,
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        item.nombres,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400),
-                                      )),
-                                );
-                              }).toList(),
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Seleccione un Proveedor";
-                                }
-                                return null;
-                              },
-                              decoration: CustomInputs.formInputDecoration(
-                                  hint: pedidoP.idPersona != 0
-                                      ? pedidoP.personaSelect.nombres
-                                      : "Seleccione un Proveedor",
-                                  label: pedidoP.idPersona != 0
-                                      ? pedidoP.personaSelect.nombres
-                                      : "Seleccione un Proveedor",
-                                  icon: Icons.assignment)),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButtonFormField<PersonaEntity>(
+                                onChanged: (value) async {
+                                  pedidoP.idPersona = value!.id;
+                                  pedidoP.personaSelect = value;
+                                  setState(() {});
+                                },
+                                items: pedidoP.listPersonas.map((item) {
+                                  return DropdownMenuItem<PersonaEntity>(
+                                    value: item,
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.nombres,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        )),
+                                  );
+                                }).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Seleccione un Proveedor";
+                                  }
+                                  return null;
+                                },
+                                decoration: CustomInputs.formInputDecoration(
+                                    hint: pedidoP.idPersona != 0
+                                        ? pedidoP.personaSelect.nombres
+                                        : "Seleccione un Proveedor",
+                                    label: pedidoP.idPersona != 0
+                                        ? pedidoP.personaSelect.nombres
+                                        : "Seleccione un Proveedor",
+                                    icon: Icons.assignment)),
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 } else ...{
