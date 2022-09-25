@@ -11,6 +11,7 @@ class EmpresasMantenimiento extends StatefulWidget {
 }
 
 class _EmpresasMantenimientoState extends State<EmpresasMantenimiento> {
+  final key = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -28,45 +29,72 @@ class _EmpresasMantenimientoState extends State<EmpresasMantenimiento> {
         children: [
           WhiteCard(
             title: 'Empresa',
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text("Nombre :"),
-                    Expanded(
+            child: Form(
+              key: key,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20, right: 5),
+                        child: Text("Nombre :"),
+                      ),
+                      Expanded(
                         child: TextFormField(
-                      controller: empProvider.ctrNombre,
-                    )),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Descripcion :"),
-                    Expanded(
+                          controller: empProvider.ctrNombre,
+                          maxLength: 20,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Ingrese Nombre de la empresa";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20, right: 5),
+                        child: Text("Descripcion :"),
+                      ),
+                      Expanded(
                         child: TextFormField(
-                      controller: empProvider.ctrDescripcion,
-                    )),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed: () async {
-                        await empProvider.guardar();
-                      },
-                      child: Text("Guardar"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Cancelar"),
-                    ),
-                  ],
-                ),
-              ],
+                          maxLength: 50,
+                          controller: empProvider.ctrDescripcion,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Ingrese Descripción";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          if (key.currentState!.validate()) {
+                            await empProvider.guardar();
+                          }
+                        },
+                        child: Text("Guardar"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("Cancelar"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

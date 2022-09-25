@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/entities/departamentosEntity.dart';
 import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
 import 'package:tesis/domain/entities/tipoPersona/tipoPersonaEntity.dart';
 import 'package:tesis/domain/providers/personas/personasProvider.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 import 'package:tesis/ui/style/Custom_Inputs.dart';
 
@@ -46,24 +48,35 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                 children: [
                   Row(
                     children: [
-                      Text("Identificación :"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5, right: 5),
+                        child: Text("Identificación :"),
+                      ),
                       Expanded(
-                        child: TextFormField(
-                          maxLength: limite,
-                          controller: prov.ctrIdentificacion,
-                          validator: ((value) {
-                            if (value!.isEmpty) {
-                              return "Ingrese # de Identificación";
-                            }
-                            if (value.length != limite) {
-                              if (limite == 13) {
-                                return "Ingrese # de Identificación RUC";
-                              } else if (limite == 10) {
-                                return "Ingrese # de Identificación Correcto 10 Caracteres";
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            maxLength: limite,
+                            controller: prov.ctrIdentificacion,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(Ayuda.soloNumeros),
+                              ),
+                            ],
+                            validator: ((value) {
+                              if (value!.isEmpty) {
+                                return "Ingrese # de Identificación";
                               }
-                            }
-                            return null;
-                          }),
+                              if (value.length != limite) {
+                                if (limite == 13) {
+                                  return "Ingrese # de Identificación RUC";
+                                } else if (limite == 10) {
+                                  return "Ingrese # de Identificación Correcto 10 Caracteres";
+                                }
+                              }
+                              return null;
+                            }),
+                          ),
                         ),
                       ),
                     ],
@@ -218,11 +231,13 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         ),
                       ],
                     ),
-                  
                   } else if (prov.tipoPersona == 3) ...{
                     Row(
                       children: [
-                        Text("empresa del Proveedor:"),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10, right: 5),
+                          child: Text("empresa del Proveedor:"),
+                        ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -231,7 +246,7 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                               validator: (value) {
                                 if (prov.tipoPersona == 3) {
                                   if (value!.isEmpty) {
-                                    return "Ingrese # de Identificación";
+                                    return "Ingrese Empresa de Proveedor";
                                   }
                                 }
                                 return null;
@@ -244,12 +259,16 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                   },
                   Row(
                     children: [
-                      Text("Nombres :"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10, right: 5),
+                        child: Text("Nombres :"),
+                      ),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           controller: prov.ctrNombres,
+                          maxLength: 50,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Ingrese Nombres de la Persona";
@@ -262,11 +281,15 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                   ),
                   Row(
                     children: [
-                      Text("Direccion :"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10, right: 5),
+                        child: Text("Direccion :"),
+                      ),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          maxLength: 100,
                           controller: prov.ctrDireccion,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -280,7 +303,10 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                   ),
                   Row(
                     children: [
-                      Text("Correo :"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5, right: 5),
+                        child: Text("Correo :"),
+                      ),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -298,14 +324,24 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                   ),
                   Row(
                     children: [
-                      Text("Celular :"),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5, right: 5),
+                        child: Text("Celular :"),
+                      ),
                       Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: prov.ctrCelular,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: prov.ctrCelular,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(Ayuda.soloNumeros),
+                              ),
+                              LengthLimitingTextInputFormatter(10),
+                            ],
+                          ),
                         ),
-                      )),
+                      ),
                     ],
                   ),
                   Row(

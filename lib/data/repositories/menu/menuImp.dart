@@ -1,5 +1,6 @@
 import 'package:tesis/core/Errors/exceptions.dart';
 import 'package:tesis/data/datasource/menu/menuDts.dart';
+import 'package:tesis/data/models/menu/menuUsuarioModel.dart';
 import 'package:tesis/domain/entities/menu/menuEntity.dart';
 import 'package:tesis/data/models/menu/menuModel.dart';
 import 'package:tesis/core/Errors/failure.dart';
@@ -21,7 +22,7 @@ class MenuImp extends AbstractMenu {
   }
 
   @override
-  Future<Either<Failure, MenuEntity>> insertMenu(MenuModel dep) async {
+  Future<Either<Failure, MenuUsuarioModel>> insertMenu(MenuUsuarioModel dep) async {
     try {
       return right(await datasource.insertMenu(dep));
     } on ServerException {

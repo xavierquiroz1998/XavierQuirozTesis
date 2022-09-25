@@ -16,6 +16,7 @@ class ReemplazoEntity extends Equatable {
   String observacion;
   DateTime? fecha;
   String estado;
+  String nomPersona="";
 
   @override
   // TODO: implement props

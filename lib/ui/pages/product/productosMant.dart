@@ -86,23 +86,23 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Text("Stock :"),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 5),
-                          child: TextFormField(
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(numeros))
-                            ],
-                            controller: pvProducto.ctrStock,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Text("Stock :"),
+                  //     Expanded(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.symmetric(
+                  //             horizontal: 8, vertical: 5),
+                  //         child: TextFormField(
+                  //           inputFormatters: [
+                  //             FilteringTextInputFormatter.allow(RegExp(numeros))
+                  //           ],
+                  //           controller: pvProducto.ctrStock,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   Row(
                     children: [
                       Text("Costo :"),

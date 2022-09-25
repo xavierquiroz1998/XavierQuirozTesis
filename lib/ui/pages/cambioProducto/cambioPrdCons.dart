@@ -19,13 +19,15 @@ class _CambioPrdConsultaState extends State<CambioPrdConsulta> {
   void initState() {
     super.initState();
 
-    // final pedidoP = Provider.of<PedidoProvider>(context, listen: false);
-    // pedidoP.getPedidos();
+    final remplazo = Provider.of<RemplazoProvider>(context, listen: false);
+    remplazo.getRemplazos();
+    remplazo.getEmpresas();
+    remplazo.getDepartamentos();
   }
 
   @override
   Widget build(BuildContext context) {
-     final pedidoP = Provider.of<RemplazoProvider>(context);
+    final pedidoP = Provider.of<RemplazoProvider>(context);
     return WhiteCard(
       title: 'Cambio productos por Empleado',
       child: Column(
@@ -51,7 +53,7 @@ class _CambioPrdConsultaState extends State<CambioPrdConsulta> {
                   label: Center(child: Text("Código")),
                 ),
                 DataColumn(
-                  label: Center(child: Text("Cliente")),
+                  label: Center(child: Text("Empleado")),
                 ),
                 DataColumn(
                   label: Center(child: Text("Fecha")),
@@ -66,34 +68,48 @@ class _CambioPrdConsultaState extends State<CambioPrdConsulta> {
                   label: Center(child: Text("")),
                 ),
               ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text("")),
-                  DataCell(Text("")),
-                  DataCell(Text("")),
-                  DataCell(Text("")),
-                  DataCell(
-                    Row(
-                      children: [
-                        TextButton.icon(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.blue,
-                            ),
-                            label: Text("")),
-                        TextButton.icon(
-                            onPressed: () async {},
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
-                            label: Text("")),
-                      ],
-                    ),
-                  ),
-                ]),
-              ],
+              rows: pedidoP.listRemplazos
+                  .map((e) => DataRow(cells: [
+                        DataCell(
+                          Text("${e.id}"),
+                        ),
+                        DataCell(
+                          Text(e.nomPersona),
+                        ),
+                        DataCell(
+                          Text("${Ayuda.parseFecha(e.fecha)}"),
+                        ),
+                        DataCell(
+                          Text(e.estado),
+                        ),
+                        DataCell(
+                          Row(
+                            children: [
+                              TextButton.icon(
+                                  onPressed: () async {
+                                    await pedidoP.setReemplazo(e);
+                                    NavigationService.navigateTo(
+                                        Flurorouter.cambioMantenimiento);
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  ),
+                                  label: Text("")),
+                              TextButton.icon(
+                                  onPressed: () async {
+                                    await pedidoP.anular(e);
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  label: Text("")),
+                            ],
+                          ),
+                        ),
+                      ]))
+                  .toList(),
 
               // pedidoP.list
               //     .map(

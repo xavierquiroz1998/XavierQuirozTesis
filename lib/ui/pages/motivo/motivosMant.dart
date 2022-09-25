@@ -11,6 +11,7 @@ class MotivoMantenimiento extends StatefulWidget {
 }
 
 class _MotivoMantenimientoState extends State<MotivoMantenimiento> {
+  final key = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -27,44 +28,71 @@ class _MotivoMantenimientoState extends State<MotivoMantenimiento> {
       children: [
         WhiteCard(
           title: 'Motivo',
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text("Nombre :"),
-                  Expanded(
+          child: Form(
+            key: key,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20, right: 5),
+                      child: Text("Nombre :"),
+                    ),
+                    Expanded(
                       child: TextFormField(
-                    controller: motivoProv.ctrNombre,
-                  )),
-                ],
-              ),
-              Row(
-                children: [
-                  Text("Descripcion :"),
-                  Expanded(
+                        controller: motivoProv.ctrNombre,
+                        maxLength: 20,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Ingrese Nombre";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20, right: 5),
+                      child: Text("Descripcion :"),
+                    ),
+                    Expanded(
                       child: TextFormField(
-                    controller: motivoProv.ctrDescripcion,
-                  )),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      await motivoProv.guardar();
-                    },
-                    child: Text("Guardar"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Cancelar"),
-                  ),
-                ],
-              )
-            ],
+                        controller: motivoProv.ctrDescripcion,
+                        maxLength: 50,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Ingrese Descripción";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
+                        if (key.currentState!.validate()) {
+                          await motivoProv.guardar();
+                        }
+                      },
+                      child: Text("Guardar"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text("Cancelar"),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ],

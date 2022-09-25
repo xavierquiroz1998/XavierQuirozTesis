@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/providers/menu/menuProvider.dart';
 import 'package:tesis/domain/providers/usuarios/usuarioProvider.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
 class UsuarioMantenimiento extends StatefulWidget {
@@ -12,6 +14,7 @@ class UsuarioMantenimiento extends StatefulWidget {
 }
 
 class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
+  final key = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -23,11 +26,12 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
   Widget build(BuildContext context) {
     final menuP = Provider.of<MenuProvider>(context);
     final usuarioP = Provider.of<UsuarioProvider>(context);
-    return Container(
-      child: ListView(
-        children: [
-          WhiteCard(
-            title: 'Usuario',
+    return ListView(
+      children: [
+        WhiteCard(
+          title: 'Usuario',
+          child: Form(
+            key: key,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -36,7 +40,16 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Text("Usuario :"),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 20,
                         controller: usuarioP.ctrUsuario,
+                        validator: (value) {
+                          if (value == null) {
+                            return "Ingrese Usuario";
+                          } else if (value.isEmpty) {
+                            return "Ingrese Usuario";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -46,7 +59,16 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Text("Nombres :"),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 50,
                         controller: usuarioP.ctrNombres,
+                        validator: (value) {
+                          if (value == null) {
+                            return "Ingrese # Identificación";
+                          } else if (value.isEmpty) {
+                            return "Ingrese # Identificación";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -56,7 +78,20 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Text(" # Identidificacion :"),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 13,
                         controller: usuarioP.ctrIdentifiacion,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(Ayuda.soloNumeros))
+                        ],
+                        validator: (value) {
+                          if (value == null) {
+                            return "Ingrese # Identificación";
+                          } else if (value.isEmpty) {
+                            return "Ingrese # Identificación";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -66,7 +101,16 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Text("Domicilio :"),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 100,
                         controller: usuarioP.ctrDomicilio,
+                        validator: (value) {
+                          if (value == null) {
+                            return "Ingrese Domicilio";
+                          } else if (value.isEmpty) {
+                            return "Ingrese Domicilio";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -77,6 +121,14 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Expanded(
                       child: TextFormField(
                         controller: usuarioP.ctrCorreo,
+                        validator: (value) {
+                          if (value == null) {
+                            return "Ingrese correo";
+                          } else if (value.isEmpty) {
+                            return "Ingrese correo";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -86,7 +138,12 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     Text("Celular :"),
                     Expanded(
                       child: TextFormField(
+                        maxLength: 10,
                         controller: usuarioP.ctrCelular,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(Ayuda.soloNumeros))
+                        ],
                       ),
                     ),
                   ],
@@ -98,6 +155,14 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                       child: TextFormField(
                         obscureText: true,
                         controller: usuarioP.ctrContrasenia,
+                        validator: (value) {
+                          if (value == null) {
+                            return "Ingrese Contraseña";
+                          } else if (value.isEmpty) {
+                            return "Ingrese Contraseña";
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ],
@@ -159,25 +224,27 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                     children: [
                       TextButton(
                         onPressed: () async {
-                          await usuarioP.guardar(menuP.lisMenu);
-                          bool? valor = await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text(""),
-                                content: Text("Guardado Correctamente falta"),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context, true);
-                                      },
-                                      child: Text("OK"))
-                                ],
-                              );
-                            },
-                          );
-                          if (valor ?? false) {
-                            Navigator.pop(context);
+                          if (key.currentState!.validate()) {
+                            await usuarioP.guardar(menuP.lisMenu);
+                            bool? valor = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(""),
+                                  content: Text("Guardado Correctamente "),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context, true);
+                                        },
+                                        child: Text("OK"))
+                                  ],
+                                );
+                              },
+                            );
+                            if (valor ?? false) {
+                              Navigator.pop(context);
+                            }
                           }
                         },
                         child: const Text('Guardar'),
@@ -194,8 +261,8 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

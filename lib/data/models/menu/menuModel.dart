@@ -48,6 +48,16 @@ class MenuModel extends MenuEntity {
         ruta: json["ruta"],
         icono: json["icono"],
         estado: json["estado"],
+      );  
+
+        factory MenuModel.fromMap2(Map<String, dynamic> json) =>
+      MenuModel(
+        id: json["id_menu"],
+        idUsuario: json["id_usuario"],
+        nuevo: json["create"],
+        modificar: json["update"],
+        anular: json["delete"],
+        ruta: json["ruta"],
       );
 
   Map<String, dynamic> toMap() => {

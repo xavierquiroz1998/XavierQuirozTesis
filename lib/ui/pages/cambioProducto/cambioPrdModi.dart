@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tesis/domain/entities/departamentosEntity.dart';
 import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
+import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/remplazo/remplazoProvider.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 import 'package:tesis/ui/style/Custom_Inputs.dart';
 
@@ -17,12 +21,13 @@ class CambioProdMant extends StatefulWidget {
 
 class _CambioProdMantState extends State<CambioProdMant> {
   DateTime fechaActual = DateTime.now();
-  final key = GlobalKey<FormState>();
+  final keyf = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
     var reemplazoP = Provider.of<RemplazoProvider>(context, listen: false);
     reemplazoP.getPersonas();
+    reemplazoP.getProductos();
   }
 
   @override
@@ -31,13 +36,13 @@ class _CambioProdMantState extends State<CambioProdMant> {
     return WhiteCard(
       title: "Reemplazo de productos",
       child: Form(
-        key: key,
+        key: keyf,
         child: Column(
           children: [
             Row(
               children: [
                 Text("Fecha : "),
-                Text("${fechaActual}"),
+                Text("${Ayuda.parseFecha(fechaActual)}"),
               ],
             ),
             Row(
@@ -176,8 +181,159 @@ class _CambioProdMantState extends State<CambioProdMant> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    reemplazoP.agregar();
+                  },
                   child: Text("Agregar"),
+                ),
+              ],
+            ),
+            Container(
+              width: double.infinity,
+              child: DataTable(
+                columns: const [
+                  DataColumn(
+                    label: Center(child: Text("Producto")),
+                  ),
+                  DataColumn(
+                    label: Center(child: Text("Cantidad")),
+                  ),
+
+                  DataColumn(
+                    label: Center(child: Text("Remplazo")),
+                  ),
+                  DataColumn(
+                    label: Center(child: Text("Cantidad")),
+                  ),
+                  DataColumn(
+                    label: Center(child: Text("")),
+                  )
+                  // DataColumn(
+                  //   label: Center(child: Text("Precio")),
+                  // ),
+                  // DataColumn(
+                  //   label: Center(child: Text("Total")),
+                  // ),
+                ],
+                rows: reemplazoP.listRemplazosDetalle
+                    .map(
+                      (e) => e.prd != null || reemplazoP.remplazoSelect.id == 0
+                          ? DataRow(cells: [
+                              DataCell(
+                                DropdownButton<ProductosEntity>(
+                                  onChanged: (value) async {
+                                    e.idProducto1 = value!.id;
+                                    e.prd = value;
+
+                                    setState(() {});
+                                  },
+                                  items: reemplazoP.listProducto.map((item) {
+                                    return DropdownMenuItem<ProductosEntity>(
+                                      value: item,
+                                      child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            item.nombre,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400),
+                                          )),
+                                    );
+                                  }).toList(),
+                                  hint: Text(e.idProducto1 != 0
+                                      ? e.prd!.nombre
+                                      : "Seleccione "),
+                                ),
+                              ),
+                              DataCell(
+                                TextFormField(
+                                  initialValue: e.cantidad.toString(),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^(?:\+|-)?\d+$'))
+                                  ],
+                                  onChanged: (value) {
+                                    e.cantidad = int.parse(value);
+                                    //pedidoP.calculos();
+                                  },
+                                ),
+                              ),
+                              DataCell(
+                                DropdownButton<ProductosEntity>(
+                                  onChanged: (value) async {
+                                    e.idProducto2 = value!.id;
+                                    e.prd2 = value;
+
+                                    setState(() {});
+                                  },
+                                  items: reemplazoP.listProducto.map((item) {
+                                    return DropdownMenuItem<ProductosEntity>(
+                                      value: item,
+                                      child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            item.nombre,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400),
+                                          )),
+                                    );
+                                  }).toList(),
+                                  hint: Text(e.idProducto2 != 0
+                                      ? e.prd2!.nombre
+                                      : "Seleccione "),
+                                ),
+                              ),
+                              DataCell(
+                                TextFormField(
+                                  initialValue: e.cantidad.toString(),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^(?:\+|-)?\d+$'))
+                                  ],
+                                  onChanged: (value) {
+                                    e.cantidad2 = int.parse(value);
+                                    //pedidoP.calculos();
+                                  },
+                                ),
+                              ),
+                              // DataCell(
+                              //   Text("${e.precio}"),
+                              // ),
+                              // DataCell(
+                              //   Text(NumberFormat.currency(
+                              //           locale: 'en_US', symbol: r'$')
+                              //       .format(e.total)),
+                              // ),
+                              DataCell(TextButton.icon(
+                                  onPressed: () {
+                                    reemplazoP.listRemplazosDetalle.remove(e);
+                                  },
+                                  icon: Icon(Icons.delete),
+                                  label: Text("")))
+                            ])
+                          : DataRow(cells: [
+                              DataCell(Text("")),
+                              DataCell(Text("")),
+                              DataCell(Text("")),
+                              DataCell(Text("")),
+                              DataCell(Text("")),
+                            ]),
+                    )
+                    .toList(),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    "",
+                    //"Total : ${NumberFormat.currency(locale: 'en_US', symbol: r'$').format(pedidoP.listdetalle.sum((p) => p.total))}",
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
@@ -186,7 +342,7 @@ class _CambioProdMantState extends State<CambioProdMant> {
               children: [
                 TextButton(
                   onPressed: () async {
-                    if (key.currentState!.validate()) {
+                    if (keyf.currentState!.validate()) {
                       if (await reemplazoP.guardar()) {
                         Navigator.of(context).pop();
                       } else {
@@ -197,7 +353,9 @@ class _CambioProdMantState extends State<CambioProdMant> {
                   child: Text("Guardar"),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                   child: Text("Cancelar"),
                 ),
               ],
