@@ -9,6 +9,7 @@ import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 
 abstract class PedidosDts {
   Future<List<PedidoEntity>> getAllPedidos();
+  Future<List<PedidoEntity>> getAllPedidosPendientes();
   Future<PedidoEntity> insertPedidos(PedidoModel entity);
   Future<PedidoDetEntity> insertDetPedidos(PedidoDetModel entity);
   Future<PedidoEntity> anularPedidos(PedidoModel entity);
@@ -124,6 +125,22 @@ class PedidosDtsImp extends PedidosDts {
       print(e.toString());
 
       return pedido;
+    }
+  }
+
+  @override
+  Future<List<PedidoEntity>> getAllPedidosPendientes() async {
+    try {
+      List<PedidoModel> tem = [];
+      final result = await cliente.get(Uri.parse("$urlBase/pendientes"));
+      if (result.statusCode == 200) {
+        tem = decodeMtv(utf8.decode(result.bodyBytes));
+      }
+
+      return tem;
+    } catch (e) {
+      print(e.toString());
+      return [];
     }
   }
 }

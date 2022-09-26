@@ -56,7 +56,8 @@ class PedidoProvider extends ChangeNotifier {
     try {
       var temp = await _casosUsesProductos.getAll();
       listProducto = temp.getOrElse(() => []);
-
+      listProducto =
+          listProducto.where((element) => element.estado == "A").toList();
       notifyListeners();
     } catch (e) {
       print(e.toString());

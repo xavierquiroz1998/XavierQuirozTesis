@@ -28,4 +28,13 @@ class TipoPersonaImp extends AbstractTipoPersonas {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<TipoTrassaccion>>> getAllTipoTansaccion() async {
+    try {
+      return right(await datasource.getAllTransacciones());
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

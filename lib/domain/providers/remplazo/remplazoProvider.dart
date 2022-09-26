@@ -68,7 +68,7 @@ class RemplazoProvider extends ChangeNotifier {
 
   Future getProductos() async {
     try {
-      var temp = await _casosUsesProductos.getAll();
+      var temp = await _casosUsesProductos.getAllActivos();
       listProducto = temp.getOrElse(() => []);
 
       notifyListeners();

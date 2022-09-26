@@ -12,6 +12,10 @@ class TipoPersonaGeneral {
     return repository.getAllTipoPersonas();
   }
 
+  Future<Either<Failure, List<TipoTrassaccion>>> getAllTipoTansaccion() async {
+    return repository.getAllTipoTansaccion();
+  }
+
   Future<Either<Failure, TipoPersonaEntity>> insertTipoPersonas(
       TipoPersonaModel tp) async {
     return repository.insertTipoPersonas(tp);

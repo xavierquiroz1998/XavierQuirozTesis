@@ -5,6 +5,7 @@ import 'package:tesis/domain/entities/productos/productosEntity.dart';
 
 abstract class AbstractProductos {
   Future<Either<Failure, List<ProductosEntity>>> getAllProductos();
+  Future<Either<Failure, List<ProductosEntity>>> getAllProductosActivos();
   Future<Either<Failure, ProductosEntity>> insertProductos(ProductosModel dep);
   Future<Either<Failure, ProductosEntity>> anularProductos(ProductosModel dep);
 }

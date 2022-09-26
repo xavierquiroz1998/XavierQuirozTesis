@@ -87,8 +87,7 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                             DataCell(
                               Text(e.estado),
                             ),
-                            DataCell(
-                              Row(
+                            DataCell(Row(
                               children: [
                                 TextButton.icon(
                                     onPressed: () {
@@ -103,7 +102,7 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                                     label: Text("")),
                                 TextButton.icon(
                                     onPressed: () async {
-                                      if (e.estado != "A") {
+                                      if (e.estado == "A") {
                                         await pedidoP.anularPedido(e);
                                       } else {
                                         // mensaje
@@ -116,7 +115,6 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                                     label: Text("")),
                               ],
                             )),
-                          
                           ],
                         ),
                       )

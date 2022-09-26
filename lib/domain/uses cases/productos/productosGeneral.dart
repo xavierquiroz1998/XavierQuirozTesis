@@ -13,6 +13,10 @@ class ProductosGeneral {
     return repository.getAllProductos();
   }
 
+  Future<Either<Failure, List<ProductosEntity>>> getAllActivos() async {
+    return repository.getAllProductosActivos();
+  }
+
   Future<Either<Failure, ProductosEntity>> insertProducto(
       ProductosModel prd) async {
     return repository.insertProductos(prd);

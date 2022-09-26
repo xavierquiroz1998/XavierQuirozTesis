@@ -50,9 +50,19 @@ class PedidoImp extends AbstractPedidos {
   }
 
   @override
-  Future<Either<Failure, PedidoDetEntity>> insertDetPedidos(PedidoDetModel model)async {
+  Future<Either<Failure, PedidoDetEntity>> insertDetPedidos(
+      PedidoDetModel model) async {
     try {
       return right(await datasource.insertDetPedidos(model));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PedidoEntity>>> getAllPedidosPendientes() async {
+    try {
+      return right(await datasource.getAllPedidosPendientes());
     } on ServerException {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }

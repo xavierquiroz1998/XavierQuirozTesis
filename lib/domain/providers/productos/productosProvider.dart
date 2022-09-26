@@ -69,21 +69,34 @@ class ProductosProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
-  Future guardar() async {
+  Future<bool> guardar() async {
     try {
       ProductosModel prd = ProductosModel();
       prd.codigo = ctrCodigo.text;
       prd.nombre = ctrNombre.text;
       prd.descripcion = ctrdescripcion.text;
-      prd.stock = int.parse(ctrStock.text);
+      prd.stock = int.parse(ctrStock.text == "" ? "0" : ctrStock.text);
       prd.costo = double.parse(ctrCosto.text);
       prd.precio = double.parse(ctrPrecio.text);
       prd.estado = "A";
-      prd.unidad = int.parse(ctrUnidad.text);
+      prd.unidad = int.parse(ctrUnidad.text == "" ? "1" : ctrUnidad.text);
       prd.fecha = DateTime.now();
       var temp = await _casosUsesProductos.insertProducto(prd);
+      try {
+        ProductosEntity entity = temp.getOrElse(() => ProductosEntity());
+        if (entity.id != 0) {
+          listProducto.add(entity);
+          notifyListeners();
+          return true;
+        }
+        return false;
+      } catch (e) {
+        print("${e.toString()}");
+        return true;
+      }
     } catch (e) {
       print("${e.toString()}");
+      return true;
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:tesis/domain/entities/tipoPersona/tipoPersonaEntity.dart';
 
 abstract class AbstractTipoPersonas {
   Future<Either<Failure, List<TipoPersonaEntity>>> getAllTipoPersonas();
+  Future<Either<Failure, List<TipoTrassaccion>>> getAllTipoTansaccion();
   Future<Either<Failure, TipoPersonaEntity>> insertTipoPersonas(
       TipoPersonaModel tp);
 }

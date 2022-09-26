@@ -18,6 +18,10 @@ class Inicio extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DashboardMensual(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: DashboardAnulados(),
           )
         ],
       ),

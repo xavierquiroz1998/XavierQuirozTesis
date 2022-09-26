@@ -23,6 +23,7 @@ class PersonasProvider extends ChangeNotifier {
   List<TipoPersonaEntity> listTipoPersonas = [];
   List<EmpresasEntity> listEmpresas = [];
   List<DepartamentosEntity> listDepartamento = [];
+  List<TipoTrassaccion> listTransaccion = [];
 
   TextEditingController ctrIdentificacion = TextEditingController();
   TextEditingController ctrNombres = TextEditingController();
@@ -38,6 +39,14 @@ class PersonasProvider extends ChangeNotifier {
   TipoPersonaEntity personaSelect = TipoPersonaEntity();
   EmpresasEntity empresaSelect = EmpresasEntity();
   DepartamentosEntity departamentoSelect = DepartamentosEntity();
+
+  Future getTipoTansaccion() async {
+    try {
+      var temp = await _casosdeUsoTipoPersona.getAllTipoTansaccion();
+      listTransaccion = temp.getOrElse(() => []);
+      notifyListeners();
+    } catch (e) {}
+  }
 
   void iniciar() {
     ctrIdentificacion = TextEditingController();
@@ -168,11 +177,11 @@ class PersonasProvider extends ChangeNotifier {
         }
         return true;
       } catch (e) {
-         return false;
+        return false;
       }
     } catch (e) {
       print(e.toString());
-        return false;
+      return false;
     }
   }
 }

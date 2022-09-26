@@ -15,6 +15,10 @@ class PedidosGeneral {
     return repository.getAllPedidos();
   }
 
+  Future<Either<Failure, List<PedidoEntity>>> getAllPedidosPendientes() {
+    return repository.getAllPedidosPendientes();
+  }
+
   Future<Either<Failure, PedidoEntity>> insertPedidos(PedidoModel model) {
     return repository.insertPedidos(model);
   }

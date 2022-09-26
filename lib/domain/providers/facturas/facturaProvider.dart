@@ -58,15 +58,14 @@ class FacturaProvider extends ChangeNotifier {
       listDetalles = [];
       var result = await _cososUsos.getFacturaById(e.id);
       listDetalles = result.getOrElse(() => []);
-      if (listProducto.isEmpty) {
-        await getProductos();
-      }
+
+      await getProductosTotal();
+
       if (listPersonas.isEmpty) {
         await getPersonas();
       }
-      if (listPedidos.isEmpty) {
-        await getPedidos();
-      }
+
+      await getPedidosTotal();
 
       facturaSelect.listDetalles = listDetalles;
       for (var element in listDetalles) {
@@ -107,6 +106,16 @@ class FacturaProvider extends ChangeNotifier {
 
   Future getPedidos() async {
     try {
+      var temp = await _cososUsosPedidos.getAllPedidosPendientes();
+      listPedidos = temp.getOrElse(() => []);
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getPedidosTotal() async {
+    try {
       var temp = await _cososUsosPedidos.getAllPedidos();
       listPedidos = temp.getOrElse(() => []);
       notifyListeners();
@@ -120,9 +129,9 @@ class FacturaProvider extends ChangeNotifier {
       listDetalles = [];
       var result = await _cososUsosPedidos.getPedidoDetById(idPedido);
       var listdetalle = result.getOrElse(() => []);
-      if (listProducto.isEmpty) {
-        await getProductos();
-      }
+
+      await getProductosTotal();
+
       for (var element in listdetalle) {
         FacturaDetEntity entity = FacturaDetEntity();
         entity.idProducto = element.idProducto;
@@ -144,6 +153,17 @@ class FacturaProvider extends ChangeNotifier {
   }
 
   Future getProductos() async {
+    try {
+      var temp = await _casosUsesProductos.getAllActivos();
+      listProducto = temp.getOrElse(() => []);
+
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getProductosTotal() async {
     try {
       var temp = await _casosUsesProductos.getAll();
       listProducto = temp.getOrElse(() => []);

@@ -245,7 +245,9 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                                       ),
                                     ),
                                     DataCell(
-                                      Text("${e.precio}"),
+                                      Text(e.prd == null
+                                          ? "0"
+                                          : "${e.prd!.costo}"),
                                     ),
                                     DataCell(
                                       Text(NumberFormat.currency(

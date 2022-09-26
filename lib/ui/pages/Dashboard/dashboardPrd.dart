@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
+import 'package:tesis/domain/entities/tipoPersona/tipoPersonaEntity.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
+import 'package:tesis/domain/providers/personas/personasProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 
@@ -30,7 +32,7 @@ class _DashboardProductoState extends State<DashboardProducto> {
         children: [
           SfCircularChart(
             title: ChartTitle(
-              text: 'Productos',  
+              text: 'Productos',
               textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             legend: Legend(isVisible: true),
@@ -92,6 +94,50 @@ class _DashboardMensualState extends State<DashboardMensual> {
                           ? data.nomUsuario.substring(0, 9)
                           : data.nomUsuario,
                   yValueMapper: (PedidoEntity data, _) => data.total,
+                  dataLabelSettings: DataLabelSettings(isVisible: true)),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DashboardAnulados extends StatefulWidget {
+  const DashboardAnulados({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardAnulados> createState() => _DashboardAnuladosState();
+}
+
+class _DashboardAnuladosState extends State<DashboardAnulados> {
+
+@override
+  void initState() {
+
+    Provider.of<PersonasProvider>(context, listen: false).getTipoTansaccion();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+       final prdProvider = Provider.of<PersonasProvider>(context);
+    return WhiteCard(
+      child: Column(
+        children: [
+           SfCircularChart(
+            title: ChartTitle(
+              text: 'Anulaciones',
+              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            legend: Legend(isVisible: true),
+            tooltipBehavior: TooltipBehavior(enable: true),
+            series: <CircularSeries>[
+              PieSeries<TipoTrassaccion, String>(
+                  dataSource: prdProvider.listTransaccion,
+                  xValueMapper: (TipoTrassaccion data, _) =>
+                      data.tipo,
+                  yValueMapper: (TipoTrassaccion data, _) => data.total,
                   dataLabelSettings: DataLabelSettings(isVisible: true)),
             ],
           )

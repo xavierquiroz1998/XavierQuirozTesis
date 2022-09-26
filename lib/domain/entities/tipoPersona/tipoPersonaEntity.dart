@@ -15,3 +15,17 @@ class TipoPersonaEntity extends Equatable {
   // TODO: implement props
   List<Object?> get props => [id, descripcion, estado];
 }
+
+class TipoTrassaccion extends Equatable {
+  TipoTrassaccion({
+    this.total = 0,
+    this.tipo = "",
+  });
+
+  int total;
+  String tipo;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [total, tipo];
+}

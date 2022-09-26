@@ -6,6 +6,7 @@ import 'package:tesis/domain/entities/tipoPersona/tipoPersonaEntity.dart';
 
 abstract class TipoPersonaDTS {
   Future<List<TipoPersonaEntity>> getAllTipoPersona();
+  Future<List<TipoTrassaccion>> getAllTransacciones();
   Future<TipoPersonaEntity> insertTipoPersona(TipoPersonaModel tp);
 }
 
@@ -48,10 +49,35 @@ class TipoPersonaDTSImp extends TipoPersonaDTS {
     }
   }
 
-    List<TipoPersonaModel> decodeTp(String respuesta) {
-      var parseo = jsonDecode(respuesta);
-      return parseo
-          .map<TipoPersonaModel>((json) => TipoPersonaModel.fromMap(json))
-          .toList();
+  List<TipoPersonaModel> decodeTp(String respuesta) {
+    var parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TipoPersonaModel>((json) => TipoPersonaModel.fromMap(json))
+        .toList();
+  }
+
+  List<TipoTransaccionModel> decodeTipo(String respuesta) {
+    var parseo = jsonDecode(respuesta);
+    return parseo
+        .map<TipoTransaccionModel>((json) => TipoTransaccionModel.fromMap(json))
+        .toList();
+  }
+
+  @override
+  Future<List<TipoTrassaccion>> getAllTransacciones() async {
+    try {
+      List<TipoTransaccionModel> tem = [];
+      final result = await cliente.get(Uri.parse("$urlBase/report"));
+      if (result.statusCode == 200) {
+        tem = decodeTipo(utf8.decode(result.bodyBytes));
+      }
+
+      return tem;
+    } catch (e) {
+      return [];
     }
+  }
+
+//
+
 }

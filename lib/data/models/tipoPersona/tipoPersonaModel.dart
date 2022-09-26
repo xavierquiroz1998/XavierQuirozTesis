@@ -31,3 +31,29 @@ class TipoPersonaModel extends TipoPersonaEntity {
         "estado": estado,
       };
 }
+
+class TipoTransaccionModel extends TipoTrassaccion {
+  TipoTransaccionModel({
+    this.total = 0,
+    this.tipo = "",
+  }) : super(total: total, tipo: tipo);
+
+  int total;
+  String tipo;
+
+  factory TipoTransaccionModel.fromJson(String str) =>
+      TipoTransaccionModel.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory TipoTransaccionModel.fromMap(Map<String, dynamic> json) =>
+      TipoTransaccionModel(
+        total: int.parse(json["total"]),
+        tipo: json["tipo"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "total": total,
+        "tipo": tipo,
+      };
+}

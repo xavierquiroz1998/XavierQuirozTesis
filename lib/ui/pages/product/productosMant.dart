@@ -179,27 +179,28 @@ class _ProductosMantenimientoState extends State<ProductosMantenimiento> {
                             ),
                             onPressed: () async {
                               if (key.currentState!.validate()) {
-                                await pvProducto.guardar();
-                                bool? valor = await showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text(""),
-                                      content:
-                                          Text("Guardado Correctamente falta"),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context, true);
-                                            },
-                                            child: Text("OK"))
-                                      ],
-                                    );
-                                  },
-                                );
+                                if (await pvProducto.guardar()) {
+                                  bool? valor = await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(""),
+                                        content:
+                                            Text("Guardado Correctamente "),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context, true);
+                                              },
+                                              child: Text("OK"))
+                                        ],
+                                      );
+                                    },
+                                  );
 
-                                if (valor ?? false) {
-                                  Navigator.pop(context);
+                                  if (valor ?? true) {
+                                    Navigator.pop(context);
+                                  }
                                 }
                               }
                             },

@@ -25,15 +25,12 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
   void initState() {
     super.initState();
     var pedidoP = Provider.of<FacturaProvider>(context, listen: false);
-    if (pedidoP.listPersonas.isEmpty) {
-      pedidoP.getPersonas();
-    }
-    if (pedidoP.listPedidos.isEmpty) {
-      pedidoP.getPedidos();
-    }
-    if (pedidoP.listProducto.isEmpty) {
-      pedidoP.getProductos();
-    }
+
+    pedidoP.getPersonas();
+
+    pedidoP.getPedidos();
+
+    pedidoP.getProductos();
   }
 
   @override

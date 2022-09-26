@@ -286,7 +286,7 @@ class _TiposReportState extends State<TiposReport> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Reporte 4"),
+                  Text("Costo vs Precio Falta"),
                   TextButton.icon(
                       icon: Icon(Icons.picture_as_pdf),
                       onPressed: () async {

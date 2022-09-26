@@ -91,7 +91,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                             DataCell(Row(
                               children: [
                                 TextButton.icon(
-                                    onPressed: ()async {
+                                    onPressed: () async {
                                       await pedidoP.setFactura(e);
                                       NavigationService.navigateTo(
                                           Flurorouter.facturaMantenimiento);
@@ -103,7 +103,7 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                                     label: Text("")),
                                 TextButton.icon(
                                     onPressed: () async {
-                                      if (e.estado != "A") {
+                                      if (e.estado == "A") {
                                         await pedidoP.anularFactura(e);
                                       } else {
                                         // mensaje
