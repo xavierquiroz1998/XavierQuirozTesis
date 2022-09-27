@@ -9,6 +9,7 @@ class ProductosProvider extends ChangeNotifier {
   ProductosProvider(this._casosUsesProductos);
 
   List<ProductosEntity> listProducto = [];
+  List<CostovsPrecioEntity> costoPrecio = [];
 
   TextEditingController ctrCodigo = TextEditingController();
   TextEditingController ctrNombre = TextEditingController();
@@ -98,5 +99,12 @@ class ProductosProvider extends ChangeNotifier {
       print("${e.toString()}");
       return true;
     }
+  }
+
+  Future costovsPrecio() async {
+    try {
+      var temp = await _casosUsesProductos.getAllcostoVsprecio();
+      costoPrecio = temp.getOrElse(() => []);
+    } catch (e) {}
   }
 }

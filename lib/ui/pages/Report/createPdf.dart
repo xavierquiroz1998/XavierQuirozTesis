@@ -188,7 +188,7 @@ class PdfInvoiceApi {
     //   ];
     // }).toList();
 
-       final data = invoice.map((item) {
+    final data = invoice.map((item) {
       //final total = item.unitPrice * item.quantity * (1 + item.vat);
 
       return [
@@ -353,6 +353,152 @@ class PdfInvoiceApi {
   }
 
 // #endregion
+
+  static Future<Uint8List> generateListcostobyte(
+      List<CostovsPrecioEntity> products) async {
+    final pdf = Document();
+
+    pdf.addPage(MultiPage(
+      build: (context) => [
+        buildHeaderProductos("Listado de Costo vs Precio"),
+        SizedBox(height: 3 * PdfPageFormat.cm),
+        //buildTitle(invoice),
+        buildInvoicecostos(products),
+        Divider(),
+        buildTotalCosto(products)
+      ],
+      //footer: (context) => buildFooter(invoice),
+    ));
+
+    return pdf.save();
+    // PdfApi.saveDocument(name: 'Report002.pdf', pdf: pdf);
+  }
+
+  static Widget buildInvoicecostos(List<CostovsPrecioEntity> invoice) {
+    final headers = [
+      'Codigo',
+      'Nombres',
+      'Pendiente Facturar',
+      'costo',
+      'Precio',
+      'Costo Total',
+      'Precio Total'
+    ];
+    final data = invoice.map((item) {
+      //final total = item.unitPrice * item.quantity * (1 + item.vat);
+
+      return [
+        item.codigo,
+        item.nombre,
+        item.canpendfact,
+        '\$  ${item.costo.toStringAsFixed(2)} ',
+        '\$ ${item.precio.toStringAsFixed(2)}',
+        '\$  ${item.costototal.toStringAsFixed(2)} ',
+        '\$ ${item.preciototal.toStringAsFixed(2)}',
+      ];
+    }).toList();
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      headerPadding: EdgeInsets.all(5),
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerLeft,
+        2: Alignment.centerLeft,
+        3: Alignment.center,
+        4: Alignment.center,
+        5: Alignment.center,
+        6: Alignment.center,
+      },
+    );
+  }
+
+  static Widget buildTotalCosto(List<CostovsPrecioEntity> invoice) {
+    final netTotal = invoice.sum((p) => p.costototal);
+    final totalPrecio = invoice.sum((p) => p.preciototal);
+    // final vatPercent = invoice.items.first.vat;
+    // final vat = netTotal * vatPercent;
+    // final total = netTotal + vat;
+
+    return Container(
+      //alignment: Alignment.centerRight,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // Spacer(flex: 6),
+              // Expanded(
+              //   flex: 4,
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       buildText(
+              //         title: 'totales ',
+              //         //value: Utils.formatPrice(netTotal),
+              //         value: formatPrice(netTotal),
+              //         unite: true,
+              //       ),
+              //       buildText(
+              //         title: 'totales ',
+              //         //value: Utils.formatPrice(netTotal),
+              //         value: formatPrice(totalPrecio),
+              //         unite: true,
+              //       ),
+              //       // buildText(
+              //       //   title: 'Vat ${vatPercent * 100} %',
+              //       //   value: Utils.formatPrice(vat),
+              //       //   unite: true,
+              //       // ),
+              //       // Divider(),
+              //       // buildText(
+              //       //   title: 'Total amount due',
+              //       //   titleStyle: TextStyle(
+              //       //     fontSize: 14,
+              //       //     fontWeight: FontWeight.bold,
+              //       //   ),
+              //       //   value: Utils.formatPrice(total),
+              //       //   unite: true,
+              //       // ),
+              //       SizedBox(height: 2 * PdfPageFormat.mm),
+              //       Container(height: 1, color: PdfColors.grey400),
+              //       SizedBox(height: 0.5 * PdfPageFormat.mm),
+              //       Container(height: 1, color: PdfColors.grey400),
+              //     ],
+              //   ),
+              // ),
+
+              Text(formatPrice(netTotal).toString()),
+              SizedBox(width: 20),
+              Text(formatPrice(totalPrecio).toString()),
+              SizedBox(width: 10),
+            ],
+          ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                "Ganancia",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: 20),
+              Text(
+                formatPrice(netTotal - totalPrecio).toString(),
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: 10),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   static Widget buildHeader(PedidoEntity invoice, String cod) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

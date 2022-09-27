@@ -71,7 +71,9 @@ class _FormLoginViewState extends State<FormLoginView> {
                 child: TextButton(
                   onPressed: () async {
                     if (_keyLogin.currentState!.validate()) {
-                      logeo.logeo();
+                      if (!await logeo.logeo()) {
+                        await alerta(context, "Advertencia", logeo.msjError);
+                      }
                     }
                   },
                   style: TextButton.styleFrom(
@@ -91,6 +93,25 @@ class _FormLoginViewState extends State<FormLoginView> {
           ),
         ),
       ),
+    );
+  }
+
+  Future alerta(BuildContext context, String titulo, String cuerpo) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("$titulo"),
+          content: Text("$cuerpo"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK"))
+          ],
+        );
+      },
     );
   }
 }

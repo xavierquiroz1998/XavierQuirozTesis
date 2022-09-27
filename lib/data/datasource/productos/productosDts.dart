@@ -8,6 +8,7 @@ import 'package:tesis/domain/entities/productos/productosEntity.dart';
 abstract class ProductosDTS {
   Future<List<ProductosEntity>> getAllProductos();
   Future<List<ProductosEntity>> getAllProductosActivos();
+  Future<List<CostovsPrecioEntity>> getAllcostoVsprecio();
   Future<ProductosEntity> insertProductos(ProductosModel prd);
   Future<ProductosEntity> anularProductos(ProductosModel prd);
 }
@@ -89,5 +90,27 @@ class ProductoDTSImp extends ProductosDTS {
     } catch (e) {
       return [];
     }
+  }
+
+  @override
+  Future<List<CostovsPrecioEntity>> getAllcostoVsprecio() async {
+    try {
+      List<CostovsPrecioEntity> tem = [];
+      final result = await cliente.get(Uri.parse("$urlBase/costovsprecio"));
+      if (result.statusCode == 200) {
+        tem = decodeCosto(utf8.decode(result.bodyBytes));
+      }
+
+      return tem;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  List<CostovsPrecioModel> decodeCosto(String respuesta) {
+    var parseo = jsonDecode(respuesta);
+    return parseo
+        .map<CostovsPrecioModel>((json) => CostovsPrecioModel.fromMap(json))
+        .toList();
   }
 }

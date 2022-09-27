@@ -43,3 +43,41 @@ class ProductosEntity extends Equatable {
         usuario
       ];
 }
+
+class CostovsPrecioEntity extends Equatable {
+  CostovsPrecioEntity({
+    this.id = 0,
+    this.codigo = "",
+    this.nombre = "",
+    this.costo = 0,
+    this.precio = 0,
+    this.estado = "",
+    this.canpendfact = 0,
+    this.costototal = 0,
+    this.preciototal = 0,
+  });
+
+  int id;
+  String codigo;
+  String nombre;
+  double costo;
+  double precio;
+  String estado;
+  int canpendfact;
+  double costototal;
+  double preciototal;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        codigo,
+        nombre,
+        costo,
+        precio,
+        estado,
+        canpendfact,
+        costototal,
+        preciototal
+      ];
+}

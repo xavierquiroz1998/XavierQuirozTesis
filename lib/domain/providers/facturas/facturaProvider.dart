@@ -33,6 +33,7 @@ class FacturaProvider extends ChangeNotifier {
 
   int idPersona = 0;
   int idPedido = 0;
+  String msjError = "";
 
   PersonaEntity personaSelect = PersonaEntity();
   PedidoEntity pedidoSelect = PedidoEntity();
@@ -208,6 +209,7 @@ class FacturaProvider extends ChangeNotifier {
 
   Future<bool> insertFactura() async {
     try {
+      msjError = "";
       FacturaModel model = FacturaModel();
       model.idCliente = idPersona;
       model.idPedido = idPedido;
@@ -236,13 +238,18 @@ class FacturaProvider extends ChangeNotifier {
             await _cososUsos.insertDetFactura(modelDet);
           }
           notifyListeners();
+          return true;
+        } else {
+          msjError = "Error al guardar Factura";
+          return false;
         }
-        return true;
       } catch (e) {
+        msjError = "Error al guardar detalle de Factura ${e.runtimeType}";
         return false;
       }
     } catch (e) {
       print(e.toString());
+      msjError = "Error al guardar la Factura ${e.runtimeType}";
       return false;
     }
   }

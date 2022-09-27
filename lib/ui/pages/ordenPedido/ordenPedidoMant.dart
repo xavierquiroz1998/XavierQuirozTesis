@@ -8,6 +8,7 @@ import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/ui/pages/Report/createPdf.dart';
 import 'package:tesis/ui/pages/Report/viewPdf.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 import 'package:tesis/ui/style/Custom_Inputs.dart';
 
@@ -121,7 +122,7 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w400),
-                                    )),
+                                    ),),
                               );
                             }).toList(),
                             validator: (value) {
@@ -299,9 +300,12 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                         onPressed: () async {
                           if (key.currentState!.validate()) {
                             if (await pedidoP.insertPedidos()) {
+                              await Ayuda.alerta(
+                                  context, "Exito", "Guardado Correctamente");
                               Navigator.of(context).pop();
                             } else {
-                              // mensaje de error
+                              await Ayuda.alerta(
+                                  context, "Advertencia", pedidoP.msjError);
                             }
                           }
                         },

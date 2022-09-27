@@ -48,4 +48,14 @@ class ProductosImp implements AbstractProductos {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<CostovsPrecioEntity>>>
+      getAllcostoVsprecio() async {
+    try {
+      return right(await datasource.getAllcostoVsprecio());
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

@@ -7,6 +7,7 @@ import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 import 'package:tesis/domain/entities/personas/personasEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
+import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 import 'package:tesis/ui/style/Custom_Inputs.dart';
 
@@ -300,9 +301,12 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                         onPressed: () async {
                           if (key.currentState!.validate()) {
                             if (await pedidoP.insertFactura()) {
+                              await Ayuda.alerta(
+                                  context, "Exito", "Guardado Correctamente");
                               Navigator.of(context).pop();
                             } else {
-                              // mensaje de error
+                               await Ayuda.alerta(
+                                  context, "Advertencia", pedidoP.msjError);
                             }
                           }
                         },

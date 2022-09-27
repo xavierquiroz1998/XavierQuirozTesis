@@ -77,3 +77,67 @@ class ProductosModel extends ProductosEntity {
         "usuario": usuario,
       };
 }
+
+class CostovsPrecioModel extends CostovsPrecioEntity {
+  CostovsPrecioModel({
+    this.id = 0,
+    this.codigo = "",
+    this.nombre = "",
+    this.costo = 0,
+    this.precio = 0,
+    this.estado = "",
+    this.canpendfact = 0,
+    this.costototal = 0,
+    this.preciototal = 0,
+  }) : super(
+          id: id,
+          codigo: codigo,
+          nombre: nombre,
+          costo: costo,
+          precio: precio,
+          estado: estado,
+          canpendfact: canpendfact,
+          costototal: costototal,
+          preciototal: preciototal,
+        );
+
+  int id;
+  String codigo;
+  String nombre;
+  double costo;
+  double precio;
+  String estado;
+  int canpendfact;
+  double costototal;
+  double preciototal;
+
+  factory CostovsPrecioModel.fromJson(String str) =>
+      CostovsPrecioModel.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory CostovsPrecioModel.fromMap(Map<String, dynamic> json) =>
+      CostovsPrecioModel(
+        id: json["id"],
+        codigo: json["codigo"],
+        nombre: json["nombre"],
+        costo: json["costo"].toDouble(),
+        precio: json["precio"].toDouble(),
+        estado: json["estado"],
+        canpendfact: json["canpendfact"],
+        costototal: json["costototal"].toDouble(),
+        preciototal: json["preciototal"].toDouble(),
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "codigo": codigo,
+        "nombre": nombre,
+        "costo": costo,
+        "precio": precio,
+        "estado": estado,
+        "canpendfact": canpendfact,
+        "costototal": costototal,
+        "preciototal": preciototal,
+      };
+}

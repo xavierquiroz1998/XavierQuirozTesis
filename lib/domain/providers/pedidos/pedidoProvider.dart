@@ -29,6 +29,7 @@ class PedidoProvider extends ChangeNotifier {
   List<PedidoEntity> listDash = [];
 
   int idPersona = 0;
+  String msjError = "";
 
   PersonaEntity personaSelect = PersonaEntity();
   PedidoEntity pedidoSelect = PedidoEntity();
@@ -137,6 +138,7 @@ class PedidoProvider extends ChangeNotifier {
 
   Future<bool> insertPedidos() async {
     try {
+      msjError = "";
       PedidoModel model = PedidoModel();
       model.idCliente = idPersona;
       model.estado = "A";
@@ -147,29 +149,38 @@ class PedidoProvider extends ChangeNotifier {
       try {
         var entity = temp.getOrElse(() => PedidoEntity());
         if (entity.id != 0) {
+          entity.nomUsuario =
+              listPersonas.firstWhere((e) => e.id == idPersona).nombres;
           list.add(entity);
-        }
-        for (var element in listdetalle) {
-          PedidoDetModel modelDet = PedidoDetModel();
-          modelDet.idCab = entity.id;
-          modelDet.idProducto = element.idProducto;
-          modelDet.cantidad = element.cantidad;
-          modelDet.idMotivo = element.idMotivo;
-          modelDet.precio = element.precio;
-          modelDet.codIva = element.codIva;
-          modelDet.iva = element.iva;
-          modelDet.subTotal = element.subTotal;
-          modelDet.total = element.total;
+          for (var element in listdetalle) {
+            PedidoDetModel modelDet = PedidoDetModel();
+            modelDet.idCab = entity.id;
+            modelDet.idProducto = element.idProducto;
+            modelDet.cantidad = element.cantidad;
+            modelDet.idMotivo = element.idMotivo;
+            modelDet.precio = element.precio;
+            modelDet.codIva = element.codIva;
+            modelDet.iva = element.iva;
+            modelDet.subTotal = element.subTotal;
+            modelDet.total = element.total;
 
-          await _cososUsos.insertDetPedidos(modelDet);
+            await _cososUsos.insertDetPedidos(modelDet);
+            notifyListeners();
+            return true;
+          }
+        } else {
+          msjError = "No se guardo el pedido";
+          return false;
         }
-        notifyListeners();
-        return true;
       } catch (e) {
+        msjError = "No se guardo el Detalle del pedido ${e.toString()}";
         return false;
       }
+      msjError = "No se guardo el pedido";
+      return false;
     } catch (e) {
       print(e.toString());
+      msjError = "No se guardo el Detalle del pedido ${e.toString()}";
       return false;
     }
   }

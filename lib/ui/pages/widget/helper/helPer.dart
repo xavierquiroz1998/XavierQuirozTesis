@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Ayuda {
@@ -8,9 +9,28 @@ class Ayuda {
   static String alfanumerico = r'(^[a-zA-Z 0-9.-]*$)';
   static String parseFecha(DateTime? fecha) {
     try {
-    return _formatter.format(fecha?? DateTime.now());
+      return _formatter.format(fecha ?? DateTime.now());
     } catch (e) {
       return "";
     }
+  }
+
+  static Future<bool?>  alerta(BuildContext context, String titulo, String cuerpo) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("$titulo"),
+          content: Text("$cuerpo"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context,true);
+                },
+                child: Text("OK"))
+          ],
+        );
+      },
+    );
   }
 }

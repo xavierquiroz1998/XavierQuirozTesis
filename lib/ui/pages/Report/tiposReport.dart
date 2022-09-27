@@ -253,7 +253,7 @@ class _TiposReportState extends State<TiposReport> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ViewPdf(    
+                          builder: (context) => ViewPdf(
                             data: temp,
                           ),
                         ),
@@ -286,15 +286,15 @@ class _TiposReportState extends State<TiposReport> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Costo vs Precio Falta"),
+                  Text("Costo vs Precio "),
                   TextButton.icon(
                       icon: Icon(Icons.picture_as_pdf),
                       onPressed: () async {
-                        if (productosP.listProducto.isEmpty) {
-                          await productosP.getProductos();
+                        if (productosP.costoPrecio.isEmpty) {
+                          await productosP.costovsPrecio();
                         }
-                        var temp = await PdfInvoiceApi.generateListProductobyte(
-                            productosP.listProducto);
+                        var temp = await PdfInvoiceApi.generateListcostobyte(
+                            productosP.costoPrecio);  
                         Navigator.push(
                           context,
                           MaterialPageRoute(
