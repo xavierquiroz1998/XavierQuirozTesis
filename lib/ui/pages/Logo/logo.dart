@@ -7,6 +7,7 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //padding: EdgeInsets.only(top: 10),
+      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

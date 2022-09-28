@@ -45,18 +45,18 @@ class _MobileBody extends StatelessWidget {
       height: 1000,
       color: Colors.black,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             width: double.infinity,
             height: 420,
             child: child,
           ),
-          Container(
-            width: double.infinity,
-            height: 400,
-            child: BackgroundRigth(),
-          )
+          // Container(
+          //   width: double.infinity,
+          //   height: 400,
+          //   child: BackgroundRigth(),
+          // )
         ],
       ),
     );
@@ -73,13 +73,16 @@ class _DesktopBody extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Container(
+      // width: size.width,
+      // height: size.height * 0.95,
       width: size.width,
-      height: size.height * 0.95,
+      height: size.height,
       color: Colors.black,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Twitter Background
-          Expanded(child: BackgroundRigth()),
+          //Expanded(child: BackgroundRigth()),
 
           // View Container
           Container(
@@ -87,6 +90,7 @@ class _DesktopBody extends StatelessWidget {
             height: double.infinity,
             color: Colors.black,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(child: child),
               ],

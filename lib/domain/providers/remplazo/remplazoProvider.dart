@@ -35,7 +35,10 @@ class RemplazoProvider extends ChangeNotifier {
   DepartamentosEntity departamentoSelect = DepartamentosEntity();
   ReemplazoEntity remplazoSelect = ReemplazoEntity();
 
+  TextEditingController ctobs = TextEditingController();
+
   void inicio() {
+    ctobs = TextEditingController();
     remplazoSelect = ReemplazoEntity();
     personaSelect = PersonaEntity();
     empresaSelect = EmpresasEntity();
@@ -130,6 +133,7 @@ class RemplazoProvider extends ChangeNotifier {
   Future setReemplazo(ReemplazoEntity entity) async {
     try {
       remplazoSelect = entity;
+      ctobs = TextEditingController(text: entity.observacion);
 
       if (listProducto.isEmpty) {
         await getProductos();

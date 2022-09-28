@@ -171,9 +171,11 @@ class _CambioProdMantState extends State<CambioProdMant> {
             ),
             Row(
               children: [
-                Text("Motivo : "),
+                Text("Observacion : "),
                 Expanded(
-                  child: TextFormField(),
+                  child: TextFormField(
+                    controller: reemplazoP.ctobs,
+                  ),
                 ),
               ],
             ),
