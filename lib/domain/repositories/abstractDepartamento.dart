@@ -6,5 +6,7 @@ import 'package:tesis/domain/entities/departamentosEntity.dart';
 abstract class AbstractDepartamento {
   Future<Either<Failure, List<DepartamentosEntity>>> getAllDep();
   Future<Either<Failure, DepartamentosEntity>> insertDep(ModelDepartamento dep);
+  Future<Either<Failure, DepartamentosEntity>> updateDepartamento(
+      ModelDepartamento dep);
   Future<Either<Failure, DepartamentosEntity>> anularDep(ModelDepartamento dep);
 }

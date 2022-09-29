@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tesis/core/Errors/failure.dart';
 import 'package:tesis/data/models/empresas/empresasModel.dart';
 import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
 import 'package:tesis/domain/repositories/empresas/abtractEmpresas.dart';
@@ -59,7 +61,13 @@ class EmpresasProvider extends ChangeNotifier {
       emp.nombre = ctrNombre.text;
       emp.descripcion = ctrDescripcion.text;
       emp.estado = "A";
-      var temp = await _usesCasesEmpresa.insertEmpresas(emp);
+      late Either<Failure, EmpresasEntity> temp;
+      if (entidad.id == 0) {
+        temp = await _usesCasesEmpresa.insertEmpresas(emp);
+      } else {
+        emp.id = entidad.id;
+        temp = await _usesCasesEmpresa.updateEmpresas(emp);
+      }
     } catch (e) {}
   }
 }

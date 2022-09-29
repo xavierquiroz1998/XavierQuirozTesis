@@ -8,6 +8,7 @@ import 'package:tesis/domain/entities/personas/personasEntity.dart';
 abstract class PersonaDts {
   Future<List<PersonaEntity>> getAllPersonas();
   Future<PersonaEntity> insertPersonas(PersonaModel mtv);
+  Future<PersonaEntity> updatePersonas(PersonaModel mtv);
   Future<PersonaEntity> anularPersonas(PersonaModel model);
 }
 
@@ -56,14 +57,32 @@ class PersonaDtsImp extends PersonaDts {
         .map<PersonaModel>((json) => PersonaModel.fromMap(json))
         .toList();
   }
-  
+
   @override
-  Future<PersonaEntity> anularPersonas(PersonaModel model) async{
+  Future<PersonaEntity> anularPersonas(PersonaModel model) async {
     PersonaModel departamento = PersonaModel();
     try {
       var grp = json.encode(model.toMap());
 
       final result = await cliente.post(Uri.parse("$urlBase/anular"),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return PersonaModel.fromMap(json.decode(result.body));
+      }
+
+      return departamento;
+    } catch (e) {
+      return departamento;
+    }
+  }
+
+  @override
+  Future<PersonaEntity> updatePersonas(PersonaModel mtv) async {
+    PersonaModel departamento = PersonaModel();
+    try {
+      var grp = json.encode(mtv.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/update"),
           body: grp, headers: {"Content-type": "application/json"});
       if (result.statusCode == 200) {
         return PersonaModel.fromMap(json.decode(result.body));

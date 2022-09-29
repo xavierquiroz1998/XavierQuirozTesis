@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pdf/pdf.dart';
+import 'package:tesis/core/Errors/failure.dart';
 import 'package:tesis/data/models/personas/personasModel.dart';
 import 'package:tesis/domain/entities/departamentosEntity.dart';
 import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
@@ -39,6 +41,7 @@ class PersonasProvider extends ChangeNotifier {
   TipoPersonaEntity personaSelect = TipoPersonaEntity();
   EmpresasEntity empresaSelect = EmpresasEntity();
   DepartamentosEntity departamentoSelect = DepartamentosEntity();
+  PersonaEntity personaSelectEntity = PersonaEntity();
 
   Future getTipoTansaccion() async {
     try {
@@ -49,6 +52,7 @@ class PersonasProvider extends ChangeNotifier {
   }
 
   void iniciar() {
+    personaSelectEntity = PersonaEntity();
     ctrIdentificacion = TextEditingController();
     ctrNombres = TextEditingController();
     ctrDireccion = TextEditingController();
@@ -66,6 +70,7 @@ class PersonasProvider extends ChangeNotifier {
 
   Future setPersona(PersonaEntity e) async {
     try {
+      personaSelectEntity = e;
       ctrIdentificacion = TextEditingController(text: e.identificacion);
       ctrNombres = TextEditingController(text: e.nombres);
       ctrDireccion = TextEditingController(text: e.direccion);
@@ -168,10 +173,21 @@ class PersonasProvider extends ChangeNotifier {
       model.tipo = tipoPersona;
       model.telefono = "";
       model.estado = "A";
-      var temp = await _casosdeUsoPersona.insertPersonas(model);
+      late Either<Failure, PersonaEntity> temp;
+      if (personaSelectEntity.id == 0) {
+        temp = await _casosdeUsoPersona.insertPersonas(model);
+      } else {
+        model.id = personaSelectEntity.id;
+        temp = await _casosdeUsoPersona.updatePersonas(model);
+      }
+
       try {
         var result = temp.getOrElse(() => PersonaEntity());
         if (result.id != 0) {
+          if (personaSelectEntity.id != 0) {
+            listPersonas.remove(listPersonas
+                .firstWhere((element) => element.id == personaSelectEntity.id));
+          }
           listPersonas.add(result);
           notifyListeners();
         }

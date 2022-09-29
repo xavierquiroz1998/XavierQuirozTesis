@@ -16,6 +16,11 @@ class EmpresasGeneral {
       EmpresasModel emp) async {
     return repository.insertEmpresas(emp);
   }
+ 
+  Future<Either<Failure, EmpresasEntity>> updateEmpresas(
+      EmpresasModel emp) async {
+    return repository.updateEmpresas(emp);
+  }
 
   Future<Either<Failure, EmpresasEntity>> anularEmpresas(
       EmpresasModel emp) async {

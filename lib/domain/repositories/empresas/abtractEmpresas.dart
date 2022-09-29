@@ -6,5 +6,6 @@ import 'package:tesis/domain/entities/empresas/empresasEntity.dart';
 abstract class AbstractEmpresas {
   Future<Either<Failure, List<EmpresasEntity>>> getAllEmpresas();
   Future<Either<Failure, EmpresasEntity>> insertEmpresas(EmpresasModel emp);
+  Future<Either<Failure, EmpresasEntity>> updateEmpresas(EmpresasModel emp);
   Future<Either<Failure, EmpresasEntity>> anularEmpresas(EmpresasModel emp);
 }

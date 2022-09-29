@@ -27,6 +27,11 @@ class ProductosGeneral {
     return repository.insertProductos(prd);
   }
 
+  Future<Either<Failure, ProductosEntity>> updateProductos(
+      ProductosModel prd) async {
+    return repository.updateProductos(prd);
+  }
+
   Future<Either<Failure, ProductosEntity>> anularProducto(
       ProductosModel prd) async {
     return repository.anularProductos(prd);

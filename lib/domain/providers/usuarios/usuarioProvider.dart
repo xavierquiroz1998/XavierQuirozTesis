@@ -14,6 +14,7 @@ class UsuarioProvider extends ChangeNotifier {
   UsuarioProvider(this._casosUsosUsuario, this._casosUsosMenu);
 
   List<UsuariEntity> lisUsuarios = [];
+  List<MenuEntity> lisMenu = [];
 
   TextEditingController ctrUsuario = TextEditingController();
   TextEditingController ctrNombres = TextEditingController();
@@ -35,6 +36,10 @@ class UsuarioProvider extends ChangeNotifier {
     }
   }
 
+  void notificar(){
+      notifyListeners();
+  }
+
   void limpiar() {
     ctrUsuario = TextEditingController();
     ctrNombres = TextEditingController();
@@ -46,7 +51,7 @@ class UsuarioProvider extends ChangeNotifier {
     entity = UsuariEntity();
   }
 
-  void setUsuario() {
+  void setUsuario() async {
     try {
       ctrUsuario = TextEditingController(text: entity.usuario);
       ctrNombres = TextEditingController(text: entity.nombres);
@@ -55,6 +60,26 @@ class UsuarioProvider extends ChangeNotifier {
       ctrCorreo = TextEditingController(text: entity.correo);
       ctrCelular = TextEditingController(text: entity.celular);
       ctrContrasenia = TextEditingController(text: entity.contrasenia);
+      var result = await _casosUsosMenu.getMenuUsuario(entity.id);
+      var permisos = result.getOrElse(() => []);
+      for (var element in lisMenu) {
+        var result = permisos.firstWhere((e) => e.id == element.id);
+        if (result != null) {
+          element.nuevo = result.nuevo;
+          element.modificar = result.modificar;
+          element.anular = result.anular;
+        }
+      }
+      notifyListeners();
+    } catch (e) {}
+  }
+
+  Future getMenu() async {
+    try {
+      var temp = await _casosUsosMenu.getAllMenu();
+
+      lisMenu = temp.getOrElse(() => []);
+      notifyListeners();
     } catch (e) {}
   }
 

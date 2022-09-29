@@ -44,41 +44,47 @@ class _DepartamentoMantenimientoState extends State<DepartamentoMantenimiento> {
                       child: Text("Empresa :"),
                     ),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DropdownButtonFormField<EmpresasEntity>(
-                          onChanged: (value) async {
-                            depProvider.idempresa = value!.id;
-                            depProvider.empEntity = value;
-                            setState(() {});
-                          },
-                          items: depProvider.listEmpresas.map((item) {
-                            return DropdownMenuItem<EmpresasEntity>(
-                              value: item,
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    item.descripcion,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400),
-                                  )),
-                            );
-                          }).toList(),
-                          validator: (value) {
-                            if (value == null) {
-                              return "Seleccione un Proveedor";
-                            }
-                            return null;
-                          },
-                          decoration: CustomInputs.formInputDecoration(
-                              hint: depProvider.idempresa != 0
-                                  ? depProvider.empEntity.descripcion
-                                  : "Seleccione Empresa",
-                              label: depProvider.idempresa != 0
-                                  ? depProvider.empEntity.descripcion
-                                  : "Seleccione Empresa",
-                              icon: Icons.assignment),
+                      child: IgnorePointer(
+                        ignoring: depProvider.entity.id == 0 ? false : true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButtonFormField<EmpresasEntity>(
+                            onChanged: (value) async {
+                              depProvider.idempresa = value!.id;
+                              depProvider.empEntity = value;
+                              setState(() {});
+                            },
+                            items: depProvider.listEmpresas.map((item) {
+                              return DropdownMenuItem<EmpresasEntity>(
+                                value: item,
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      item.descripcion,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400),
+                                    )),
+                              );
+                            }).toList(),
+                            validator: (value) {
+                              if (depProvider.entity.id == 0) {
+                                if (value == null) {
+                                  return "Seleccione una Empresa";
+                                }
+                              }
+
+                              return null;
+                            },
+                            decoration: CustomInputs.formInputDecoration(
+                                hint: depProvider.idempresa != 0
+                                    ? depProvider.empEntity.descripcion
+                                    : "Seleccione Empresa",
+                                label: depProvider.idempresa != 0
+                                    ? depProvider.empEntity.descripcion
+                                    : "Seleccione Empresa",
+                                icon: Icons.assignment),
+                          ),
                         ),
                       ),
                     ),

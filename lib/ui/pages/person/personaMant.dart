@@ -53,29 +53,36 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                         child: Text("Identificación :"),
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextFormField(
-                            maxLength: limite,
-                            controller: prov.ctrIdentificacion,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(Ayuda.soloNumeros),
-                              ),
-                            ],
-                            validator: ((value) {
-                              if (value!.isEmpty) {
-                                return "Ingrese # de Identificación";
-                              }
-                              if (value.length != limite) {
-                                if (limite == 13) {
-                                  return "Ingrese # de Identificación RUC";
-                                } else if (limite == 10) {
-                                  return "Ingrese # de Identificación Correcto 10 Caracteres";
+                        child: IgnorePointer(
+                          ignoring:
+                              prov.personaSelectEntity.id == 0 ? false : true,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              maxLength: limite,
+                              controller: prov.ctrIdentificacion,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(Ayuda.soloNumeros),
+                                ),
+                              ],
+                              validator: ((value) {
+                                if (prov.personaSelectEntity.id == 0) {
+                                  if (value!.isEmpty) {
+                                    return "Ingrese # de Identificación";
+                                  }
+                                  if (value.length != limite) {
+                                    if (limite == 13) {
+                                      return "Ingrese # de Identificación RUC";
+                                    } else if (limite == 10) {
+                                      return "Ingrese # de Identificación Correcto 10 Caracteres";
+                                    }
+                                  }
                                 }
-                              }
-                              return null;
-                            }),
+
+                                return null;
+                              }),
+                            ),
                           ),
                         ),
                       ),
@@ -85,45 +92,51 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                     children: [
                       Text("Tipo Persona :"),
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: DropdownButtonFormField<TipoPersonaEntity>(
-                              onChanged: (value) async {
-                                prov.tipoPersona = value!.id;
-                                prov.personaSelect = value;
-                                if (prov.tipoPersona == 3) {
-                                  limite = 13;
-                                }
-                                setState(() {});
-                              },
-                              items: prov.listTipoPersonas.map((item) {
-                                return DropdownMenuItem<TipoPersonaEntity>(
-                                  value: item,
-                                  child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        item.descripcion,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400),
-                                      )),
-                                );
-                              }).toList(),
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Seleccione una Tipo de Persona";
-                                }
+                        child: IgnorePointer(
+                          ignoring:
+                              prov.personaSelectEntity.id == 0 ? false : true,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButtonFormField<TipoPersonaEntity>(
+                                onChanged: (value) async {
+                                  prov.tipoPersona = value!.id;
+                                  prov.personaSelect = value;
+                                  if (prov.tipoPersona == 3) {
+                                    limite = 13;
+                                  }
+                                  setState(() {});
+                                },
+                                items: prov.listTipoPersonas.map((item) {
+                                  return DropdownMenuItem<TipoPersonaEntity>(
+                                    value: item,
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.descripcion,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        )),
+                                  );
+                                }).toList(),
+                                validator: (value) {
+                                  if (prov.personaSelectEntity.id == 0) {
+                                    if (value == null) {
+                                      return "Seleccione una Tipo de Persona";
+                                    }
+                                  }
 
-                                return null;
-                              },
-                              decoration: CustomInputs.formInputDecoration(
-                                  hint: prov.tipoPersona != 0
-                                      ? prov.personaSelect.descripcion
-                                      : "Seleccione Tipo de Persona",
-                                  label: prov.tipoPersona != 0
-                                      ? prov.personaSelect.descripcion
-                                      : "Seleccione Tipo de Persona",
-                                  icon: Icons.assignment)),
+                                  return null;
+                                },
+                                decoration: CustomInputs.formInputDecoration(
+                                    hint: prov.tipoPersona != 0
+                                        ? prov.personaSelect.descripcion
+                                        : "Seleccione Tipo de Persona",
+                                    label: prov.tipoPersona != 0
+                                        ? prov.personaSelect.descripcion
+                                        : "Seleccione Tipo de Persona",
+                                    icon: Icons.assignment)),
+                          ),
                         ),
                       ),
                     ],
@@ -133,50 +146,56 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                       children: [
                         Text("Empresa :"),
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButtonFormField<EmpresasEntity>(
-                                onChanged: (value) async {
-                                  prov.idempresa = value!.id;
-                                  prov.empresaSelect = value;
+                          child: IgnorePointer(
+                            ignoring:
+                                prov.personaSelectEntity.id == 0 ? false : true,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: DropdownButtonFormField<EmpresasEntity>(
+                                  onChanged: (value) async {
+                                    prov.idempresa = value!.id;
+                                    prov.empresaSelect = value;
 
-                                  prov.idDepartamento = 0;
-                                  prov.departamentoSelect =
-                                      DepartamentosEntity();
+                                    prov.idDepartamento = 0;
+                                    prov.departamentoSelect =
+                                        DepartamentosEntity();
 
-                                  setState(() {});
-                                },
-                                items: prov.listEmpresas.map((item) {
-                                  return DropdownMenuItem<EmpresasEntity>(
-                                    value: item,
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        item.descripcion,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400),
+                                    setState(() {});
+                                  },
+                                  items: prov.listEmpresas.map((item) {
+                                    return DropdownMenuItem<EmpresasEntity>(
+                                      value: item,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.descripcion,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
-                                validator: (value) {
-                                  if (prov.tipoPersona == 1) {
-                                    if (value == null) {
-                                      return "Seleccione una Empresa";
+                                    );
+                                  }).toList(),
+                                  validator: (value) {
+                                    if (prov.tipoPersona == 1) {
+                                      if (prov.personaSelectEntity.id == 0) {
+                                        if (value == null) {
+                                          return "Seleccione una Empresa";
+                                        }
+                                      }
                                     }
-                                  }
 
-                                  return null;
-                                },
-                                decoration: CustomInputs.formInputDecoration(
-                                    hint: prov.idempresa != 0
-                                        ? prov.empresaSelect.descripcion
-                                        : "Seleccione Empresa",
-                                    label: prov.idempresa != 0
-                                        ? prov.empresaSelect.descripcion
-                                        : "Seleccione Empresa",
-                                    icon: Icons.assignment)),
+                                    return null;
+                                  },
+                                  decoration: CustomInputs.formInputDecoration(
+                                      hint: prov.idempresa != 0
+                                          ? prov.empresaSelect.descripcion
+                                          : "Seleccione Empresa",
+                                      label: prov.idempresa != 0
+                                          ? prov.empresaSelect.descripcion
+                                          : "Seleccione Empresa",
+                                      icon: Icons.assignment)),
+                            ),
                           ),
                         ),
                       ],
@@ -239,18 +258,24 @@ class _PersonaMantenimientoState extends State<PersonaMantenimiento> {
                           child: Text("empresa del Proveedor:"),
                         ),
                         Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              controller: prov.ctrEmpresaProveedor,
-                              validator: (value) {
-                                if (prov.tipoPersona == 3) {
-                                  if (value!.isEmpty) {
-                                    return "Ingrese Empresa de Proveedor";
+                          child: IgnorePointer(
+                            ignoring:
+                                prov.personaSelectEntity.id == 0 ? false : true,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                controller: prov.ctrEmpresaProveedor,
+                                validator: (value) {
+                                  if (prov.tipoPersona == 3) {
+                                    if (prov.personaSelectEntity.id == 0) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Ingrese Empresa de Proveedor";
+                                      }
+                                    }
                                   }
-                                }
-                                return null;
-                              },
+                                  return null;
+                                },
+                              ),
                             ),
                           ),
                         ),

@@ -39,4 +39,14 @@ class DepartamentoImp implements AbstractDepartamento {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, DepartamentosEntity>> updateDepartamento(
+      ModelDepartamento dep) async {
+    try {
+      return right(await datasource.updateDepartamento(dep));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

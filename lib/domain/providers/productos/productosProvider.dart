@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tesis/core/Errors/failure.dart';
 import 'package:tesis/data/models/productos/productosModel.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/uses%20cases/productos/productosGeneral.dart';
@@ -20,7 +22,10 @@ class ProductosProvider extends ChangeNotifier {
   TextEditingController ctrEstado = TextEditingController();
   TextEditingController ctrUnidad = TextEditingController();
 
+  ProductosEntity prdSelect = ProductosEntity();
+
   setProvider() {
+    prdSelect = ProductosEntity();
     ctrCodigo = TextEditingController();
     ctrNombre = TextEditingController();
     ctrdescripcion = TextEditingController();
@@ -32,6 +37,7 @@ class ProductosProvider extends ChangeNotifier {
   }
 
   setProductos(ProductosEntity entity) {
+    prdSelect = entity;
     ctrCodigo = TextEditingController(text: entity.codigo);
     ctrNombre = TextEditingController(text: entity.nombre);
     ctrdescripcion = TextEditingController(text: entity.descripcion);
@@ -82,10 +88,21 @@ class ProductosProvider extends ChangeNotifier {
       prd.estado = "A";
       prd.unidad = int.parse(ctrUnidad.text == "" ? "1" : ctrUnidad.text);
       prd.fecha = DateTime.now();
-      var temp = await _casosUsesProductos.insertProducto(prd);
+      late Either<Failure, ProductosEntity> temp;
+      if (prdSelect.id == 0) {
+        temp = await _casosUsesProductos.insertProducto(prd);
+      } else {
+        prd.id = prdSelect.id;
+        temp = await _casosUsesProductos.updateProductos(prd);
+      }
+
       try {
         ProductosEntity entity = temp.getOrElse(() => ProductosEntity());
         if (entity.id != 0) {
+          if (prdSelect.id != 0) {
+            listProducto.remove(
+                listProducto.firstWhere((element) => element.id == entity.id));
+          }
           listProducto.add(entity);
           notifyListeners();
           return true;

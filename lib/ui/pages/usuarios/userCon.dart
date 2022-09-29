@@ -19,6 +19,7 @@ class _UsuarioConsultaState extends State<UsuarioConsulta> {
 
     var tempUS = Provider.of<UsuarioProvider>(context, listen: false);
     tempUS.getUsuarios();
+    tempUS.getMenu();
   }
 
   @override

@@ -10,6 +10,7 @@ abstract class ProductosDTS {
   Future<List<ProductosEntity>> getAllProductosActivos();
   Future<List<CostovsPrecioEntity>> getAllcostoVsprecio();
   Future<ProductosEntity> insertProductos(ProductosModel prd);
+  Future<ProductosEntity> updateProductos(ProductosModel prd);
   Future<ProductosEntity> anularProductos(ProductosModel prd);
 }
 
@@ -112,5 +113,23 @@ class ProductoDTSImp extends ProductosDTS {
     return parseo
         .map<CostovsPrecioModel>((json) => CostovsPrecioModel.fromMap(json))
         .toList();
+  }
+  
+  @override
+  Future<ProductosEntity> updateProductos(ProductosModel prd)async {
+     ProductosModel producto = ProductosModel();
+    try {
+      var grp = json.encode(prd.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/update"),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return ProductosModel.fromMap(json.decode(result.body));
+      }
+
+      return producto;
+    } catch (e) {
+      return producto;
+    }
   }
 }

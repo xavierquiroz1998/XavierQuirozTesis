@@ -92,7 +92,12 @@ class DepartamentoProvider extends ChangeNotifier {
       dep.descripcion = ctrDescripcion.text;
       dep.estado = "A";
       dep.idEmpresa = idempresa;
-      await _depGeneral.insertMDep(dep);
+      if (entity.id == 0) {
+        await _depGeneral.insertMDep(dep);
+      } else {
+        dep.id = entity.id;
+        await _depGeneral.updateDepartamento(dep);
+      }
     } catch (e) {}
   }
 }

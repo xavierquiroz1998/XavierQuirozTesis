@@ -9,5 +9,6 @@ abstract class AbstractProductos {
   Future<Either<Failure, List<CostovsPrecioEntity>>> getAllcostoVsprecio();
 
   Future<Either<Failure, ProductosEntity>> insertProductos(ProductosModel dep);
+  Future<Either<Failure, ProductosEntity>> updateProductos(ProductosModel dep);
   Future<Either<Failure, ProductosEntity>> anularProductos(ProductosModel dep);
 }

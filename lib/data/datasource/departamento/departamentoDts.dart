@@ -8,6 +8,7 @@ import 'package:tesis/domain/entities/departamentosEntity.dart';
 abstract class DepartamentoDTS {
   Future<List<DepartamentosEntity>> getAllDepartamentos();
   Future<DepartamentosEntity> insertDepartamento(ModelDepartamento dep);
+  Future<DepartamentosEntity> updateDepartamento(ModelDepartamento dep);
   Future<DepartamentosEntity> anularDepartamento(ModelDepartamento dep);
 }
 
@@ -64,6 +65,24 @@ class DepartamentoDTSImp extends DepartamentoDTS {
       var grp = json.encode(dep.toMap());
 
       final result = await cliente.post(Uri.parse("$urlBase/anular"),
+          body: grp, headers: {"Content-type": "application/json"});
+      if (result.statusCode == 200) {
+        return ModelDepartamento.fromMap(json.decode(result.body));
+      }
+
+      return departamento;
+    } catch (e) {
+      return departamento;
+    }
+  }
+
+  @override
+  Future<DepartamentosEntity> updateDepartamento(ModelDepartamento dep) async {
+    ModelDepartamento departamento = ModelDepartamento();
+    try {
+      var grp = json.encode(dep.toMap());
+
+      final result = await cliente.post(Uri.parse("$urlBase/update"),
           body: grp, headers: {"Content-type": "application/json"});
       if (result.statusCode == 200) {
         return ModelDepartamento.fromMap(json.decode(result.body));

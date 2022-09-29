@@ -16,6 +16,10 @@ class PersonasGeneral {
     return repository.insertPersonas(model);
   }
 
+  Future<Either<Failure, PersonaEntity>> updatePersonas(PersonaModel model) {
+    return repository.updatePersonas(model);
+  }
+
   Future<Either<Failure, PersonaEntity>> anularPersonas(PersonaModel model) {
     return repository.anularPersonas(model);
   }

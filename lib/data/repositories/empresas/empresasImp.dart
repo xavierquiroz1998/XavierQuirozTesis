@@ -39,4 +39,14 @@ class EmpresasImp extends AbstractEmpresas {
       return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
     }
   }
+
+  @override
+  Future<Either<Failure, EmpresasEntity>> updateEmpresas(
+      EmpresasModel emp) async {
+    try {
+      return right(await datasource.updateEmpresas(emp));
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de grupos"));
+    }
+  }
 }

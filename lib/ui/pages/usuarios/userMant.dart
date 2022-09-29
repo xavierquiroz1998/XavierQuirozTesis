@@ -18,13 +18,10 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
   @override
   void initState() {
     super.initState();
-    var temp = Provider.of<MenuProvider>(context, listen: false);
-    temp.getMenu();
   }
 
   @override
   Widget build(BuildContext context) {
-    final menuP = Provider.of<MenuProvider>(context);
     final usuarioP = Provider.of<UsuarioProvider>(context);
     return ListView(
       children: [
@@ -184,7 +181,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                         label: Center(child: Text("Anular")),
                       )
                     ],
-                    rows: menuP.lisMenu.map((e) {
+                    rows: usuarioP.lisMenu.map((e) {
                       return DataRow(cells: [
                         DataCell(
                           Text("${e.descripcion}"),
@@ -194,7 +191,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                               value: e.nuevo,
                               onChanged: (value) {
                                 e.nuevo = value ?? false;
-                                menuP.notificar();
+                                usuarioP.notificar();
                               }),
                         ),
                         DataCell(
@@ -202,7 +199,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                               value: e.modificar,
                               onChanged: (value) {
                                 e.modificar = value ?? false;
-                                menuP.notificar();
+                                usuarioP.notificar();
                               }),
                         ),
                         DataCell(
@@ -210,7 +207,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                               value: e.anular,
                               onChanged: (value) {
                                 e.anular = value ?? false;
-                                menuP.notificar();
+                                usuarioP.notificar();
                               }),
                         ),
                       ]);
@@ -225,7 +222,7 @@ class _UsuarioMantenimientoState extends State<UsuarioMantenimiento> {
                       TextButton(
                         onPressed: () async {
                           if (key.currentState!.validate()) {
-                            await usuarioP.guardar(menuP.lisMenu);
+                            await usuarioP.guardar(usuarioP.lisMenu);
                             bool? valor = await showDialog(
                               context: context,
                               builder: (context) {
