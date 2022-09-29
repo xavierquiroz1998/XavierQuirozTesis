@@ -116,13 +116,14 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                               return DropdownMenuItem<PersonaEntity>(
                                 value: item,
                                 child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      item.nombres,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400),
-                                    ),),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    item.nombres,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                ),
                               );
                             }).toList(),
                             validator: (value) {
@@ -331,31 +332,33 @@ class _OrdenPedidoMantenimientoState extends State<OrdenPedidoMantenimiento> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          elevation: 15,
-                        ),
-                        onPressed: () async {
-                          var result = await PdfInvoiceApi.generate(
-                              pedidoP.pedidoSelect,
-                              pedidoP.pedidoSelect.id.toString());
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ViewPdf(
-                          //             data: result,
-                          //           )),
-                          // );
-                        },
-                        child: Text(
-                          "Generar Pdf",
-                          style: TextStyle(color: Colors.white),
+                    if (pedidoP.pedidoSelect.id != 0) ...{
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            elevation: 15,
+                          ),
+                          onPressed: () async {
+                            var result = await PdfInvoiceApi.generate(
+                                pedidoP.pedidoSelect,
+                                pedidoP.pedidoSelect.id.toString());
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => ViewPdf(
+                            //             data: result,
+                            //           )),
+                            // );
+                          },
+                          child: Text(
+                            "Generar Pdf",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
-                    ),
+                    },
                   ],
                 )
               ],

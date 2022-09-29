@@ -90,18 +90,19 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                             ),
                             DataCell(Row(
                               children: [
-                                TextButton.icon(
-                                    onPressed: () async {
-                                      await pedidoP.setFactura(e);
-                                      NavigationService.navigateTo(
-                                          Flurorouter.facturaMantenimiento);
-                                    },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
-                                    ),
-                                    label: Text("")),
-                                TextButton.icon(
+                                if (e.estado == "A") ...{
+                                  TextButton.icon(
+                                      onPressed: () async {
+                                        await pedidoP.setFactura(e);
+                                        NavigationService.navigateTo(
+                                            Flurorouter.facturaMantenimiento);
+                                      },
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Colors.blue,
+                                      ),
+                                      label: Text("")),
+                                  TextButton.icon(
                                     onPressed: () async {
                                       if (e.estado == "A") {
                                         await pedidoP.anularFactura(e);
@@ -113,7 +114,9 @@ class _FacturaConsultaState extends State<FacturaConsulta> {
                                       Icons.delete,
                                       color: Colors.red,
                                     ),
-                                    label: Text("")),
+                                    label: Text(""),
+                                  ),
+                                },
                               ],
                             )),
                           ],

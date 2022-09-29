@@ -29,3 +29,21 @@ class FacturaEntity extends Equatable {
   List<Object?> get props =>
       [id, idCliente, observacion, fecha, estado, idUsuario, idPedido];
 }
+
+class FacturasClientesEntity extends Equatable {
+  FacturasClientesEntity({
+    this.nombres = "",
+    this.cant = 0,
+    this.totaldet = 0,
+    this.estado = "",
+  });
+
+  String nombres;
+  int cant;
+  double totaldet;
+  String estado;
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [nombres, cant, totaldet, estado];
+}

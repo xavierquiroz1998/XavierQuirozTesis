@@ -7,6 +7,8 @@ import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 import 'package:tesis/domain/entities/personas/personasEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
+import 'package:tesis/ui/pages/Report/createPdf.dart';
+import 'package:tesis/ui/pages/Report/viewPdf.dart';
 import 'package:tesis/ui/pages/widget/helper/helPer.dart';
 import 'package:tesis/ui/pages/widget/whiteCard.dart';
 import 'package:tesis/ui/style/Custom_Inputs.dart';
@@ -305,7 +307,7 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                                   context, "Exito", "Guardado Correctamente");
                               Navigator.of(context).pop();
                             } else {
-                               await Ayuda.alerta(
+                              await Ayuda.alerta(
                                   context, "Advertencia", pedidoP.msjError);
                             }
                           }
@@ -332,7 +334,8 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                         ),
                       ),
                     ),
-                    Padding(
+                    if( pedidoP.facturaSelect.id!=0)...{
+  Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextButton(
                         style: TextButton.styleFrom(
@@ -340,16 +343,16 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                           elevation: 15,
                         ),
                         onPressed: () async {
-                          // var result = await PdfInvoiceApi.generate(
-                          //     pedidoP.pedidoSelect,
-                          //     pedidoP.pedidoSelect.id.toString());
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => ViewPdf(
-                          //             data: result,
-                          //           )),
-                          // );
+                          var result = await PdfInvoiceApi.generateFactura(
+                              pedidoP.facturaSelect,
+                              pedidoP.facturaSelect.id.toString());
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewPdf(
+                                      data: result,
+                                    )),
+                          );
                         },
                         child: Text(
                           "Generar Pdf",
@@ -357,6 +360,9 @@ class _FacturaMantenimientoState extends State<FacturaMantenimiento> {
                         ),
                       ),
                     ),
+                  
+                    },
+                  
                   ],
                 )
               ],

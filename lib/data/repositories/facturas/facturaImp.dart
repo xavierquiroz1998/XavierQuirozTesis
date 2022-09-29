@@ -60,4 +60,14 @@ class FacturaImp extends AbstractFactura {
       return left(ServerFailure(mensaje: "Error al insertar Factura"));
     }
   }
+
+  @override
+  Future<Either<Failure, List<FacturasClientesEntity>>>
+      getFacturaClientes() async {
+    try {
+      return right(await datasource.getFacturaClientes());
+    } on ServerException {
+      return left(ServerFailure(mensaje: "Error al obtener lista de facturas"));
+    }
+  }
 }

@@ -13,6 +13,7 @@ abstract class FacturaDts {
   Future<FacturaDetEntity> insertDetFacturas(FacturaDetModel entity);
   Future<List<FacturaDetEntity>> getFacturaById(int idPedido);
   Future<FacturaEntity> anularFacturas(FacturaModel model);
+  Future<List<FacturasClientesEntity>> getFacturaClientes();
 }
 
 class FacturaDtsImp extends FacturaDts {
@@ -86,6 +87,14 @@ class FacturaDtsImp extends FacturaDts {
         .toList();
   }
 
+  List<FacturasClientesModel> decodefacturasClientes(String respuesta) {
+    var parseo = jsonDecode(respuesta);
+    return parseo
+        .map<FacturasClientesModel>(
+            (json) => FacturasClientesModel.fromMap(json))
+        .toList();
+  }
+
   @override
   Future<List<FacturaDetEntity>> getFacturaById(int idPedido) async {
     try {
@@ -120,6 +129,22 @@ class FacturaDtsImp extends FacturaDts {
       print(e.toString());
 
       return pedido;
+    }
+  }
+
+  @override
+  Future<List<FacturasClientesEntity>> getFacturaClientes() async {
+    try {
+      List<FacturasClientesModel> tem = [];
+      final result = await cliente.get(Uri.parse("$urlBase/clientes"));
+      if (result.statusCode == 200) {
+        tem = decodefacturasClientes(utf8.decode(result.bodyBytes));
+      }
+
+      return tem;
+    } catch (e) {
+      print(e.toString());
+      return [];
     }
   }
 }

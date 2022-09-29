@@ -175,6 +175,12 @@ class _CambioProdMantState extends State<CambioProdMant> {
                 Expanded(
                   child: TextFormField(
                     controller: reemplazoP.ctobs,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Ingrese una Observación";
+                      }
+                      return null;
+                    },
                   ),
                 ),
               ],
@@ -233,13 +239,14 @@ class _CambioProdMantState extends State<CambioProdMant> {
                                     return DropdownMenuItem<ProductosEntity>(
                                       value: item,
                                       child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            item.nombre,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400),
-                                          )),
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.nombre,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
                                     );
                                   }).toList(),
                                   hint: Text(e.idProducto1 != 0
@@ -256,6 +263,7 @@ class _CambioProdMantState extends State<CambioProdMant> {
                                   ],
                                   onChanged: (value) {
                                     e.cantidad = int.parse(value);
+
                                     //pedidoP.calculos();
                                   },
                                 ),
@@ -272,13 +280,14 @@ class _CambioProdMantState extends State<CambioProdMant> {
                                     return DropdownMenuItem<ProductosEntity>(
                                       value: item,
                                       child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            item.nombre,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400),
-                                          )),
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          item.nombre,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
                                     );
                                   }).toList(),
                                   hint: Text(e.idProducto2 != 0
@@ -288,13 +297,24 @@ class _CambioProdMantState extends State<CambioProdMant> {
                               ),
                               DataCell(
                                 TextFormField(
-                                  initialValue: e.cantidad.toString(),
+                                  initialValue: e.cantidad2.toString(),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'^(?:\+|-)?\d+$'))
                                   ],
-                                  onChanged: (value) {
+                                  onChanged: (value) async {
                                     e.cantidad2 = int.parse(value);
+                                    if (e.prd2 != null) {
+                                      if (e.cantidad2 > e.prd2!.stock) {
+                                        await Ayuda.alerta(
+                                            context,
+                                            "Advertencia",
+                                            "La cantidad Solicitada ${e.cantidad2} Supera al Stock Actual ${e.prd2!.stock}");
+
+                                        reemplazoP.notificarCambios(e.prd2!.id);
+                                        setState(() {});
+                                      }
+                                    }
                                     //pedidoP.calculos();
                                   },
                                 ),

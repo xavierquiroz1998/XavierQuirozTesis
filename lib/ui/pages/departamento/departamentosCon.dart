@@ -73,40 +73,47 @@ class _DepartamentoConsultaState extends State<DepartamentoConsulta> {
                             DataCell(
                               Text("${e.estado}"),
                             ),
-                            DataCell(Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: TextButton.icon(
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
+                            DataCell(
+                              Row(
+                                children: [
+                                  if (e.estado == "A") ...{
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 5, right: 5),
+                                      child: TextButton.icon(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Colors.blue,
+                                        ),
+                                        onPressed: () {
+                                          dep.entity = e;
+                                          NavigationService.navigateTo(
+                                              Flurorouter
+                                                  .departamentoMantenimiento);
+                                        },
+                                        label: Text(''),
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      dep.entity = e;
-                                      NavigationService.navigateTo(Flurorouter
-                                          .departamentoMantenimiento);
-                                    },
-                                    label: Text(''),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: TextButton.icon(
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 5, right: 5),
+                                      child: TextButton.icon(
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        onPressed: () async {
+                                          if (e.estado == "A") {
+                                            await dep.anular(e);
+                                          }
+                                        },
+                                        label: Text(''),
+                                      ),
                                     ),
-                                    onPressed: () async {
-                                      if (e.estado == "A") {
-                                        await dep.anular(e);
-                                      }
-                                    },
-                                    label: Text(''),
-                                  ),
-                                ),
-                              ],
-                            )),
+                                  },
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       )

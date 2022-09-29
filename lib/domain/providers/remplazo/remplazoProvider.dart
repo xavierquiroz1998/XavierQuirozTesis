@@ -52,6 +52,16 @@ class RemplazoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void notificarCambios(int idProd) {
+    for (var element in listRemplazosDetalle) {
+      if (element.idProducto2 == idProd) {
+        element.cantidad2 = 0;
+        break;
+      }
+    }
+    notifyListeners();
+  }
+
   Future getRemplazos() async {
     try {
       var temp = await _usesCasesRemplazo.getAllReemplazos();

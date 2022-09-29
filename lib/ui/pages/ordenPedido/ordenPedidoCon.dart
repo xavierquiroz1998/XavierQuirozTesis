@@ -87,34 +87,40 @@ class _OrdenPedidoConsultaState extends State<OrdenPedidoConsulta> {
                             DataCell(
                               Text(e.estado),
                             ),
-                            DataCell(Row(
-                              children: [
-                                TextButton.icon(
-                                    onPressed: () {
-                                      pedidoP.setPedido(e);
-                                      NavigationService.navigateTo(
-                                          Flurorouter.ordenPedidoMantenimiento);
-                                    },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
+                            DataCell(
+                              Row(
+                                children: [
+                                  if (e.estado == "A") ...{
+                                    TextButton.icon(
+                                        onPressed: () {
+                                          pedidoP.setPedido(e);
+                                          NavigationService.navigateTo(
+                                              Flurorouter
+                                                  .ordenPedidoMantenimiento);
+                                        },
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Colors.blue,
+                                        ),
+                                        label: Text("")),
+                                    TextButton.icon(
+                                      onPressed: () async {
+                                        if (e.estado == "A") {
+                                          await pedidoP.anularPedido(e);
+                                        } else {
+                                          // mensaje
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
+                                      label: Text(""),
                                     ),
-                                    label: Text("")),
-                                TextButton.icon(
-                                    onPressed: () async {
-                                      if (e.estado == "A") {
-                                        await pedidoP.anularPedido(e);
-                                      } else {
-                                        // mensaje
-                                      }
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                    label: Text("")),
-                              ],
-                            )),
+                                  },
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       )

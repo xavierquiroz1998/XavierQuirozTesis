@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:tesis/domain/entities/facturas/facturaEntity.dart';
 import 'package:tesis/domain/entities/pedidos/pedidosEntity.dart';
 import 'package:tesis/domain/entities/productos/productosEntity.dart';
 import 'package:tesis/domain/entities/tipoPersona/tipoPersonaEntity.dart';
+import 'package:tesis/domain/providers/facturas/facturaProvider.dart';
 import 'package:tesis/domain/providers/pedidos/pedidoProvider.dart';
 import 'package:tesis/domain/providers/personas/personasProvider.dart';
 import 'package:tesis/domain/providers/productos/productosProvider.dart';
@@ -111,21 +113,19 @@ class DashboardAnulados extends StatefulWidget {
 }
 
 class _DashboardAnuladosState extends State<DashboardAnulados> {
-
-@override
+  @override
   void initState() {
-
     Provider.of<PersonasProvider>(context, listen: false).getTipoTansaccion();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-       final prdProvider = Provider.of<PersonasProvider>(context);
+    final prdProvider = Provider.of<PersonasProvider>(context);
     return WhiteCard(
       child: Column(
         children: [
-           SfCircularChart(
+          SfCircularChart(
             title: ChartTitle(
               text: 'Anulaciones',
               textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
@@ -135,10 +135,57 @@ class _DashboardAnuladosState extends State<DashboardAnulados> {
             series: <CircularSeries>[
               PieSeries<TipoTrassaccion, String>(
                   dataSource: prdProvider.listTransaccion,
-                  xValueMapper: (TipoTrassaccion data, _) =>
-                      data.tipo,
+                  xValueMapper: (TipoTrassaccion data, _) => data.tipo,
                   yValueMapper: (TipoTrassaccion data, _) => data.total,
                   dataLabelSettings: DataLabelSettings(isVisible: true)),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DashboarFactclientes extends StatefulWidget {
+  const DashboarFactclientes({Key? key}) : super(key: key);
+
+  @override
+  State<DashboarFactclientes> createState() => _DashboarFactclientesState();
+}
+
+class _DashboarFactclientesState extends State<DashboarFactclientes> {
+  late TooltipBehavior _tooltip;
+  @override
+  void initState() {
+    Provider.of<FacturaProvider>(context, listen: false).getFactClientes();
+    super.initState();
+    _tooltip = TooltipBehavior(enable: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final prdProvider = Provider.of<FacturaProvider>(context);
+    return WhiteCard(
+      child: Column(
+        children: [
+          SfCartesianChart(
+            title: ChartTitle(
+              text: 'Facturas por Cliente',
+              textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            //legend: Legend(isVisible: true),
+            primaryXAxis: CategoryAxis(),
+            primaryYAxis: NumericAxis(minimum: 0, maximum: 100, interval: 10),
+            tooltipBehavior: _tooltip,
+            series: <ChartSeries>[
+              ColumnSeries<FacturasClientesEntity, String>(
+                dataSource: prdProvider.lisfactClientes,
+                xValueMapper: (FacturasClientesEntity data, _) => data.nombres,
+                yValueMapper: (FacturasClientesEntity data, _) => data.totaldet,
+
+                name: "",
+                //dataLabelSettings: DataLabelSettings(isVisible: true),
+              ),
             ],
           )
         ],

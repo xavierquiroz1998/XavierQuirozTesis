@@ -31,4 +31,8 @@ class FacturaGeneral {
       int idFactura) {
     return repository.getFacturaById(idFactura);
   }
+
+  Future<Either<Failure, List<FacturasClientesEntity>>> getFacturaClientes() {
+    return repository.getFacturaClientes();
+  }
 }

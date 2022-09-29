@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:tesis/domain/entities/facturas/facturaEntity.dart';
@@ -52,5 +51,39 @@ class FacturaModel extends FacturaEntity {
         "estado": estado,
         "id_usuario": idUsuario,
         "id_pedido": idPedido,
+      };
+}
+
+class FacturasClientesModel extends FacturasClientesEntity {
+  FacturasClientesModel({
+    this.nombres = "",
+    this.cant = 0,
+    this.totaldet = 0,
+    this.estado = "",
+  }) : super(nombres: nombres, cant: cant, totaldet: totaldet, estado: estado);
+
+  String nombres;
+  int cant;
+  double totaldet;
+  String estado;
+
+  factory FacturasClientesModel.fromJson(String str) =>
+      FacturasClientesModel.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory FacturasClientesModel.fromMap(Map<String, dynamic> json) =>
+      FacturasClientesModel(
+        nombres: json["nombres"],
+        cant: json["cant"],
+        totaldet: json["totaldet"].toDouble(),
+        estado: json["estado"],
+      );
+
+  Map<String, dynamic> toMap() => {
+        "nombres": nombres,
+        "cant": cant,
+        "totaldet": totaldet,
+        "estado": estado,
       };
 }

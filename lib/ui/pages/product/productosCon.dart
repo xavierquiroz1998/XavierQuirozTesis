@@ -82,36 +82,40 @@ class _ProductosConsultaState extends State<ProductosConsulta> {
                       DataCell(
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5, right: 5),
-                              child: TextButton.icon(
-                                onPressed: () {
-                                  productProvider.setProductos(e);
-                                  NavigationService.navigateTo(
-                                      Flurorouter.productoMantenimiento);
-                                },
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: Colors.blue,
+                            if (e.estado == "A") ...{
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, right: 5),
+                                child: TextButton.icon(
+                                  onPressed: () {
+                                    productProvider.setProductos(e);
+                                    NavigationService.navigateTo(
+                                        Flurorouter.productoMantenimiento);
+                                  },
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                  ),
+                                  label: Text(""),
                                 ),
-                                label: Text(""),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5, right: 5),
-                              child: TextButton.icon(
-                                onPressed: () async {
-                                  if (e.estado == "A") {
-                                    await productProvider.anular(e);
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.red,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5, right: 5),
+                                child: TextButton.icon(
+                                  onPressed: () async {
+                                    if (e.estado == "A") {
+                                      await productProvider.anular(e);
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  label: Text(""),
                                 ),
-                                label: Text(""),
                               ),
-                            ),
+                            },
                           ],
                         ),
                       ),

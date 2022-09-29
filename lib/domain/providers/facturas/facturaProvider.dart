@@ -28,6 +28,7 @@ class FacturaProvider extends ChangeNotifier {
   List<ProductosEntity> listProducto = [];
   List<PersonaEntity> listPersonas = [];
   //List<PedidoDetEntity> listPedidodetalle = [];
+  List<FacturasClientesEntity> lisfactClientes = [];
 
   TextEditingController ctObs = TextEditingController();
 
@@ -119,6 +120,16 @@ class FacturaProvider extends ChangeNotifier {
     try {
       var temp = await _cososUsosPedidos.getAllPedidos();
       listPedidos = temp.getOrElse(() => []);
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getFactClientes() async {
+    try {
+      var temp = await _cososUsos.getFacturaClientes();
+      lisfactClientes = temp.getOrElse(() => []);
       notifyListeners();
     } catch (e) {
       print(e.toString());

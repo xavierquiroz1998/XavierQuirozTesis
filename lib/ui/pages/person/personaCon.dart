@@ -79,34 +79,38 @@ class _PersonaConsultaState extends State<PersonaConsulta> {
                               DataCell(
                                 Text(e.estado),
                               ),
-                              DataCell(Row(
-                                children: [
-                                  TextButton.icon(
-                                    onPressed: () {
-                                      prov.setPersona(e);
-                                      NavigationService.navigateTo(
-                                          Flurorouter.personaMantenimiento);
+                              DataCell(
+                                Row(
+                                  children: [
+                                    if (e.estado == "A") ...{
+                                      TextButton.icon(
+                                        onPressed: () {
+                                          prov.setPersona(e);
+                                          NavigationService.navigateTo(
+                                              Flurorouter.personaMantenimiento);
+                                        },
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Colors.blue,
+                                        ),
+                                        label: Text(""),
+                                      ),
+                                      TextButton.icon(
+                                        onPressed: () {
+                                          if (e.estado == "A") {
+                                            prov.anular(e);
+                                          }
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                        label: Text(""),
+                                      ),
                                     },
-                                    icon: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue,
-                                    ),
-                                    label: Text(""),
-                                  ),
-                                  TextButton.icon(
-                                    onPressed: () {
-                                      if (e.estado == "A") {
-                                        prov.anular(e);
-                                      }
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                    label: Text(""),
-                                  ),
-                                ],
-                              )),
+                                  ],
+                                ),
+                              ),
                             ],
                           ))
                       .toList(),

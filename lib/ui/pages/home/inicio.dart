@@ -8,22 +8,34 @@ class Inicio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhiteCard(
-      title: "Inicio",
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DashboardProducto(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DashboardMensual(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DashboardAnulados(),
-          )
-        ],
+      //title: "Inicio",
+      width: double.infinity,
+      //height: double.infinity,
+      child: Expanded(
+        child: ListView(
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DashboardProducto(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DashboardMensual(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DashboardAnulados(),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: DashboarFactclientes(),
+            ),
+          ],
+        ),
       ),
     );
   }

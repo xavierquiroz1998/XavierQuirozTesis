@@ -87,33 +87,38 @@ class _UsuarioConsultaState extends State<UsuarioConsulta> {
                               DataCell(
                                 Text(e.estado),
                               ),
-                              DataCell(Row(
-                                children: [
-                                  TextButton.icon(
-                                      onPressed: () {
-                                        tempUS.entity = e;
-                                        tempUS.setUsuario();
-                                        NavigationService.navigateTo(
-                                            Flurorouter.usuariosMantenimiento);
-                                      },
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: Colors.blue,
-                                      ),
-                                      label: Text("")),
-                                  TextButton.icon(
-                                      onPressed: () async {
-                                        if (e.estado == "A") {
-                                         await  tempUS.anular(e);
-                                        }
-                                      },
-                                      icon: Icon(
-                                        Icons.delete_rounded,
-                                        color: Colors.red,
-                                      ),
-                                      label: Text(""))
-                                ],
-                              )),
+                              DataCell(
+                                Row(
+                                  children: [
+                                    if (e.estado == "A") ...{
+                                      TextButton.icon(
+                                          onPressed: () {
+                                            tempUS.entity = e;
+                                            tempUS.setUsuario();
+                                            NavigationService.navigateTo(
+                                                Flurorouter
+                                                    .usuariosMantenimiento);
+                                          },
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.blue,
+                                          ),
+                                          label: Text("")),
+                                      TextButton.icon(
+                                          onPressed: () async {
+                                            if (e.estado == "A") {
+                                              await tempUS.anular(e);
+                                            }
+                                          },
+                                          icon: Icon(
+                                            Icons.delete_rounded,
+                                            color: Colors.red,
+                                          ),
+                                          label: Text(""))
+                                    },
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         )

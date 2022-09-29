@@ -85,26 +85,28 @@ class _CambioPrdConsultaState extends State<CambioPrdConsulta> {
                         DataCell(
                           Row(
                             children: [
-                              TextButton.icon(
-                                  onPressed: () async {
-                                    await pedidoP.setReemplazo(e);
-                                    NavigationService.navigateTo(
-                                        Flurorouter.cambioMantenimiento);
-                                  },
-                                  icon: Icon(
-                                    Icons.edit,
-                                    color: Colors.blue,
-                                  ),
-                                  label: Text("")),
-                              TextButton.icon(
-                                  onPressed: () async {
-                                    await pedidoP.anular(e);
-                                  },
-                                  icon: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                  label: Text("")),
+                              if (e.estado == "A") ...{
+                                TextButton.icon(
+                                    onPressed: () async {
+                                      await pedidoP.setReemplazo(e);
+                                      NavigationService.navigateTo(
+                                          Flurorouter.cambioMantenimiento);
+                                    },
+                                    icon: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue,
+                                    ),
+                                    label: Text("")),
+                                TextButton.icon(
+                                    onPressed: () async {
+                                      await pedidoP.anular(e);
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                    label: Text("")),
+                              },
                             ],
                           ),
                         ),
